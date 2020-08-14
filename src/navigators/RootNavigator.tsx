@@ -11,7 +11,7 @@ const PageNavigation = () => (
   </Stack.Navigator>
 );
 
-export default function AppNavigator() {
+export default function RootNavigator() {
   return (
     <NavigationContainer>
       <PageNavigation />
