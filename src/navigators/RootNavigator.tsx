@@ -2,13 +2,25 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
+import theme from "theme";
 
-const Stack = createStackNavigator();
+const RootStack = createStackNavigator();
 
 const PageNavigation = () => (
-  <Stack.Navigator headerMode="none" initialRouteName="Home">
-    <Stack.Screen name="Home" component={Home} />
-  </Stack.Navigator>
+  <RootStack.Navigator
+    initialRouteName="Home"
+    screenOptions={{
+      headerStyle: {
+        backgroundColor: `${theme.colors.primary}`,
+      },
+      headerTitleStyle: {
+        fontWeight: "bold",
+      },
+      headerTintColor: `${theme.colors.white}`,
+    }}
+  >
+    <RootStack.Screen name="Home" component={Home} />
+  </RootStack.Navigator>
 );
 
 export default function RootNavigator() {
