@@ -1,6 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
-import styled from "styled-components/native";
+import { View, StyleSheet } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import theme from "theme";
 
@@ -8,18 +7,20 @@ type AppLayoutProps = {
   children?: React.ReactNode;
 };
 
-const MainSection = styled(View)`
-  flex: 1;
-  background-color: ${theme.colors.white};
-`;
+const style = StyleSheet.create({
+  MainSection: {
+    flex: 1,
+    backgroundColor: `${theme.colors.white}`,
+  },
+});
 
 export default function AppLayout(props: AppLayoutProps) {
   const { children } = props;
 
   return (
-    <MainSection>
+    <View style={style.MainSection}>
       {children}
       <StatusBar style="light" />
-    </MainSection>
+    </View>
   );
 }
