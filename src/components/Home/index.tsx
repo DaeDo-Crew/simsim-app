@@ -1,13 +1,34 @@
 import * as React from "react";
-import { Text, StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
-import { Button } from "@ant-design/react-native";
-import theme from "theme";
+import CategoryButton from "./CategoryButton";
+import MeetupCardList from "./MeetupCardList";
+
+const CATEGORY = [
+  {
+    key: 1,
+    name: "동아리 유형",
+  },
+  {
+    key: 2,
+    name: "모임 위치",
+  },
+  {
+    key: 3,
+    name: "모임 기간",
+  },
+  {
+    key: 4,
+    name: "동아리 이름",
+  },
+];
 
 const style = StyleSheet.create({
-  HomeContainer: {
-    margin: 8,
+  CategoryButtonContainer: {
+    marginVertical: 8,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
 });
 
@@ -22,17 +43,15 @@ export default function Home() {
 
   return (
     <AppLayout>
-      <ScrollView style={style.HomeContainer}>
-        <Text>hello</Text>
-        <Button
-          style={{
-            borderWidth: 0,
-            alignSelf: "flex-start",
-            backgroundColor: `${theme.colors.secondary}`,
-          }}
-        >
-          동아리 유형
-        </Button>
+      <ScrollView>
+        <View style={style.CategoryButtonContainer}>
+          {CATEGORY.map((item) => {
+            return <CategoryButton key={item.key}>{item.name}</CategoryButton>;
+          })}
+        </View>
+        <View>
+          <MeetupCardList />
+        </View>
       </ScrollView>
     </AppLayout>
   );
