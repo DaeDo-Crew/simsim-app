@@ -4,6 +4,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
 import MeetUp from "components/MeetUp";
 import theme from "theme";
+import { MaterialIcons } from "@expo/vector-icons";
+import { StyleSheet } from "react-native";
 
 const RootStack = createStackNavigator();
 
@@ -18,6 +20,14 @@ const PageNavigation = () => (
         fontWeight: "bold",
       },
       headerTintColor: `${theme.colors.white}`,
+      headerBackImage: () => (
+        <MaterialIcons
+          name="arrow-back"
+          size={theme.size.headerIconSize}
+          style={styles.headerBackIcon}
+        />
+      ),
+      headerBackTitleVisible: false,
     }}
   >
     <RootStack.Screen name="Home" component={Home} />
@@ -32,3 +42,9 @@ export default function RootNavigator() {
     </NavigationContainer>
   );
 }
+const styles = StyleSheet.create({
+  headerBackIcon: {
+    marginLeft: 10,
+    color: theme.colors.white,
+  },
+});

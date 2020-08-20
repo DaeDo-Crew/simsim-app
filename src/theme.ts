@@ -9,6 +9,9 @@ const theme = {
     darkGrey: "#828282",
     green: "#27AE60",
   },
+  size: {
+    headerIconSize: 24,
+  },
   borderRadius: 10,
 } as const;
 
