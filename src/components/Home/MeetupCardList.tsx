@@ -5,7 +5,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { MeetupCard } from "./redux/types";
 import theme from "theme";
@@ -46,24 +46,6 @@ function MeetupCardListHeader() {
   return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
 }
 
-// function MeetupCardItem({ item }: { item: MeetupCard }) {
-//   return (
-//     <View style={styles.meetupCardItemContainer}>
-//       <Image
-//         source={{ uri: item.imageSource, width: 150, height: 150 }}
-//         style={styles.meetupCardImage}
-//       />
-//       <View style={styles.meetupCardItemInfoContainer}>
-//         <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
-//         <View style={styles.meetupCardItemSubInfoContainer}>
-//           <Text>{item.communityName}</Text>
-//           <Text>{item.dueDay}</Text>
-//         </View>
-//       </View>
-//     </View>
-//   );
-// }
-
 export default function MeetupCardList() {
   const navigation = useNavigation();
   const handleClickMeetUpCardItem = React.useCallback(() => {
@@ -71,7 +53,7 @@ export default function MeetupCardList() {
   }, []);
   const MeetupCardItem = ({ item }: { item: MeetupCard }) => {
     return (
-      <TouchableOpacity onPress={handleClickMeetUpCardItem}>
+      <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={styles.meetupCardItemContainer}>
           <Image
             source={{ uri: item.imageSource, width: 150, height: 150 }}
@@ -85,7 +67,7 @@ export default function MeetupCardList() {
             </View>
           </View>
         </View>
-      </TouchableOpacity>
+      </TouchableWithoutFeedback>
     );
   };
   return (
