@@ -1,7 +1,15 @@
 import * as React from "react";
-import { FlatList, StyleSheet, View, Text, Image } from "react-native";
+import {
+  FlatList,
+  StyleSheet,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from "react-native";
 import { MeetupCard } from "./redux/types";
 import theme from "theme";
+import { useNavigation } from "@react-navigation/native";
 
 const DATA: MeetupCard[] = [
   {
@@ -38,25 +46,48 @@ function MeetupCardListHeader() {
   return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
 }
 
-function MeetupCardItem({ item }: { item: MeetupCard }) {
-  return (
-    <View style={styles.meetupCardItemContainer}>
-      <Image
-        source={{ uri: item.imageSource, width: 150, height: 150 }}
-        style={styles.meetupCardImage}
-      />
-      <View style={styles.meetupCardItemInfoContainer}>
-        <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
-        <View style={styles.meetupCardItemSubInfoContainer}>
-          <Text>{item.communityName}</Text>
-          <Text>{item.dueDay}</Text>
-        </View>
-      </View>
-    </View>
-  );
-}
+// function MeetupCardItem({ item }: { item: MeetupCard }) {
+//   return (
+//     <View style={styles.meetupCardItemContainer}>
+//       <Image
+//         source={{ uri: item.imageSource, width: 150, height: 150 }}
+//         style={styles.meetupCardImage}
+//       />
+//       <View style={styles.meetupCardItemInfoContainer}>
+//         <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
+//         <View style={styles.meetupCardItemSubInfoContainer}>
+//           <Text>{item.communityName}</Text>
+//           <Text>{item.dueDay}</Text>
+//         </View>
+//       </View>
+//     </View>
+//   );
+// }
 
 export default function MeetupCardList() {
+  const navigation = useNavigation();
+  const handleClickMeetUpCardItem = React.useCallback(() => {
+    navigation.navigate("MeetUp");
+  }, []);
+  const MeetupCardItem = ({ item }: { item: MeetupCard }) => {
+    return (
+      <TouchableOpacity onPress={handleClickMeetUpCardItem}>
+        <View style={styles.meetupCardItemContainer}>
+          <Image
+            source={{ uri: item.imageSource, width: 150, height: 150 }}
+            style={styles.meetupCardImage}
+          />
+          <View style={styles.meetupCardItemInfoContainer}>
+            <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
+            <View style={styles.meetupCardItemSubInfoContainer}>
+              <Text>{item.communityName}</Text>
+              <Text>{item.dueDay}</Text>
+            </View>
+          </View>
+        </View>
+      </TouchableOpacity>
+    );
+  };
   return (
     <View style={styles.meetupCardListContainer}>
       <MeetupCardListHeader />
