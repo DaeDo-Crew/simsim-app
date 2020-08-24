@@ -6,6 +6,7 @@ import MeetUpImageCarousel from "./MeetUpImageCarousel";
 import MeetUpHeader from "./MeetUpHeader";
 import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
+import Community from "./Community";
 
 export default function MeetUp() {
   const navigation = useNavigation();
@@ -28,6 +29,7 @@ export default function MeetUp() {
             location="시립대학교 정문 [주향]"
           />
           <MeetUpContent />
+          <Community />
         </View>
       </ScrollView>
     </AppLayout>
