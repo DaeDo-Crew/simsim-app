@@ -1,15 +1,17 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import Divider from "modules/Divider";
-import UserAvatar from "react-native-user-avatar";
 import theme from "theme";
+import Avatar from "modules/Avatar";
 
 export default function Community() {
   return (
     <>
       <View style={communityStyles.container}>
         <View style={communityStyles.communityNameContainer}>
-          <UserAvatar name="RAH" borderRadius={100} />
+          <View style={communityStyles.communityAvatarContainer}>
+            <Avatar size={40} />
+          </View>
           <View style={communityStyles.communityNameTextContainer}>
             <Text>RAH</Text>
             <Text>시립대 대표 댄스동아리</Text>
@@ -58,6 +60,9 @@ const communityStyles = StyleSheet.create({
   },
   communityNameContainer: {
     flexDirection: "row",
+  },
+  communityAvatarContainer: {
+    alignSelf: "center",
   },
   communityNameTextContainer: {
     marginLeft: 16,
