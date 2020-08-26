@@ -7,6 +7,7 @@ import MeetUpHeader from "./MeetUpHeader";
 import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
 import Community from "./Community";
+import MeetUpComment from "./MeetUpComment";
 
 export default function MeetUp() {
   const navigation = useNavigation();
@@ -30,6 +31,7 @@ export default function MeetUp() {
           />
           <MeetUpContent />
           <Community />
+          <MeetUpComment />
         </View>
       </ScrollView>
     </AppLayout>
