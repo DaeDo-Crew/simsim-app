@@ -8,9 +8,11 @@ type MeetUpInfoType = "DATE" | "PERSONNEL" | "LOCATION";
 function MeetUpInfoItem({
   type,
   content,
+  secondContent,
 }: {
   type: MeetUpInfoType;
   content: string;
+  secondContent?: string;
 }) {
   if (type == "DATE") {
     return (
@@ -23,7 +25,7 @@ function MeetUpInfoItem({
     return (
       <View style={MeetUpInfoItemStyles.container}>
         <Fontisto name="person" size={24} color="black" />
-        <Text>{content}</Text>
+        <Text>{`현재${content}명 / 최대${secondContent}명`}</Text>
       </View>
     );
   } else if (type == "LOCATION") {
@@ -38,18 +40,24 @@ function MeetUpInfoItem({
 }
 
 export default function MeetUpInfo({
-  date,
-  personnel,
+  startDate,
+  currentParticipants,
+  maxParticipants,
   location,
 }: {
-  date: string;
-  personnel: string;
+  startDate: string;
+  currentParticipants: number;
+  maxParticipants: number;
   location: string;
 }) {
   return (
     <>
-      <MeetUpInfoItem type="DATE" content={date} />
-      <MeetUpInfoItem type="PERSONNEL" content={personnel} />
+      <MeetUpInfoItem type="DATE" content={startDate} />
+      <MeetUpInfoItem
+        type="PERSONNEL"
+        content={currentParticipants.toString()}
+        secondContent={maxParticipants.toString()}
+      />
       <MeetUpInfoItem type="LOCATION" content={location} />
       <Divider />
     </>
