@@ -4,7 +4,7 @@ import Divider from "modules/Divider";
 import theme from "theme";
 import Avatar from "modules/Avatar";
 
-export default function Community() {
+export default function Community({ clubId }: { clubId: number }) {
   return (
     <>
       <View style={communityStyles.container}>
