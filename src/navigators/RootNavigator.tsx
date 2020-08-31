@@ -3,6 +3,8 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
 import MeetUp from "components/MeetUp";
+import Login from "components/Login";
+import SignUp from "components/Signup";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -11,7 +13,7 @@ const RootStack = createStackNavigator();
 
 const PageNavigation = () => (
   <RootStack.Navigator
-    initialRouteName="Home"
+    initialRouteName="Login"
     screenOptions={{
       headerStyle: {
         backgroundColor: `${theme.colors.primary}`,
@@ -30,6 +32,8 @@ const PageNavigation = () => (
       headerBackTitleVisible: false,
     }}
   >
+    <RootStack.Screen name="Login" component={Login} />
+    <RootStack.Screen name="SignUp" component={SignUp} />
     <RootStack.Screen name="Home" component={Home} />
     <RootStack.Screen name="MeetUp" component={MeetUp} />
   </RootStack.Navigator>
