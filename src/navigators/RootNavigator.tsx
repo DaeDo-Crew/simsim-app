@@ -4,7 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
 import MeetUp from "components/MeetUp";
 import Login from "components/Login";
-import SignUp from "components/Signup";
+import SignUp from "components/SignUp";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";

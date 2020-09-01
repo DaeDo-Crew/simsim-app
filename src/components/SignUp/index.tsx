@@ -2,47 +2,43 @@ import * as React from "react";
 import AppLayout from "modules/AppLayout";
 import { ScrollView, Text, Button, StyleSheet, View } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
-import { Formik } from "formik";
+import { useFormik } from "formik";
 
 export default function SignUp() {
+  const { values, handleSubmit, handleChange } = useFormik({
+    initialValues: { id: "", password: "", email: "", nickname: "" },
+    onSubmit: (value) => {
+      console.log(value);
+    },
+  });
   return (
     <AppLayout>
-      <Formik
-        initialValues={{ id: "", password: "", email: "", nickName: "" }}
-        onSubmit={(values) => console.log(values)}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <ScrollView>
-            <View style={LoginStyles.container}>
-              <TextareaItem
-                onChangeText={handleChange("id")}
-                onBlur={handleBlur("id")}
-                value={values.id}
-                placeholder="아이디"
-              />
-              <TextareaItem
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-                placeholder="패스워드"
-              />
-              <TextareaItem
-                onChangeText={handleChange("email")}
-                onBlur={handleBlur("email")}
-                value={values.email}
-                placeholder="이메일"
-              />
-              <TextareaItem
-                onChangeText={handleChange("nickName")}
-                onBlur={handleBlur("nickName")}
-                value={values.nickName}
-                placeholder="닉네임"
-              />
-              <Button onPress={handleSubmit} title="회원가입" />
-            </View>
-          </ScrollView>
-        )}
-      </Formik>
+      <ScrollView>
+        <View style={SignUpStyles.container}>
+          <TextareaItem
+            onChangeText={handleChange("id")}
+            value={values.id}
+            placeholder="아이디"
+          />
+          <TextareaItem
+            onChangeText={handleChange("password")}
+            value={values.password}
+            placeholder="패스워드"
+          />
+          <TextareaItem
+            onChangeText={handleChange("email")}
+            value={values.email}
+            placeholder="이메일"
+          />
+          <TextareaItem
+            onChangeText={handleChange("nickname")}
+            value={values.nickname}
+            placeholder="닉네임"
+          />
+          {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
+          <Button onPress={handleSubmit as any} title="회원가입" />
+        </View>
+      </ScrollView>
     </AppLayout>
   );
 }

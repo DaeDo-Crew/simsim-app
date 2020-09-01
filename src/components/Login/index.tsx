@@ -1,36 +1,34 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, Text, Button, StyleSheet, View } from "react-native";
+import { ScrollView, Button, StyleSheet, View } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
-import { Formik } from "formik";
+import { useFormik } from "formik";
 
 export default function Login() {
+  const { values, handleSubmit, handleChange } = useFormik({
+    initialValues: { id: "", password: "" },
+    onSubmit: (value) => {
+      console.log(value);
+    },
+  });
   return (
     <AppLayout>
-      <Formik
-        initialValues={{ id: "", password: "" }}
-        onSubmit={(values) => console.log(values)}
-      >
-        {({ handleChange, handleBlur, handleSubmit, values }) => (
-          <ScrollView>
-            <View style={LoginStyles.container}>
-              <TextareaItem
-                onChangeText={handleChange("id")}
-                onBlur={handleBlur("id")}
-                value={values.id}
-                placeholder="아이디"
-              />
-              <TextareaItem
-                onChangeText={handleChange("password")}
-                onBlur={handleBlur("password")}
-                value={values.password}
-                placeholder="패스워드"
-              />
-              <Button onPress={handleSubmit} title="로그인" />
-            </View>
-          </ScrollView>
-        )}
-      </Formik>
+      <ScrollView>
+        <View style={LoginStyles.container}>
+          <TextareaItem
+            onChangeText={handleChange("id")}
+            value={values.id}
+            placeholder="아이디"
+          />
+          <TextareaItem
+            onChangeText={handleChange("password")}
+            value={values.password}
+            placeholder="패스워드"
+          />
+          {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
+          <Button onPress={handleSubmit as any} title="로그인" />
+        </View>
+      </ScrollView>
     </AppLayout>
   );
 }
