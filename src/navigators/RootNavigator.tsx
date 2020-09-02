@@ -8,41 +8,46 @@ import SignUp from "components/SignUp";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
+import { getUserToken } from "components/Login/redux/selectors";
 
 const RootStack = createStackNavigator();
 
-const PageNavigation = () => (
-  <RootStack.Navigator
-    initialRouteName="Login"
-    screenOptions={{
-      headerStyle: {
-        backgroundColor: `${theme.colors.primary}`,
-      },
-      headerTitleStyle: {
-        fontWeight: "bold",
-      },
-      headerTintColor: `${theme.colors.white}`,
-      headerBackImage: () => (
-        <MaterialIcons
-          name="arrow-back"
-          size={theme.size.headerIconSize}
-          style={styles.headerBackIcon}
-        />
-      ),
-      headerBackTitleVisible: false,
-    }}
-  >
-    <RootStack.Screen name="Login" component={Login} />
-    <RootStack.Screen name="SignUp" component={SignUp} />
-    <RootStack.Screen name="Home" component={Home} />
-    <RootStack.Screen name="MeetUp" component={MeetUp} />
-  </RootStack.Navigator>
-);
-
 export default function RootNavigator() {
+  const userToken = useSelector(getUserToken);
   return (
     <NavigationContainer>
-      <PageNavigation />
+      <RootStack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: `${theme.colors.primary}`,
+          },
+          headerTitleStyle: {
+            fontWeight: "bold",
+          },
+          headerTintColor: `${theme.colors.white}`,
+          headerBackImage: () => (
+            <MaterialIcons
+              name="arrow-back"
+              size={theme.size.headerIconSize}
+              style={styles.headerBackIcon}
+            />
+          ),
+          headerBackTitleVisible: false,
+        }}
+      >
+        {userToken !== null && userToken.accessToken !== null ? (
+          <>
+            <RootStack.Screen name="Home" component={Home} />
+            <RootStack.Screen name="MeetUp" component={MeetUp} />
+          </>
+        ) : (
+          <>
+            <RootStack.Screen name="Login" component={Login} />
+            <RootStack.Screen name="SignUp" component={SignUp} />
+          </>
+        )}
+      </RootStack.Navigator>
     </NavigationContainer>
   );
 }

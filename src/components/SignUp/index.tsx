@@ -1,6 +1,6 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, Text, Button, StyleSheet, View } from "react-native";
+import { ScrollView, Button, StyleSheet, View } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 
