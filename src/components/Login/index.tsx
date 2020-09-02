@@ -6,7 +6,7 @@ import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import axios from "axios";
 import { setUserToken } from "./redux/actions";
-import { UserTokenType } from "./redux/types";
+import { LoginResponse } from "./redux/types";
 
 const LOGIN_URL =
   "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signin";
@@ -17,7 +17,7 @@ export default function Login() {
     initialValues: { id: "", password: "" },
     onSubmit: (value) => {
       axios
-        .get<UserTokenType>(LOGIN_URL, {
+        .get<LoginResponse>(LOGIN_URL, {
           params: {
             loginId: value.id,
             password: value.password,

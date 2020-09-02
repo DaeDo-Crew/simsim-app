@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
 import { setUserToken } from "./actions";
-import { UserTokenType } from "./types";
+import { LoginResponse } from "./types";
 
 const reducer = combineReducers({
-  userToken: createReducer<UserTokenType | null>(null).handleAction(
+  userToken: createReducer<LoginResponse | null>(null).handleAction(
     setUserToken,
     (_state, action) => {
       return action.payload;
