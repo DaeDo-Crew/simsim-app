@@ -1,9 +1,10 @@
 import * as React from "react";
-import { Provider } from "react-redux";
+import { Provider as StoreProvider } from "react-redux";
 import createReduxStore from "redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import * as Font from "expo-font";
 import RootNavigator from "navigators/RootNavigator";
+import { Provider as AntdProvider } from "@ant-design/react-native";
 
 const { store, persistor } = createReduxStore();
 
@@ -16,10 +17,12 @@ export default function App() {
     return null;
   }
   return (
-    <Provider store={store}>
+    <StoreProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <RootNavigator />
+        <AntdProvider>
+          <RootNavigator />
+        </AntdProvider>
       </PersistGate>
-    </Provider>
+    </StoreProvider>
   );
 }

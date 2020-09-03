@@ -8,9 +8,8 @@ import axios from "axios";
 import { setUserToken } from "./redux/actions";
 import { LoginResponse } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
-
-const LOGIN_URL =
-  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signin";
+import { LOGIN_URL } from "./apiUrls";
+import { Toast, Portal } from "@ant-design/react-native";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -25,6 +24,7 @@ export default function Login() {
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: { id: "", password: "" },
     onSubmit: (value) => {
+      const toastKey = Toast.loading("로그인 하는 중...");
       axios
         .get<LoginResponse>(LOGIN_URL, {
           params: {
@@ -33,6 +33,7 @@ export default function Login() {
           },
         })
         .then((response) => {
+          Portal.remove(toastKey);
           dispatch(
             setUserToken({
               accessToken: response.data.accessToken,
@@ -41,6 +42,8 @@ export default function Login() {
           );
         })
         .catch((error) => {
+          Portal.remove(toastKey);
+          Toast.fail("로그인에 실패했습니다.", 1);
           console.log(error);
         });
     },
