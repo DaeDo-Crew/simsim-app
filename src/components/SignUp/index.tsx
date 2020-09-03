@@ -5,7 +5,8 @@ import { TextareaItem, Button, Toast, Portal } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { ID_CHECK, NICKNAME_CHECK } from "./apiUrls";
+import { ID_CHECK, NICKNAME_CHECK, SIGN_UP } from "./apiUrls";
+import qs from "qs";
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -17,9 +18,27 @@ export default function SignUp() {
   });
 
   const { values, handleSubmit, handleChange } = useFormik({
-    initialValues: { id: "", password: "", email: "", nickname: "" },
+    initialValues: { loginId: "", password: "", email: "", nickname: "" },
     onSubmit: (value) => {
-      console.log(value);
+      const toastKey = Toast.loading("회원가입 중...");
+      axios
+        .post(
+          SIGN_UP,
+          qs.stringify({
+            loginId: value.loginId,
+            password: value.password,
+            email: value.email,
+            nickname: value.nickname,
+          })
+        )
+        .then((response) => {
+          Portal.remove(toastKey);
+          Toast.success("회원가입에 성공했습니다.", 1);
+        })
+        .catch((error) => {
+          Portal.remove(toastKey);
+          Toast.fail("회원가입에 실패했습니다.", 1);
+        });
     },
   });
 
@@ -28,7 +47,7 @@ export default function SignUp() {
     axios
       .get<boolean>(ID_CHECK, {
         params: {
-          loginId: values.id,
+          loginId: values.loginId,
         },
       })
       .then(() => {
@@ -64,8 +83,8 @@ export default function SignUp() {
       <ScrollView>
         <View style={SignUpStyles.container}>
           <TextareaItem
-            onChangeText={handleChange("id")}
-            value={values.id}
+            onChangeText={handleChange("loginId")}
+            value={values.loginId}
             placeholder="아이디"
           />
           <Button onPress={handleIdCheckClicked}>아이디 중복확인</Button>
@@ -75,22 +94,11 @@ export default function SignUp() {
             placeholder="패스워드"
           />
           <TextareaItem
-            onChangeText={handleChange("password")}
-            value={values.password}
-            placeholder="패스워드 확인"
-          />
-          <TextareaItem
             onChangeText={handleChange("email")}
             value={values.email}
             placeholder="이메일"
           />
           <Button>이메일 인증</Button>
-          <TextareaItem
-            onChangeText={handleChange("email")}
-            value={values.email}
-            placeholder="이메일"
-          />
-          <Button>이메일 인증 확인</Button>
           <TextareaItem
             onChangeText={handleChange("nickname")}
             value={values.nickname}
