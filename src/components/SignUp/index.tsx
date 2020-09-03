@@ -3,8 +3,17 @@ import AppLayout from "modules/AppLayout";
 import { ScrollView, Button, StyleSheet, View } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
+import { useNavigation } from "@react-navigation/native";
 
 export default function SignUp() {
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "회원가입",
+    });
+  });
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: { id: "", password: "", email: "", nickname: "" },
     onSubmit: (value) => {
@@ -36,7 +45,7 @@ export default function SignUp() {
             placeholder="닉네임"
           />
           {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
-          <Button onPress={handleSubmit as any} title="회원가입" />
+          <Button onPress={handleSubmit as any} title="완료" />
         </View>
       </ScrollView>
     </AppLayout>

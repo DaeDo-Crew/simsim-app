@@ -7,12 +7,21 @@ import { useFormik } from "formik";
 import axios from "axios";
 import { setUserToken } from "./redux/actions";
 import { LoginResponse } from "./redux/types";
+import { useNavigation } from "@react-navigation/native";
 
 const LOGIN_URL =
   "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signin";
 
 export default function Login() {
   const dispatch = useDispatch();
+  const navigation = useNavigation();
+
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: "로그인",
+    });
+  });
+
   const { values, handleSubmit, handleChange } = useFormik({
     initialValues: { id: "", password: "" },
     onSubmit: (value) => {
@@ -36,6 +45,10 @@ export default function Login() {
         });
     },
   });
+
+  const handleSignupButtonClicked = () => {
+    navigation.navigate("SignUp");
+  };
   return (
     <AppLayout>
       <ScrollView>
@@ -52,6 +65,7 @@ export default function Login() {
           />
           {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
           <Button onPress={handleSubmit as any} title="로그인" />
+          <Button onPress={handleSignupButtonClicked} title="회원가입" />
         </View>
       </ScrollView>
     </AppLayout>
