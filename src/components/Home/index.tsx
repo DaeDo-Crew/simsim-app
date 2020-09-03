@@ -4,6 +4,14 @@ import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import CategoryButton from "./CategoryButton";
 import MeetupCardList from "./MeetupCardList";
+import { Button } from "@ant-design/react-native";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserLogout } from "components/Login/redux/actions";
+import axios from "axios";
+import { getUserToken } from "components/Login/redux/selectors";
+
+const LOGOUT_URL =
+  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/logout";
 
 const CATEGORY = [
   {
@@ -34,6 +42,9 @@ const style = StyleSheet.create({
 
 export default function Home() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const userToken = useSelector(getUserToken);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,9 +52,25 @@ export default function Home() {
     });
   });
 
+  const handleLogout = () => {
+    if (userToken !== null) {
+      axios
+        .get(LOGOUT_URL, {
+          params: {
+            access_token: userToken.accessToken,
+          },
+        })
+        .then(() => {
+          dispatch(setUserLogout(null));
+        })
+        .catch((error) => console.log(error));
+    }
+  };
+
   return (
     <AppLayout>
       <ScrollView>
+        <Button onPress={handleLogout}>임시 로그아웃 버튼</Button>
         <View style={style.CategoryButtonContainer}>
           {CATEGORY.map((item) => {
             return <CategoryButton key={item.key}>{item.name}</CategoryButton>;
