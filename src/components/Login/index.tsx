@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, Button, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -9,7 +9,7 @@ import { setUserToken } from "./redux/actions";
 import { LoginResponse } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { LOGIN_URL } from "./apiUrls";
-import { Toast, Portal } from "@ant-design/react-native";
+import { Toast, Portal, Button } from "@ant-design/react-native";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -67,8 +67,8 @@ export default function Login() {
             placeholder="패스워드"
           />
           {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
-          <Button onPress={handleSubmit as any} title="로그인" />
-          <Button onPress={handleSignupButtonClicked} title="회원가입" />
+          <Button onPress={handleSubmit as any}>로그인</Button>
+          <Button onPress={handleSignupButtonClicked}>회원가입</Button>
         </View>
       </ScrollView>
     </AppLayout>
