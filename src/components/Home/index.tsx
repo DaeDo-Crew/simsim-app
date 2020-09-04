@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import CategoryButton from "./CategoryButton";
 import MeetupCardList from "./MeetupCardList";
-import { Button } from "@ant-design/react-native";
+import { Button, Toast, Portal } from "@ant-design/react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLogout } from "components/Login/redux/actions";
 import axios from "axios";
@@ -52,6 +52,7 @@ export default function Home() {
 
   const handleLogout = () => {
     if (userToken !== null) {
+      const toastKey = Toast.loading("로그아웃 하는 중...");
       axios
         .get(LOGOUT_URL, {
           params: {
@@ -59,9 +60,10 @@ export default function Home() {
           },
         })
         .then(() => {
+          Portal.remove(toastKey);
           dispatch(setUserLogout(null));
         })
-        .catch((error) => console.log(error));
+        .catch(() => Portal.remove(toastKey));
     }
   };
 
