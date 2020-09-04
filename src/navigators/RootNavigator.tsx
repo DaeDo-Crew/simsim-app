@@ -20,12 +20,12 @@ export default function RootNavigator() {
       <RootStack.Navigator
         screenOptions={{
           headerStyle: {
-            backgroundColor: `${theme.colors.primary}`,
+            backgroundColor: `${theme.colors.white}`,
           },
           headerTitleStyle: {
             fontWeight: "bold",
           },
-          headerTintColor: `${theme.colors.white}`,
+          headerTintColor: `${theme.colors.black}`,
           headerBackImage: () => (
             <MaterialIcons
               name="arrow-back"
@@ -54,6 +54,6 @@ export default function RootNavigator() {
 const styles = StyleSheet.create({
   headerBackIcon: {
     marginLeft: 10,
-    color: theme.colors.white,
+    color: theme.colors.black,
   },
 });

@@ -20,7 +20,7 @@ export default function AppLayout(props: AppLayoutProps) {
   return (
     <View style={style.MainSection}>
       {children}
-      <StatusBar style="light" />
+      <StatusBar style="dark" />
     </View>
   );
 }

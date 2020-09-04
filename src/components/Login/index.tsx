@@ -109,7 +109,7 @@ export default function Login() {
 
 const LoginStyles = StyleSheet.create({
   container: {
-    marginTop: 64,
+    marginTop: 128,
     justifyContent: "center",
   },
   mainButtonContainer: {
