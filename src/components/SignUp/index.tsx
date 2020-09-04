@@ -31,11 +31,11 @@ export default function SignUp() {
             nickname: value.nickname,
           })
         )
-        .then((response) => {
+        .then(() => {
           Portal.remove(toastKey);
           Toast.success("회원가입에 성공했습니다.", 1);
         })
-        .catch((error) => {
+        .catch(() => {
           Portal.remove(toastKey);
           Toast.fail("회원가입에 실패했습니다.", 1);
         });
