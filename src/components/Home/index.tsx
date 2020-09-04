@@ -9,9 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserLogout } from "components/Login/redux/actions";
 import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
-
-const LOGOUT_URL =
-  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/logout";
+import { LOGOUT_URL } from "./apiUrls";
 
 const CATEGORY = [
   {
