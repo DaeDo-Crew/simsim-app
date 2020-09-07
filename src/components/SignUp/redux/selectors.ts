@@ -1,8 +1,8 @@
 import { RootState } from "redux/types";
 
-export const getUserSignUpPayload = (state: RootState) => {
-  state.signUp.loginId;
-  state.signUp.password;
-  state.signUp.email;
-  state.signUp.nickname;
-};
+export const getUserSignUpPayload = (state: RootState) => ({
+  loginId: state.signUp.loginId,
+  password: state.signUp.password,
+  email: state.signUp.email,
+  nickname: state.signUp.nickname,
+});

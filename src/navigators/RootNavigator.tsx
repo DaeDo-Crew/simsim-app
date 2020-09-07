@@ -4,7 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
 import MeetUp from "components/MeetUp";
 import Login from "components/Login";
-import SignUp from "components/SignUp";
+import PrimarySignUp from "components/SignUp/PrimarySignUp";
+import SecondarySignUp from "components/SignUp/SecondarySignUp";
+import ThirdarySignUp from "components/SignUp/ThirdarySignUp";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -44,7 +46,15 @@ export default function RootNavigator() {
         ) : (
           <>
             <RootStack.Screen name="Login" component={Login} />
-            <RootStack.Screen name="SignUp" component={SignUp} />
+            <RootStack.Screen name="PrimarySignUp" component={PrimarySignUp} />
+            <RootStack.Screen
+              name="SecondarySignUp"
+              component={SecondarySignUp}
+            />
+            <RootStack.Screen
+              name="ThirdarySignUp"
+              component={ThirdarySignUp}
+            />
           </>
         )}
       </RootStack.Navigator>

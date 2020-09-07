@@ -6,3 +6,6 @@ export const NICKNAME_CHECK =
 
 export const SIGN_UP =
   "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signup";
+
+export const EMAIL_CHECK =
+  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signup/certificate";

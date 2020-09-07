@@ -24,7 +24,7 @@ export default function Login() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "로그인",
+      headerTitle: "🤫",
     });
   });
 
