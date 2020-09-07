@@ -16,7 +16,7 @@ import {
   WingBlank,
   WhiteSpace,
 } from "@ant-design/react-native";
-import theme from "theme";
+import { AuthStyles } from "modules/auth/base";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -56,12 +56,13 @@ export default function Login() {
   });
 
   const handleSignupButtonClicked = () => {
-    navigation.navigate("SignUp");
+    navigation.navigate("PrimarySignUp");
   };
+
   return (
     <AppLayout>
       <WingBlank>
-        <View style={LoginStyles.container}>
+        <View style={AuthStyles.container}>
           <TextareaItem
             onChangeText={handleChange("id")}
             value={values.id}
@@ -76,28 +77,28 @@ export default function Login() {
           <WhiteSpace size="xl" />
           <View style={LoginStyles.mainButtonContainer}>
             {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
-            <Button onPress={handleSubmit as any} style={LoginStyles.button}>
-              <Text style={LoginStyles.loginButtonText}>로그인</Text>
+            <Button onPress={handleSubmit as any} style={AuthStyles.button}>
+              <Text style={AuthStyles.mainButtonText}>로그인</Text>
             </Button>
             <WhiteSpace size="xl" />
             <View style={LoginStyles.subButtonContainer}>
               <Button
                 onPress={handleSignupButtonClicked}
-                style={LoginStyles.button}
+                style={AuthStyles.button}
               >
-                <Text style={LoginStyles.subButtonText}>회원가입</Text>
+                <Text style={AuthStyles.subButtonText}>회원가입</Text>
               </Button>
               <Button
                 onPress={handleSignupButtonClicked}
-                style={LoginStyles.button}
+                style={AuthStyles.button}
               >
-                <Text style={LoginStyles.subButtonText}>아이디 찾기</Text>
+                <Text style={AuthStyles.subButtonText}>아이디 찾기</Text>
               </Button>
               <Button
                 onPress={handleSignupButtonClicked}
-                style={LoginStyles.button}
+                style={AuthStyles.button}
               >
-                <Text style={LoginStyles.subButtonText}>비밀번호 찾기</Text>
+                <Text style={AuthStyles.subButtonText}>비밀번호 찾기</Text>
               </Button>
             </View>
           </View>
@@ -108,25 +109,11 @@ export default function Login() {
 }
 
 const LoginStyles = StyleSheet.create({
-  container: {
-    marginTop: 128,
-    justifyContent: "center",
-  },
   mainButtonContainer: {
     alignItems: "center",
   },
   subButtonContainer: {
     flexDirection: "row",
     alignItems: "center",
-  },
-  button: {
-    borderWidth: 0,
-  },
-  loginButtonText: {
-    color: theme.colors.primary,
-    fontWeight: "bold",
-  },
-  subButtonText: {
-    color: theme.colors.darkGrey,
   },
 });
