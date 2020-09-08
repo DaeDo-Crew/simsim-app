@@ -16,6 +16,8 @@ import { ID_CHECK } from "./apiUrls";
 import { AuthStyles } from "modules/auth/base";
 import { setSignUpLoginId, setSignUpPassword } from "./redux/actions";
 import { getUserSignUpPayload } from "./redux/selectors";
+import { IdCheckRequest } from "./redux/types";
+import { idCheckRequestSchema } from "./schemas";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function PrimarySignUp() {
@@ -34,8 +36,11 @@ export default function PrimarySignUp() {
     navigation.navigate("SecondarySignUp");
   };
 
-  const { values, handleSubmit, handleChange } = useFormik({
+  const { values, errors, handleSubmit, handleChange } = useFormik<
+    IdCheckRequest
+  >({
     initialValues: { loginId: "", password: "", passwordConfirm: "" },
+    validationSchema: idCheckRequestSchema,
     onSubmit: (value) => {
       const toastKey = Toast.loading("아이디 중복 체크 중...");
       axios
@@ -66,18 +71,21 @@ export default function PrimarySignUp() {
               onChangeText={handleChange("loginId")}
               value={values.loginId}
               placeholder="아이디"
+              error={typeof errors.loginId !== "undefined"}
             />
             <WhiteSpace size="xl" />
             <TextareaItem
               onChangeText={handleChange("password")}
               value={values.password}
               placeholder="비밀번호"
+              error={typeof errors.password !== "undefined"}
             />
             <WhiteSpace size="xl" />
             <TextareaItem
               onChangeText={handleChange("passwordConfirm")}
               value={values.passwordConfirm}
               placeholder="비밀번호 확인"
+              error={typeof errors.passwordConfirm !== "undefined"}
             />
             <WhiteSpace size="xl" />
             {userSignUpPayload.loginId !== null &&
