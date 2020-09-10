@@ -83,6 +83,7 @@ export default function PrimarySignUp() {
             <TextareaItem
               onChangeText={handleChange("nickname")}
               value={values.nickname}
+              textContentType="nickname"
               placeholder="닉네임"
             />
             <WhiteSpace size="xl" />

@@ -65,12 +65,14 @@ export default function PrimarySignUp() {
             <TextareaItem
               onChangeText={handleChange("email")}
               value={values.email}
+              textContentType="emailAddress"
               placeholder="이메일"
             />
             <WhiteSpace size="xl" />
             <TextareaItem
               onChangeText={handleChange("emailCode")}
               value={values.emailCode}
+              textContentType="oneTimeCode"
               placeholder="이메일 인증코드"
             />
             <WhiteSpace size="xl" />

@@ -71,6 +71,7 @@ export default function Login() {
             onChangeText={handleChange("id")}
             value={values.id}
             placeholder="아이디"
+            textContentType="username"
             error={typeof errors.id !== "undefined"}
           />
           <WhiteSpace size="xl" />
@@ -78,6 +79,8 @@ export default function Login() {
             onChangeText={handleChange("password")}
             value={values.password}
             placeholder="패스워드"
+            textContentType="password"
+            secureTextEntry={true}
             error={typeof errors.password !== "undefined"}
           />
           <WhiteSpace size="xl" />

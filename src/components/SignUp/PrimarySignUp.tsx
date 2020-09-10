@@ -71,6 +71,7 @@ export default function PrimarySignUp() {
               onChangeText={handleChange("loginId")}
               value={values.loginId}
               placeholder="아이디"
+              textContentType="username"
               error={typeof errors.loginId !== "undefined"}
             />
             <WhiteSpace size="xl" />
@@ -78,6 +79,8 @@ export default function PrimarySignUp() {
               onChangeText={handleChange("password")}
               value={values.password}
               placeholder="비밀번호"
+              textContentType="newPassword"
+              secureTextEntry={true}
               error={typeof errors.password !== "undefined"}
             />
             <WhiteSpace size="xl" />
@@ -85,6 +88,8 @@ export default function PrimarySignUp() {
               onChangeText={handleChange("passwordConfirm")}
               value={values.passwordConfirm}
               placeholder="비밀번호 확인"
+              textContentType="none"
+              secureTextEntry={true}
               error={typeof errors.passwordConfirm !== "undefined"}
             />
             <WhiteSpace size="xl" />
