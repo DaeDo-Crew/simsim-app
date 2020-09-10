@@ -3,3 +3,8 @@ export type IdCheckRequest = {
   password: string;
   passwordConfirm: string;
 };
+
+export type EmailCheckRequest = {
+  email: string;
+  emailCheckCode: string;
+};
