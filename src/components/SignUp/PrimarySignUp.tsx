@@ -19,6 +19,7 @@ import { getUserSignUpPayload } from "./redux/selectors";
 import { IdCheckRequest } from "./redux/types";
 import { idCheckRequestSchema } from "./schemas";
 import { useDispatch, useSelector } from "react-redux";
+import { usePasswordConfirm } from "modules/auth/hooks";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -39,7 +40,7 @@ export default function PrimarySignUp() {
   const { values, errors, handleSubmit, handleChange } = useFormik<
     IdCheckRequest
   >({
-    initialValues: { loginId: "", password: "", passwordConfirm: "" },
+    initialValues: { loginId: "", password: "" },
     validationSchema: idCheckRequestSchema,
     onSubmit: (value) => {
       const toastKey = Toast.loading("아이디 중복 체크 중...");
@@ -61,6 +62,12 @@ export default function PrimarySignUp() {
         });
     },
   });
+
+  const {
+    passwordConfirm,
+    passwordConfirmError,
+    handlePasswordConfirmChange,
+  } = usePasswordConfirm(values.password);
 
   return (
     <AppLayout>
@@ -85,12 +92,12 @@ export default function PrimarySignUp() {
             />
             <WhiteSpace size="xl" />
             <TextareaItem
-              onChangeText={handleChange("passwordConfirm")}
-              value={values.passwordConfirm}
+              onChangeText={handlePasswordConfirmChange}
+              value={passwordConfirm}
               placeholder="비밀번호 확인"
-              textContentType="none"
+              textContentType="newPassword"
               secureTextEntry={true}
-              error={typeof errors.passwordConfirm !== "undefined"}
+              error={passwordConfirmError !== ""}
             />
             <WhiteSpace size="xl" />
             {userSignUpPayload.loginId !== null &&
