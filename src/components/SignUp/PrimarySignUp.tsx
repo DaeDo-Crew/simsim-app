@@ -43,29 +43,34 @@ export default function PrimarySignUp() {
     initialValues: { loginId: "", password: "" },
     validationSchema: idCheckRequestSchema,
     onSubmit: (value) => {
-      const toastKey = Toast.loading("아이디 중복 체크 중...");
-      axios
-        .get<boolean>(ID_CHECK, {
-          params: {
-            loginId: value.loginId,
-          },
-        })
-        .then(() => {
-          Portal.remove(toastKey);
-          Toast.success("아이디 중복 체크에 성공했습니다.", 1);
-          dispatch(setSignUpLoginId(value.loginId));
-          dispatch(setSignUpPassword(value.password));
-        })
-        .catch(() => {
-          Portal.remove(toastKey);
-          Toast.fail("아이디 중복 체크에 실패했습니다.", 1);
-        });
+      if (!validatePasswordConfirm()) {
+        Toast.fail("비밀번호와 비밀번호 확인이 일치하지 않습니다.", 1);
+      } else {
+        const toastKey = Toast.loading("아이디 중복 체크 중...");
+        axios
+          .get<boolean>(ID_CHECK, {
+            params: {
+              loginId: value.loginId,
+            },
+          })
+          .then(() => {
+            Portal.remove(toastKey);
+            Toast.success("아이디 중복 체크에 성공했습니다.", 1);
+            dispatch(setSignUpLoginId(value.loginId));
+            dispatch(setSignUpPassword(value.password));
+          })
+          .catch(() => {
+            Portal.remove(toastKey);
+            Toast.fail("아이디 중복 체크에 실패했습니다.", 1);
+          });
+      }
     },
   });
 
   const {
     passwordConfirm,
     passwordConfirmError,
+    validatePasswordConfirm,
     handlePasswordConfirmChange,
   } = usePasswordConfirm(values.password);
 
