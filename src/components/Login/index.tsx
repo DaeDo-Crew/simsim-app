@@ -6,7 +6,7 @@ import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import axios from "axios";
 import { setUserToken } from "./redux/actions";
-import { LoginResponse } from "./redux/types";
+import { LoginResponse, LoginRequest } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { LOGIN_URL } from "./apiUrls";
 import {
@@ -17,6 +17,7 @@ import {
   WhiteSpace,
 } from "@ant-design/react-native";
 import { AuthStyles } from "modules/auth/base";
+import { loginRequestSchema } from "./schemas";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -28,8 +29,11 @@ export default function Login() {
     });
   });
 
-  const { values, handleSubmit, handleChange } = useFormik({
+  const { values, errors, handleSubmit, handleChange } = useFormik<
+    LoginRequest
+  >({
     initialValues: { id: "", password: "" },
+    validationSchema: loginRequestSchema,
     onSubmit: (value) => {
       const toastKey = Toast.loading("로그인 하는 중...");
       axios
@@ -67,12 +71,17 @@ export default function Login() {
             onChangeText={handleChange("id")}
             value={values.id}
             placeholder="아이디"
+            textContentType="username"
+            error={typeof errors.id !== "undefined"}
           />
           <WhiteSpace size="xl" />
           <TextareaItem
             onChangeText={handleChange("password")}
             value={values.password}
             placeholder="패스워드"
+            textContentType="password"
+            secureTextEntry={true}
+            error={typeof errors.password !== "undefined"}
           />
           <WhiteSpace size="xl" />
           <View style={LoginStyles.mainButtonContainer}>
