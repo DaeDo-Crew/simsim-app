@@ -17,6 +17,7 @@ import { AuthStyles } from "modules/auth/base";
 import { setSignUpNickname } from "./redux/actions";
 import { getUserSignUpPayload } from "./redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
+import { nicknameCheckRequestSchema } from "./schemas";
 import qs from "qs";
 
 export default function PrimarySignUp() {
@@ -53,8 +54,9 @@ export default function PrimarySignUp() {
       });
   };
 
-  const { values, handleSubmit, handleChange } = useFormik({
+  const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: { nickname: "" },
+    validationSchema: nicknameCheckRequestSchema,
     onSubmit: (value) => {
       const toastKey = Toast.loading("닉네임 중복 체크 중...");
       axios
@@ -85,6 +87,7 @@ export default function PrimarySignUp() {
               value={values.nickname}
               textContentType="nickname"
               placeholder="닉네임"
+              error={typeof errors.nickname !== "undefined"}
             />
             <WhiteSpace size="xl" />
             {userSignUpPayload.nickname !== null ? (
