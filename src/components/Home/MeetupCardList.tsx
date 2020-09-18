@@ -7,9 +7,14 @@ import {
   Image,
   TouchableWithoutFeedback,
 } from "react-native";
+import axios from "axios";
 import { MeetupCard } from "./redux/types";
 import theme from "theme";
 import { useNavigation } from "@react-navigation/native";
+import { useDispatch, useSelector } from 'react-redux';
+import { getUserToken } from "components/Login/redux/selectors";
+import { setMeetUpList } from "./redux/actions";
+import { getMeetUpList } from './redux/selectors';
 
 const DATA: MeetupCard[] = [
   {
@@ -48,6 +53,10 @@ function MeetupCardListHeader() {
 
 export default function MeetupCardList() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const token = useSelector(getUserToken);
+  const meetUpList = useSelector(getMeetUpList);
+
   const handleClickMeetUpCardItem = React.useCallback(() => {
     navigation.navigate("MeetUp");
   }, []);
@@ -70,6 +79,32 @@ export default function MeetupCardList() {
       </TouchableWithoutFeedback>
     );
   };
+
+  React.useEffect(() => {
+    console.log(token)
+    console.log('앙부름띄 할시 모임 불러옴');
+    if(token !== null) {
+      axios
+      .get("http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/meeting/readAll", {
+        headers: { 
+          "Authorization" : token.accessToken
+        },
+      })
+      .then((response) => {
+        console.log(response);
+        dispatch(setMeetUpList(response.data));
+        console.log(meetUpList);
+      })
+      .catch((error) => {
+        console.log("모임 불러오기 실패");
+        console.log(error);
+        
+      });
+    }
+      
+    
+  }, [])
+
   return (
     <View style={styles.meetupCardListContainer}>
       <MeetupCardListHeader />
