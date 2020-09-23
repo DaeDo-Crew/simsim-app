@@ -59,9 +59,10 @@ export default function PrimarySignUp() {
             dispatch(setSignUpLoginId(value.loginId));
             dispatch(setSignUpPassword(value.password));
           })
-          .catch(() => {
+          .catch((error) => {
             Portal.remove(toastKey);
             Toast.fail("아이디 중복 체크에 실패했습니다.", 1);
+            console.log(error);
           });
       }
     },

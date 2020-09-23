@@ -9,3 +9,6 @@ export const SIGN_UP =
 
 export const EMAIL_CHECK =
   "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signup/certificate";
+
+export const SEND_EMAIL_CODE =
+  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/member/signup/sendEmail";

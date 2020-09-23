@@ -12,19 +12,21 @@ import {
 import { useFormik } from "formik";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
-import { EMAIL_CHECK } from "./apiUrls";
+import { EMAIL_CHECK, SEND_EMAIL_CODE } from "./apiUrls";
 import { AuthStyles } from "modules/auth/base";
 import { setSignUpEmail } from "./redux/actions";
 import { getUserSignUpPayload } from "./redux/selectors";
 import { EmailCheckRequest } from "./redux/types";
 import { emailCheckRequestSchema } from "./schemas";
 import { useDispatch, useSelector } from "react-redux";
+import qs from "qs";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-
   const userSignUpPayload = useSelector(getUserSignUpPayload);
+
+  const [emailSent, setEmailSent] = React.useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,6 +36,26 @@ export default function PrimarySignUp() {
 
   const handleNextButtonClicked = () => {
     navigation.navigate("ThirdarySignUp");
+  };
+
+  const handleSendEmailCode = () => {
+    const toastKey = Toast.loading("인증 이메일 발송중...");
+    axios
+      .post(
+        SEND_EMAIL_CODE,
+        qs.stringify({
+          email: values.email,
+        })
+      )
+      .then(() => {
+        Portal.remove(toastKey);
+        setEmailSent(true);
+        Toast.success("인증 이메일 발송에 성공했습니다.", 1);
+      })
+      .catch(() => {
+        Portal.remove(toastKey);
+        Toast.fail("인증 이메일 발송에 실패했습니다.", 1);
+      });
   };
 
   const { values, errors, handleSubmit, handleChange } = useFormik<
@@ -75,25 +97,37 @@ export default function PrimarySignUp() {
               error={typeof errors.email !== "undefined"}
             />
             <WhiteSpace size="xl" />
-            <TextareaItem
-              onChangeText={handleChange("emailCheckCode")}
-              value={values.emailCheckCode}
-              textContentType="oneTimeCode"
-              placeholder="이메일 인증코드"
-              error={typeof errors.emailCheckCode !== "undefined"}
-            />
-            <WhiteSpace size="xl" />
-            {userSignUpPayload.email !== null ? (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleNextButtonClicked}
-              >
-                <Text style={AuthStyles.mainButtonText}>다음</Text>
+            {emailSent ? (
+              <Button style={AuthStyles.button} onPress={handleSendEmailCode}>
+                <Text style={AuthStyles.mainButtonText}>
+                  이메일 인증메일 발송
+                </Text>
               </Button>
             ) : (
-              <Button style={AuthStyles.button} onPress={handleSubmit}>
-                <Text style={AuthStyles.mainButtonText}>이메일 중복확인</Text>
-              </Button>
+              <>
+                <TextareaItem
+                  onChangeText={handleChange("emailCheckCode")}
+                  value={values.emailCheckCode}
+                  textContentType="oneTimeCode"
+                  placeholder="이메일 인증코드"
+                  error={typeof errors.emailCheckCode !== "undefined"}
+                />
+                <WhiteSpace size="xl" />
+                {userSignUpPayload.email !== null ? (
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleNextButtonClicked}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>다음</Text>
+                  </Button>
+                ) : (
+                  <Button style={AuthStyles.button} onPress={handleSubmit}>
+                    <Text style={AuthStyles.mainButtonText}>
+                      이메일 중복확인
+                    </Text>
+                  </Button>
+                )}
+              </>
             )}
           </View>
         </WingBlank>
