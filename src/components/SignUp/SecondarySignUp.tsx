@@ -100,7 +100,7 @@ export default function PrimarySignUp() {
               error={typeof errors.email !== "undefined"}
             />
             <WhiteSpace size="xl" />
-            {emailSent ? (
+            {!emailSent ? (
               <Button style={AuthStyles.button} onPress={handleSendEmailCode}>
                 <Text style={AuthStyles.mainButtonText}>
                   이메일 인증메일 발송
