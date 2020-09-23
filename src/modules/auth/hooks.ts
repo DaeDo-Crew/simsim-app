@@ -15,7 +15,6 @@ export function usePasswordConfirm(passwordValue: string) {
     } else {
       setPasswordConfirmError("");
     }
-    console.log(passwordConfirmError);
   }, [passwordValue, passwordConfirm]);
 
   const handlePasswordConfirmChange = (password: string) => {
