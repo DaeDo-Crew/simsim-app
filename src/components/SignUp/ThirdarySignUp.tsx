@@ -30,7 +30,7 @@ export default function PrimarySignUp() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "회원가입(3 of 3)",
+      headerTitle: null,
     });
   });
 
