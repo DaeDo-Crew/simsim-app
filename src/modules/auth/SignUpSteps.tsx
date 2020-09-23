@@ -5,9 +5,9 @@ import { Steps } from "@ant-design/react-native";
 const Step = Steps.Step;
 
 const SIGN_UP_STEPS = [
-  { title: "1 of 3", description: "첫번째" },
-  { title: "2 of 3", description: "두번째" },
-  { title: "3 of 3", description: "세번째" },
+  { title: "아이디 입력" },
+  { title: "이메일 입력" },
+  { title: "닉네임 입력" },
 ];
 
 export default function SignUpSteps({ currentStep }: { currentStep: number }) {
@@ -21,7 +21,6 @@ export default function SignUpSteps({ currentStep }: { currentStep: number }) {
               <Text>{item.title}</Text>
             </View>
           }
-          status={item.description}
         />
       ))}
     </Steps>
