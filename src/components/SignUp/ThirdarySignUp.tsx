@@ -19,6 +19,7 @@ import { getUserSignUpPayload } from "./redux/selectors";
 import { useDispatch, useSelector } from "react-redux";
 import { nicknameCheckRequestSchema } from "./schemas";
 import qs from "qs";
+import _ from "underscore";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -90,7 +91,7 @@ export default function PrimarySignUp() {
               error={typeof errors.nickname !== "undefined"}
             />
             <WhiteSpace size="xl" />
-            {userSignUpPayload.nickname !== null ? (
+            {_.isNull(userSignUpPayload) !== null ? (
               <Button
                 style={AuthStyles.button}
                 onPress={handleSignupButtonClicked}

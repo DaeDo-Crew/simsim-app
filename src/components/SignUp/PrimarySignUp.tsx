@@ -15,17 +15,18 @@ import axios from "axios";
 import { ID_CHECK } from "./apiUrls";
 import { AuthStyles } from "modules/auth/base";
 import { setSignUpLoginId, setSignUpPassword } from "./redux/actions";
-import { getUserSignUpPayload } from "./redux/selectors";
 import { IdCheckRequest } from "./redux/types";
 import { idCheckRequestSchema } from "./schemas";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { usePasswordConfirm } from "modules/auth/hooks";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const userSignUpPayload = useSelector(getUserSignUpPayload);
+  const [primarySignUpCompleted, setPrimarySignUpCompleted] = React.useState(
+    false
+  );
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -35,6 +36,8 @@ export default function PrimarySignUp() {
 
   const handleNextButtonClicked = () => {
     navigation.navigate("SecondarySignUp");
+    dispatch(setSignUpLoginId(values.loginId));
+    dispatch(setSignUpPassword(values.password));
   };
 
   const { values, errors, handleSubmit, handleChange } = useFormik<
@@ -56,13 +59,11 @@ export default function PrimarySignUp() {
           .then(() => {
             Portal.remove(toastKey);
             Toast.success("아이디 중복 체크에 성공했습니다.", 1);
-            dispatch(setSignUpLoginId(value.loginId));
-            dispatch(setSignUpPassword(value.password));
+            setPrimarySignUpCompleted(true);
           })
-          .catch((error) => {
+          .catch(() => {
             Portal.remove(toastKey);
             Toast.fail("아이디 중복 체크에 실패했습니다.", 1);
-            console.log(error);
           });
       }
     },
@@ -106,8 +107,7 @@ export default function PrimarySignUp() {
               error={passwordConfirmError !== ""}
             />
             <WhiteSpace size="xl" />
-            {userSignUpPayload.loginId !== null &&
-            userSignUpPayload.password !== null ? (
+            {primarySignUpCompleted ? (
               <Button
                 style={AuthStyles.button}
                 onPress={handleNextButtonClicked}
