@@ -19,6 +19,7 @@ import { IdCheckRequest } from "./redux/types";
 import { idCheckRequestSchema } from "./schemas";
 import { useDispatch } from "react-redux";
 import { usePasswordConfirm } from "modules/auth/hooks";
+import SignUpSteps from "modules/auth/SignUpSteps";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -80,6 +81,7 @@ export default function PrimarySignUp() {
     <AppLayout>
       <ScrollView>
         <WingBlank>
+          <SignUpSteps currentStep={0} />
           <View style={AuthStyles.container}>
             <TextareaItem
               onChangeText={handleChange("loginId")}

@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { nicknameCheckRequestSchema } from "./schemas";
 import qs from "qs";
 import _ from "underscore";
+import SignUpSteps from "modules/auth/SignUpSteps";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -82,6 +83,7 @@ export default function PrimarySignUp() {
     <AppLayout>
       <ScrollView>
         <WingBlank>
+          <SignUpSteps currentStep={2} />
           <View style={AuthStyles.container}>
             <TextareaItem
               onChangeText={handleChange("nickname")}

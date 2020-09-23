@@ -19,6 +19,7 @@ import { EmailCheckRequest } from "./redux/types";
 import { emailCheckRequestSchema } from "./schemas";
 import { useDispatch } from "react-redux";
 import qs from "qs";
+import SignUpSteps from "modules/auth/SignUpSteps";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -91,6 +92,7 @@ export default function PrimarySignUp() {
     <AppLayout>
       <ScrollView>
         <WingBlank>
+          <SignUpSteps currentStep={1} />
           <View style={AuthStyles.container}>
             <TextareaItem
               onChangeText={handleChange("email")}
