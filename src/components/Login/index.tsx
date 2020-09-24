@@ -115,7 +115,7 @@ export default function Login() {
                 onPress={handleFindPasswordButtonClicked}
                 style={AuthStyles.button}
               >
-                <Text style={AuthStyles.subButtonText}>비밀번호 찾기</Text>
+                <Text style={AuthStyles.subButtonText}>비밀번호 변경</Text>
               </Button>
             </View>
           </View>
