@@ -26,11 +26,11 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [emailSent, setEmailSent] = React.useState<boolean>();
+  const [emailSent, setEmailSent] = React.useState<boolean>(false);
   const [
     secondarySignUpCompleted,
     setSecondarySignUpCompleted,
-  ] = React.useState<boolean>();
+  ] = React.useState<boolean>(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
