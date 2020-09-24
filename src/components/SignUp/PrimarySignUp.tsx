@@ -31,7 +31,7 @@ export default function PrimarySignUp() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: null,
+      headerTitle: "회원가입",
     });
   });
 
