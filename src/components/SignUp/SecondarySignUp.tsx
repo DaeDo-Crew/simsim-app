@@ -20,22 +20,30 @@ import { emailCheckRequestSchema } from "./schemas";
 import { useDispatch } from "react-redux";
 import qs from "qs";
 import SignUpSteps from "modules/auth/SignUpSteps";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [emailSent, setEmailSent] = React.useState(false);
+  const [emailSent, setEmailSent] = React.useState<boolean>();
   const [
     secondarySignUpCompleted,
     setSecondarySignUpCompleted,
-  ] = React.useState(false);
+  ] = React.useState<boolean>();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "회원가입",
     });
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setSecondarySignUpCompleted(false);
+      setEmailSent(false);
+    }, [])
+  );
 
   const handleNextButtonClicked = () => {
     navigation.navigate("ThirdarySignUp");
@@ -56,9 +64,10 @@ export default function PrimarySignUp() {
         setEmailSent(true);
         Toast.success("인증 이메일 발송에 성공했습니다.", 1);
       })
-      .catch(() => {
+      .catch((error) => {
+        console.log(error.response.data);
         Portal.remove(toastKey);
-        Toast.fail("인증 이메일 발송에 실패했습니다.", 1);
+        Toast.fail(error.response.data, 1);
       });
   };
 

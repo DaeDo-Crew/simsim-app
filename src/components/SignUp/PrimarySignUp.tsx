@@ -21,20 +21,27 @@ import { useDispatch } from "react-redux";
 import { usePasswordConfirm } from "modules/auth/hooks";
 import SignUpSteps from "modules/auth/SignUpSteps";
 import qs from "qs";
+import { useFocusEffect } from "@react-navigation/native";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [primarySignUpCompleted, setPrimarySignUpCompleted] = React.useState(
-    false
-  );
+  const [primarySignUpCompleted, setPrimarySignUpCompleted] = React.useState<
+    boolean
+  >();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "회원가입",
     });
   });
+
+  useFocusEffect(
+    React.useCallback(() => {
+      setPrimarySignUpCompleted(false);
+    }, [])
+  );
 
   const handleNextButtonClicked = () => {
     navigation.navigate("SecondarySignUp");
