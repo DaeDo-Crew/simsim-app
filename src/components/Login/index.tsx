@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import AppLayout from "modules/AppLayout";
-import { StyleSheet, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import axios from "axios";
