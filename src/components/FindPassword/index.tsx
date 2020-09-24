@@ -98,7 +98,7 @@ export default function FindPassword() {
             <TextareaItem
               onChangeText={handlePasswordConfirmChange}
               value={passwordConfirm}
-              placeholder="비밀번호 확인"
+              placeholder="새로운 비밀번호 확인"
               textContentType="none"
               secureTextEntry={true}
               error={passwordConfirmError !== ""}
