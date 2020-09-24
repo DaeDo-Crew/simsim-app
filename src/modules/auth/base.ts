@@ -3,7 +3,7 @@ import theme from "theme";
 
 export const AuthStyles = StyleSheet.create({
   container: {
-    marginTop: 128,
+    marginTop: 64,
     justifyContent: "center",
   },
   button: {
