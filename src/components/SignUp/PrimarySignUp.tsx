@@ -122,11 +122,19 @@ export default function PrimarySignUp() {
               <Button
                 style={AuthStyles.button}
                 onPress={handleNextButtonClicked}
+                disabled={
+                  typeof errors.password !== "undefined" &&
+                  passwordConfirmError !== ""
+                }
               >
                 <Text style={AuthStyles.mainButtonText}>다음</Text>
               </Button>
             ) : (
-              <Button style={AuthStyles.button} onPress={handleSubmit}>
+              <Button
+                style={AuthStyles.button}
+                onPress={handleSubmit}
+                disabled={typeof errors.loginId !== "undefined"}
+              >
                 <Text style={AuthStyles.mainButtonText}>아이디 중복확인</Text>
               </Button>
             )}

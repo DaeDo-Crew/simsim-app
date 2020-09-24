@@ -111,7 +111,11 @@ export default function PrimarySignUp() {
             />
             <WhiteSpace size="xl" />
             {!emailSent ? (
-              <Button style={AuthStyles.button} onPress={handleSendEmailCode}>
+              <Button
+                style={AuthStyles.button}
+                onPress={handleSendEmailCode}
+                disabled={typeof errors.email !== "undefined"}
+              >
                 <Text style={AuthStyles.mainButtonText}>
                   이메일 인증메일 발송
                 </Text>
@@ -130,11 +134,22 @@ export default function PrimarySignUp() {
                   <Button
                     style={AuthStyles.button}
                     onPress={handleNextButtonClicked}
+                    disabled={
+                      typeof errors.email !== "undefined" &&
+                      typeof errors.emailCheckCode !== "undefined"
+                    }
                   >
                     <Text style={AuthStyles.mainButtonText}>다음</Text>
                   </Button>
                 ) : (
-                  <Button style={AuthStyles.button} onPress={handleSubmit}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleSubmit}
+                    disabled={
+                      typeof errors.email !== "undefined" &&
+                      typeof errors.emailCheckCode !== "undefined"
+                    }
+                  >
                     <Text style={AuthStyles.mainButtonText}>
                       이메일 중복확인
                     </Text>

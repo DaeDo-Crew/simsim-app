@@ -102,7 +102,11 @@ export default function PrimarySignUp() {
                 <Text style={AuthStyles.mainButtonText}>회원가입 완료</Text>
               </Button>
             ) : (
-              <Button style={AuthStyles.button} onPress={handleSubmit}>
+              <Button
+                style={AuthStyles.button}
+                onPress={handleSubmit}
+                disabled={typeof errors.nickname !== "undefined"}
+              >
                 <Text style={AuthStyles.mainButtonText}>닉네임 중복확인</Text>
               </Button>
             )}
