@@ -71,9 +71,9 @@ export default function PrimarySignUp() {
             Toast.success("아이디 중복 체크에 성공했습니다.", 1);
             setPrimarySignUpCompleted(true);
           })
-          .catch(() => {
+          .catch((error) => {
             Portal.remove(toastKey);
-            Toast.fail("아이디 중복 체크에 실패했습니다.", 1);
+            Toast.fail(error.response.data, 1);
           });
       }
     },

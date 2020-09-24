@@ -50,9 +50,9 @@ export default function PrimarySignUp() {
         Portal.remove(toastKey);
         Toast.success("회원가입에 성공했습니다.", 1);
       })
-      .catch(() => {
+      .catch((error) => {
         Portal.remove(toastKey);
-        Toast.fail("회원가입에 실패했습니다.", 1);
+        Toast.fail(error.response.data, 1);
       });
   };
 
@@ -73,9 +73,9 @@ export default function PrimarySignUp() {
           Toast.success("닉네임 중복 체크에 성공했습니다.", 1);
           dispatch(setSignUpNickname(value.nickname));
         })
-        .catch(() => {
+        .catch((error) => {
           Portal.remove(toastKey);
-          Toast.fail("닉네임 중복 체크에 실패했습니다.", 1);
+          Toast.fail(error.response.data, 1);
         });
     },
   });

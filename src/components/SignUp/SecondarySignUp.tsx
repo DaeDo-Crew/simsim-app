@@ -65,7 +65,6 @@ export default function PrimarySignUp() {
         Toast.success("인증 이메일 발송에 성공했습니다.", 1);
       })
       .catch((error) => {
-        console.log(error.response.data);
         Portal.remove(toastKey);
         Toast.fail(error.response.data, 1);
       });
@@ -90,9 +89,9 @@ export default function PrimarySignUp() {
           Toast.success("이메일 중복 체크에 성공했습니다.", 1);
           setSecondarySignUpCompleted(true);
         })
-        .catch(() => {
+        .catch((error) => {
           Portal.remove(toastKey);
-          Toast.fail("이메일 중복 체크에 실패했습니다.", 1);
+          Toast.fail(error.response.data, 1);
         });
     },
   });
