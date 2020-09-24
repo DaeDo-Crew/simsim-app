@@ -62,11 +62,12 @@ export default function PrimarySignUp() {
     onSubmit: (value) => {
       const toastKey = Toast.loading("닉네임 중복 체크 중...");
       axios
-        .get(NICKNAME_CHECK, {
-          params: {
+        .post(
+          NICKNAME_CHECK,
+          qs.stringify({
             nickname: value.nickname,
-          },
-        })
+          })
+        )
         .then(() => {
           Portal.remove(toastKey);
           Toast.success("닉네임 중복 체크에 성공했습니다.", 1);
@@ -98,7 +99,7 @@ export default function PrimarySignUp() {
                 style={AuthStyles.button}
                 onPress={handleSignupButtonClicked}
               >
-                <Text style={AuthStyles.mainButtonText}>완료</Text>
+                <Text style={AuthStyles.mainButtonText}>회원가입 완료</Text>
               </Button>
             ) : (
               <Button style={AuthStyles.button} onPress={handleSubmit}>

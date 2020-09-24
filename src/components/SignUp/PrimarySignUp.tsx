@@ -20,6 +20,7 @@ import { idCheckRequestSchema } from "./schemas";
 import { useDispatch } from "react-redux";
 import { usePasswordConfirm } from "modules/auth/hooks";
 import SignUpSteps from "modules/auth/SignUpSteps";
+import qs from "qs";
 
 export default function PrimarySignUp() {
   const navigation = useNavigation();
@@ -52,11 +53,12 @@ export default function PrimarySignUp() {
       } else {
         const toastKey = Toast.loading("아이디 중복 체크 중...");
         axios
-          .get<boolean>(ID_CHECK, {
-            params: {
+          .post<boolean>(
+            ID_CHECK,
+            qs.stringify({
               loginId: value.loginId,
-            },
-          })
+            })
+          )
           .then(() => {
             Portal.remove(toastKey);
             Toast.success("아이디 중복 체크에 성공했습니다.", 1);
