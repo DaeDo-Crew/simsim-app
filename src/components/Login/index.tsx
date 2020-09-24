@@ -92,13 +92,13 @@ export default function Login() {
             error={typeof errors.password !== "undefined"}
           />
           <WhiteSpace size="xl" />
-          <View style={LoginStyles.mainButtonContainer}>
+          <View style={AuthStyles.mainButtonContainer}>
             {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
             <Button onPress={handleSubmit as any} style={AuthStyles.button}>
               <Text style={AuthStyles.mainButtonText}>로그인</Text>
             </Button>
             <WhiteSpace size="xl" />
-            <View style={LoginStyles.subButtonContainer}>
+            <View style={AuthStyles.subButtonContainer}>
               <Button
                 onPress={handleSignupButtonClicked}
                 style={AuthStyles.button}
@@ -124,13 +124,3 @@ export default function Login() {
     </AppLayout>
   );
 }
-
-const LoginStyles = StyleSheet.create({
-  mainButtonContainer: {
-    alignItems: "center",
-  },
-  subButtonContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-  },
-});

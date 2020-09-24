@@ -6,6 +6,13 @@ export const AuthStyles = StyleSheet.create({
     marginTop: 64,
     justifyContent: "center",
   },
+  mainButtonContainer: {
+    alignItems: "center",
+  },
+  subButtonContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
   button: {
     borderWidth: 0,
   },

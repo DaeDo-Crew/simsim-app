@@ -99,17 +99,25 @@ export default function FindId() {
                   error={typeof errors.insert_code !== "undefined"}
                 />
                 <WhiteSpace size="xl" />
-                <Button style={AuthStyles.button} onPress={handleSubmit}>
-                  <Text style={AuthStyles.mainButtonText}>아이디 찾기</Text>
-                </Button>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button style={AuthStyles.button} onPress={handleSubmit}>
+                    <Text style={AuthStyles.mainButtonText}>아이디 찾기</Text>
+                  </Button>
+                </View>
               </>
             ) : (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleEmailCheckButtonClicked}
-              >
-                <Text style={AuthStyles.mainButtonText}>인증 이메일 발송</Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleEmailCheckButtonClicked}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>
+                      인증 이메일 발송
+                    </Text>
+                  </Button>
+                </View>
+              </>
             )}
           </View>
         </WingBlank>

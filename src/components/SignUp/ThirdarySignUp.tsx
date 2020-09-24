@@ -95,20 +95,30 @@ export default function PrimarySignUp() {
             />
             <WhiteSpace size="xl" />
             {_.isNull(userSignUpPayload) !== null ? (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleSignupButtonClicked}
-              >
-                <Text style={AuthStyles.mainButtonText}>회원가입 완료</Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleSignupButtonClicked}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>회원가입 완료</Text>
+                  </Button>
+                </View>
+              </>
             ) : (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleSubmit}
-                disabled={typeof errors.nickname !== "undefined"}
-              >
-                <Text style={AuthStyles.mainButtonText}>닉네임 중복확인</Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleSubmit}
+                    disabled={typeof errors.nickname !== "undefined"}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>
+                      닉네임 중복확인
+                    </Text>
+                  </Button>
+                </View>
+              </>
             )}
           </View>
         </WingBlank>
