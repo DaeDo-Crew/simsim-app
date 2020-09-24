@@ -26,11 +26,11 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [emailSent, setEmailSent] = React.useState<boolean>();
+  const [emailSent, setEmailSent] = React.useState<boolean>(false);
   const [
     secondarySignUpCompleted,
     setSecondarySignUpCompleted,
-  ] = React.useState<boolean>();
+  ] = React.useState<boolean>(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -111,15 +111,19 @@ export default function PrimarySignUp() {
             />
             <WhiteSpace size="xl" />
             {!emailSent ? (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleSendEmailCode}
-                disabled={typeof errors.email !== "undefined"}
-              >
-                <Text style={AuthStyles.mainButtonText}>
-                  이메일 인증메일 발송
-                </Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleSendEmailCode}
+                    disabled={typeof errors.email !== "undefined"}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>
+                      이메일 인증메일 발송
+                    </Text>
+                  </Button>
+                </View>
+              </>
             ) : (
               <>
                 <TextareaItem
@@ -131,29 +135,37 @@ export default function PrimarySignUp() {
                 />
                 <WhiteSpace size="xl" />
                 {secondarySignUpCompleted ? (
-                  <Button
-                    style={AuthStyles.button}
-                    onPress={handleNextButtonClicked}
-                    disabled={
-                      typeof errors.email !== "undefined" &&
-                      typeof errors.emailCheckCode !== "undefined"
-                    }
-                  >
-                    <Text style={AuthStyles.mainButtonText}>다음</Text>
-                  </Button>
+                  <>
+                    <View style={AuthStyles.mainButtonContainer}>
+                      <Button
+                        style={AuthStyles.button}
+                        onPress={handleNextButtonClicked}
+                        disabled={
+                          typeof errors.email !== "undefined" &&
+                          typeof errors.emailCheckCode !== "undefined"
+                        }
+                      >
+                        <Text style={AuthStyles.mainButtonText}>다음</Text>
+                      </Button>
+                    </View>
+                  </>
                 ) : (
-                  <Button
-                    style={AuthStyles.button}
-                    onPress={handleSubmit}
-                    disabled={
-                      typeof errors.email !== "undefined" &&
-                      typeof errors.emailCheckCode !== "undefined"
-                    }
-                  >
-                    <Text style={AuthStyles.mainButtonText}>
-                      이메일 중복확인
-                    </Text>
-                  </Button>
+                  <>
+                    <View style={AuthStyles.mainButtonContainer}>
+                      <Button
+                        style={AuthStyles.button}
+                        onPress={handleSubmit}
+                        disabled={
+                          typeof errors.email !== "undefined" &&
+                          typeof errors.emailCheckCode !== "undefined"
+                        }
+                      >
+                        <Text style={AuthStyles.mainButtonText}>
+                          이메일 중복확인
+                        </Text>
+                      </Button>
+                    </View>
+                  </>
                 )}
               </>
             )}

@@ -119,24 +119,34 @@ export default function PrimarySignUp() {
             />
             <WhiteSpace size="xl" />
             {primarySignUpCompleted ? (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleNextButtonClicked}
-                disabled={
-                  typeof errors.password !== "undefined" &&
-                  passwordConfirmError !== ""
-                }
-              >
-                <Text style={AuthStyles.mainButtonText}>다음</Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleNextButtonClicked}
+                    disabled={
+                      typeof errors.password !== "undefined" &&
+                      passwordConfirmError !== ""
+                    }
+                  >
+                    <Text style={AuthStyles.mainButtonText}>다음</Text>
+                  </Button>
+                </View>
+              </>
             ) : (
-              <Button
-                style={AuthStyles.button}
-                onPress={handleSubmit}
-                disabled={typeof errors.loginId !== "undefined"}
-              >
-                <Text style={AuthStyles.mainButtonText}>아이디 중복확인</Text>
-              </Button>
+              <>
+                <View style={AuthStyles.mainButtonContainer}>
+                  <Button
+                    style={AuthStyles.button}
+                    onPress={handleSubmit}
+                    disabled={typeof errors.loginId !== "undefined"}
+                  >
+                    <Text style={AuthStyles.mainButtonText}>
+                      아이디 중복확인
+                    </Text>
+                  </Button>
+                </View>
+              </>
             )}
           </View>
         </WingBlank>
