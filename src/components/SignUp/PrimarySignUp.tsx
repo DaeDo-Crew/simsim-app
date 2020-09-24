@@ -113,7 +113,7 @@ export default function PrimarySignUp() {
               onChangeText={handlePasswordConfirmChange}
               value={passwordConfirm}
               placeholder="비밀번호 확인"
-              textContentType="newPassword"
+              textContentType="none"
               secureTextEntry={true}
               error={passwordConfirmError !== ""}
             />
