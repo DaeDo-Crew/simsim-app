@@ -7,6 +7,8 @@ import Login from "components/Login";
 import PrimarySignUp from "components/SignUp/PrimarySignUp";
 import SecondarySignUp from "components/SignUp/SecondarySignUp";
 import ThirdarySignUp from "components/SignUp/ThirdarySignUp";
+import FindId from "components/FindId";
+import FindPassword from "components/FindPassword";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -55,6 +57,8 @@ export default function RootNavigator() {
               name="ThirdarySignUp"
               component={ThirdarySignUp}
             />
+            <RootStack.Screen name="FindId" component={FindId} />
+            <RootStack.Screen name="FindPassword" component={FindPassword} />
           </>
         )}
       </RootStack.Navigator>

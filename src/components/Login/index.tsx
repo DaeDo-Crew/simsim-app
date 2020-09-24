@@ -63,6 +63,14 @@ export default function Login() {
     navigation.navigate("PrimarySignUp");
   };
 
+  const handleFindIDButtonClicked = () => {
+    navigation.navigate("FindId");
+  };
+
+  const handleFindPasswordButtonClicked = () => {
+    navigation.navigate("FindPassword");
+  };
+
   return (
     <AppLayout>
       <WingBlank>
@@ -98,13 +106,13 @@ export default function Login() {
                 <Text style={AuthStyles.subButtonText}>회원가입</Text>
               </Button>
               <Button
-                onPress={handleSignupButtonClicked}
+                onPress={handleFindIDButtonClicked}
                 style={AuthStyles.button}
               >
                 <Text style={AuthStyles.subButtonText}>아이디 찾기</Text>
               </Button>
               <Button
-                onPress={handleSignupButtonClicked}
+                onPress={handleFindPasswordButtonClicked}
                 style={AuthStyles.button}
               >
                 <Text style={AuthStyles.subButtonText}>비밀번호 찾기</Text>
