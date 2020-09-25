@@ -4,8 +4,6 @@ import { ScrollView, View, Text } from "react-native";
 import {
   TextareaItem,
   Button,
-  Toast,
-  Portal,
   WingBlank,
   WhiteSpace,
 } from "@ant-design/react-native";
@@ -26,6 +24,8 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // TODO: 아래 삭제 하고 관련 에러메시지는 react-native-paper의 toast로 처리
+  const [tempErrorMessage, setTempErrorMessage] = React.useState<string>();
   const [emailSent, setEmailSent] = React.useState<boolean>(false);
   const [
     secondarySignUpCompleted,
@@ -51,7 +51,6 @@ export default function PrimarySignUp() {
   };
 
   const handleSendEmailCode = async () => {
-    const toastKey = Toast.loading("인증 이메일 발송중...");
     await axios
       .post(
         SEND_EMAIL_CODE,
@@ -60,14 +59,10 @@ export default function PrimarySignUp() {
         })
       )
       .then(() => {
-        Portal.remove(toastKey);
         setEmailSent(true);
-        Toast.success("인증 이메일 발송에 성공했습니다.", 1);
       })
       .catch((error) => {
-        console.log(error);
-        Portal.remove(toastKey);
-        Toast.fail(error.response.data, 1);
+        setTempErrorMessage(error.response.data);
       });
   };
 
@@ -77,22 +72,19 @@ export default function PrimarySignUp() {
     initialValues: { email: "", emailCheckCode: "" },
     validationSchema: emailCheckRequestSchema,
     onSubmit: async (value) => {
-      const toastKey = Toast.loading("이메일 중복 체크 중...");
       await axios
-        .get(EMAIL_CHECK, {
-          params: {
-            insert_email: value.email,
+        .post(
+          EMAIL_CHECK,
+          qs.stringify({
             insert_code: value.emailCheckCode,
-          },
-        })
+            insert_email: value.email,
+          })
+        )
         .then(() => {
-          Portal.remove(toastKey);
-          Toast.success("이메일 중복 체크에 성공했습니다.", 1);
           setSecondarySignUpCompleted(true);
         })
         .catch((error) => {
-          Portal.remove(toastKey);
-          Toast.fail(error.response.data, 1);
+          setTempErrorMessage(error.response.data);
         });
     },
   });
@@ -103,6 +95,11 @@ export default function PrimarySignUp() {
         <WingBlank>
           <SignUpSteps currentStep={1} />
           <View style={AuthStyles.container}>
+            {tempErrorMessage && (
+              <Text style={AuthStyles.mainButtonText}>
+                {`rnPaper로 변경하면 없앨거임: ${tempErrorMessage}`}
+              </Text>
+            )}
             <TextareaItem
               onChangeText={handleChange("email")}
               value={values.email}
