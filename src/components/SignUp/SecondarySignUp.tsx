@@ -4,8 +4,6 @@ import { ScrollView, View, Text } from "react-native";
 import {
   TextareaItem,
   Button,
-  Toast,
-  Portal,
   WingBlank,
   WhiteSpace,
 } from "@ant-design/react-native";
@@ -26,6 +24,8 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // TODO: 아래 삭제 하고 관련 에러메시지는 react-native-paper의 toast로 처리
+  const [tempErrorMessage, setTempErrorMessage] = React.useState<string>();
   const [emailSent, setEmailSent] = React.useState<boolean>(false);
   const [
     secondarySignUpCompleted,
@@ -50,9 +50,8 @@ export default function PrimarySignUp() {
     dispatch(setSignUpEmail(values.email));
   };
 
-  const handleSendEmailCode = () => {
-    const toastKey = Toast.loading("인증 이메일 발송중...");
-    axios
+  const handleSendEmailCode = async () => {
+    await axios
       .post(
         SEND_EMAIL_CODE,
         qs.stringify({
@@ -60,13 +59,10 @@ export default function PrimarySignUp() {
         })
       )
       .then(() => {
-        Portal.remove(toastKey);
         setEmailSent(true);
-        Toast.success("인증 이메일 발송에 성공했습니다.", 1);
       })
       .catch((error) => {
-        Portal.remove(toastKey);
-        Toast.fail(error.response.data, 1);
+        setTempErrorMessage(error.response.data);
       });
   };
 
@@ -75,23 +71,20 @@ export default function PrimarySignUp() {
   >({
     initialValues: { email: "", emailCheckCode: "" },
     validationSchema: emailCheckRequestSchema,
-    onSubmit: (value) => {
-      const toastKey = Toast.loading("이메일 중복 체크 중...");
-      axios
-        .get(EMAIL_CHECK, {
-          params: {
-            insert_email: value.email,
+    onSubmit: async (value) => {
+      await axios
+        .post(
+          EMAIL_CHECK,
+          qs.stringify({
             insert_code: value.emailCheckCode,
-          },
-        })
+            insert_email: value.email,
+          })
+        )
         .then(() => {
-          Portal.remove(toastKey);
-          Toast.success("이메일 중복 체크에 성공했습니다.", 1);
           setSecondarySignUpCompleted(true);
         })
         .catch((error) => {
-          Portal.remove(toastKey);
-          Toast.fail(error.response.data, 1);
+          setTempErrorMessage(error.response.data);
         });
     },
   });
@@ -102,6 +95,11 @@ export default function PrimarySignUp() {
         <WingBlank>
           <SignUpSteps currentStep={1} />
           <View style={AuthStyles.container}>
+            {tempErrorMessage && (
+              <Text style={AuthStyles.mainButtonText}>
+                {`rnPaper로 변경하면 없앨거임: ${tempErrorMessage}`}
+              </Text>
+            )}
             <TextareaItem
               onChangeText={handleChange("email")}
               value={values.email}
@@ -110,65 +108,75 @@ export default function PrimarySignUp() {
               error={typeof errors.email !== "undefined"}
             />
             <WhiteSpace size="xl" />
-            {!emailSent ? (
-              <>
-                <View style={AuthStyles.mainButtonContainer}>
-                  <Button
-                    style={AuthStyles.button}
-                    onPress={handleSendEmailCode}
-                    disabled={typeof errors.email !== "undefined"}
-                  >
-                    <Text style={AuthStyles.mainButtonText}>
-                      이메일 인증메일 발송
-                    </Text>
-                  </Button>
-                </View>
-              </>
-            ) : (
-              <>
-                <TextareaItem
-                  onChangeText={handleChange("emailCheckCode")}
-                  value={values.emailCheckCode}
-                  textContentType="oneTimeCode"
-                  placeholder="이메일 인증코드"
-                  error={typeof errors.emailCheckCode !== "undefined"}
-                />
-                <WhiteSpace size="xl" />
-                {secondarySignUpCompleted ? (
-                  <>
-                    <View style={AuthStyles.mainButtonContainer}>
-                      <Button
-                        style={AuthStyles.button}
-                        onPress={handleNextButtonClicked}
-                        disabled={
-                          typeof errors.email !== "undefined" &&
-                          typeof errors.emailCheckCode !== "undefined"
-                        }
-                      >
-                        <Text style={AuthStyles.mainButtonText}>다음</Text>
-                      </Button>
-                    </View>
-                  </>
-                ) : (
-                  <>
-                    <View style={AuthStyles.mainButtonContainer}>
-                      <Button
-                        style={AuthStyles.button}
-                        onPress={handleSubmit}
-                        disabled={
-                          typeof errors.email !== "undefined" &&
-                          typeof errors.emailCheckCode !== "undefined"
-                        }
-                      >
-                        <Text style={AuthStyles.mainButtonText}>
-                          이메일 중복확인
-                        </Text>
-                      </Button>
-                    </View>
-                  </>
-                )}
-              </>
-            )}
+            {(() => {
+              if (!emailSent) {
+                return (
+                  <View style={AuthStyles.mainButtonContainer}>
+                    <Button
+                      style={AuthStyles.button}
+                      onPress={handleSendEmailCode}
+                      disabled={typeof errors.email !== "undefined"}
+                    >
+                      <Text style={AuthStyles.mainButtonText}>
+                        이메일 인증메일 발송
+                      </Text>
+                    </Button>
+                  </View>
+                );
+              } else {
+                if (secondarySignUpCompleted) {
+                  return (
+                    <>
+                      <TextareaItem
+                        onChangeText={handleChange("emailCheckCode")}
+                        value={values.emailCheckCode}
+                        textContentType="oneTimeCode"
+                        placeholder="이메일 인증코드"
+                        error={typeof errors.emailCheckCode !== "undefined"}
+                      />
+                      <View style={AuthStyles.mainButtonContainer}>
+                        <Button
+                          style={AuthStyles.button}
+                          onPress={handleNextButtonClicked}
+                          disabled={
+                            typeof errors.email !== "undefined" &&
+                            typeof errors.emailCheckCode !== "undefined"
+                          }
+                        >
+                          <Text style={AuthStyles.mainButtonText}>다음</Text>
+                        </Button>
+                      </View>
+                    </>
+                  );
+                } else {
+                  return (
+                    <>
+                      <TextareaItem
+                        onChangeText={handleChange("emailCheckCode")}
+                        value={values.emailCheckCode}
+                        textContentType="oneTimeCode"
+                        placeholder="이메일 인증코드"
+                        error={typeof errors.emailCheckCode !== "undefined"}
+                      />
+                      <View style={AuthStyles.mainButtonContainer}>
+                        <Button
+                          style={AuthStyles.button}
+                          onPress={handleSubmit}
+                          disabled={
+                            typeof errors.email !== "undefined" &&
+                            typeof errors.emailCheckCode !== "undefined"
+                          }
+                        >
+                          <Text style={AuthStyles.mainButtonText}>
+                            이메일 중복확인
+                          </Text>
+                        </Button>
+                      </View>
+                    </>
+                  );
+                }
+              }
+            })()}
           </View>
         </WingBlank>
       </ScrollView>

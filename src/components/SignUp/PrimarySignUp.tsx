@@ -54,12 +54,12 @@ export default function PrimarySignUp() {
   >({
     initialValues: { loginId: "", password: "" },
     validationSchema: idCheckRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       if (!validatePasswordConfirm()) {
         Toast.fail("비밀번호와 비밀번호 확인이 일치하지 않습니다.", 1);
       } else {
         const toastKey = Toast.loading("아이디 중복 체크 중...");
-        axios
+        await axios
           .post<boolean>(
             ID_CHECK,
             qs.stringify({

@@ -4,8 +4,6 @@ import { ScrollView, View, Text } from "react-native";
 import {
   TextareaItem,
   Button,
-  Toast,
-  Portal,
   WingBlank,
   WhiteSpace,
 } from "@ant-design/react-native";
@@ -26,6 +24,11 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
+  // TODO: 아래 삭제 하고 관련 에러메시지는 react-native-paper의 toast로 처리
+  const [tempErrorMessage, setTempErrorMessage] = React.useState<string>();
+  const [nickNameVerified, setNickNameVerified] = React.useState<boolean>(
+    false
+  );
   const userSignUpPayload = useSelector(getUserSignUpPayload);
 
   React.useLayoutEffect(() => {
@@ -34,9 +37,8 @@ export default function PrimarySignUp() {
     });
   });
 
-  const handleSignupButtonClicked = () => {
-    const toastKey = Toast.loading("회원가입 중...");
-    axios
+  const handleSignupButtonClicked = async () => {
+    await axios
       .post(
         SIGN_UP,
         qs.stringify({
@@ -46,22 +48,16 @@ export default function PrimarySignUp() {
           nickname: userSignUpPayload.nickname,
         })
       )
-      .then(() => {
-        Portal.remove(toastKey);
-        Toast.success("회원가입에 성공했습니다.", 1);
-      })
       .catch((error) => {
-        Portal.remove(toastKey);
-        Toast.fail(error.response.data, 1);
+        setTempErrorMessage(error.response.data);
       });
   };
 
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: { nickname: "" },
     validationSchema: nicknameCheckRequestSchema,
-    onSubmit: (value) => {
-      const toastKey = Toast.loading("닉네임 중복 체크 중...");
-      axios
+    onSubmit: async (value) => {
+      await axios
         .post(
           NICKNAME_CHECK,
           qs.stringify({
@@ -69,13 +65,11 @@ export default function PrimarySignUp() {
           })
         )
         .then(() => {
-          Portal.remove(toastKey);
-          Toast.success("닉네임 중복 체크에 성공했습니다.", 1);
           dispatch(setSignUpNickname(value.nickname));
+          setNickNameVerified(true);
         })
         .catch((error) => {
-          Portal.remove(toastKey);
-          Toast.fail(error.response.data, 1);
+          setTempErrorMessage(error.response.data);
         });
     },
   });
@@ -86,6 +80,11 @@ export default function PrimarySignUp() {
         <WingBlank>
           <SignUpSteps currentStep={2} />
           <View style={AuthStyles.container}>
+            {tempErrorMessage && (
+              <Text style={AuthStyles.mainButtonText}>
+                {`rnPaper로 변경하면 없앨거임: ${tempErrorMessage}`}
+              </Text>
+            )}
             <TextareaItem
               onChangeText={handleChange("nickname")}
               value={values.nickname}
@@ -94,7 +93,7 @@ export default function PrimarySignUp() {
               error={typeof errors.nickname !== "undefined"}
             />
             <WhiteSpace size="xl" />
-            {_.isNull(userSignUpPayload) !== null ? (
+            {nickNameVerified ? (
               <>
                 <View style={AuthStyles.mainButtonContainer}>
                   <Button

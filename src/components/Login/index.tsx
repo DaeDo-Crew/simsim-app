@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import AppLayout from "modules/AppLayout";
-import { StyleSheet, View, Text } from "react-native";
+import { View, Text } from "react-native";
 import { TextareaItem } from "@ant-design/react-native";
 import { useFormik } from "formik";
 import axios from "axios";
@@ -34,9 +34,9 @@ export default function Login() {
   >({
     initialValues: { id: "", password: "" },
     validationSchema: loginRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       const toastKey = Toast.loading("로그인 하는 중...");
-      axios
+      await axios
         .get<LoginResponse>(LOGIN_URL, {
           params: {
             loginId: value.id,
