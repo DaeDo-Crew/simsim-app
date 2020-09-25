@@ -34,9 +34,9 @@ export default function PrimarySignUp() {
     });
   });
 
-  const handleSignupButtonClicked = () => {
+  const handleSignupButtonClicked = async () => {
     const toastKey = Toast.loading("회원가입 중...");
-    axios
+    await axios
       .post(
         SIGN_UP,
         qs.stringify({
@@ -59,9 +59,9 @@ export default function PrimarySignUp() {
   const { values, errors, handleSubmit, handleChange } = useFormik({
     initialValues: { nickname: "" },
     validationSchema: nicknameCheckRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       const toastKey = Toast.loading("닉네임 중복 체크 중...");
-      axios
+      await axios
         .post(
           NICKNAME_CHECK,
           qs.stringify({

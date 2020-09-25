@@ -50,9 +50,9 @@ export default function PrimarySignUp() {
     dispatch(setSignUpEmail(values.email));
   };
 
-  const handleSendEmailCode = () => {
+  const handleSendEmailCode = async () => {
     const toastKey = Toast.loading("인증 이메일 발송중...");
-    axios
+    await axios
       .post(
         SEND_EMAIL_CODE,
         qs.stringify({
@@ -75,9 +75,9 @@ export default function PrimarySignUp() {
   >({
     initialValues: { email: "", emailCheckCode: "" },
     validationSchema: emailCheckRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       const toastKey = Toast.loading("이메일 중복 체크 중...");
-      axios
+      await axios
         .get(EMAIL_CHECK, {
           params: {
             insert_email: value.email,

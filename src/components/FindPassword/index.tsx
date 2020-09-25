@@ -33,12 +33,12 @@ export default function FindPassword() {
   >({
     initialValues: { email: "", loginId: "", newqw: "" },
     validationSchema: findPwRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       if (!validatePasswordConfirm()) {
         Toast.fail("비밀번호와 비밀번호 확인이 일치하지 않습니다.", 1);
       } else {
         const toastKey = Toast.loading("비밀번호 변경 중...");
-        axios
+        await axios
           .post<boolean>(
             FIND_PW,
             qs.stringify({

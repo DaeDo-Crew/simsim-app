@@ -30,9 +30,9 @@ export default function FindId() {
     });
   });
 
-  const handleEmailCheckButtonClicked = () => {
+  const handleEmailCheckButtonClicked = async () => {
     const toastKey = Toast.loading("이메일 전송 중...");
-    axios
+    await axios
       .post<boolean>(
         EMAIL_CHECK_FIND_ID,
         qs.stringify({
@@ -55,9 +55,9 @@ export default function FindId() {
   >({
     initialValues: { insert_code: "", insert_email: "" },
     validationSchema: findIdRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       const toastKey = Toast.loading("아이디 찾는 중...");
-      axios
+      await axios
         .post<boolean>(
           FIND_ID,
           qs.stringify({

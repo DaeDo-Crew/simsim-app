@@ -34,9 +34,9 @@ export default function Login() {
   >({
     initialValues: { id: "", password: "" },
     validationSchema: loginRequestSchema,
-    onSubmit: (value) => {
+    onSubmit: async (value) => {
       const toastKey = Toast.loading("로그인 하는 중...");
-      axios
+      await axios
         .get<LoginResponse>(LOGIN_URL, {
           params: {
             loginId: value.id,
