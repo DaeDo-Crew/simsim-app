@@ -1,6 +1,6 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Alert } from "react-native";
 import {
   TextareaItem,
   Button,
@@ -24,8 +24,6 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // TODO: 아래 삭제 하고 관련 에러메시지는 react-native-paper의 toast로 처리
-  const [tempErrorMessage, setTempErrorMessage] = React.useState<string>();
   const [nickNameVerified, setNickNameVerified] = React.useState<boolean>(
     false
   );
@@ -49,7 +47,19 @@ export default function PrimarySignUp() {
         })
       )
       .catch((error) => {
-        setTempErrorMessage(error.response.data);
+        if (error.response.data) {
+          Alert.alert("다시 시도해주세요", error.response.data, [
+            {
+              text: "확인",
+            },
+          ]);
+        } else {
+          Alert.alert("다시 시도해주세요", "", [
+            {
+              text: "확인",
+            },
+          ]);
+        }
       });
   };
 
@@ -69,7 +79,19 @@ export default function PrimarySignUp() {
           setNickNameVerified(true);
         })
         .catch((error) => {
-          setTempErrorMessage(error.response.data);
+          if (error.response.data) {
+            Alert.alert("다시 시도해주세요", error.response.data, [
+              {
+                text: "확인",
+              },
+            ]);
+          } else {
+            Alert.alert("다시 시도해주세요", "", [
+              {
+                text: "확인",
+              },
+            ]);
+          }
         });
     },
   });
@@ -80,11 +102,6 @@ export default function PrimarySignUp() {
         <WingBlank>
           <SignUpSteps currentStep={2} />
           <View style={AuthStyles.container}>
-            {tempErrorMessage && (
-              <Text style={AuthStyles.mainButtonText}>
-                {`rnPaper로 변경하면 없앨거임: ${tempErrorMessage}`}
-              </Text>
-            )}
             <TextareaItem
               onChangeText={handleChange("nickname")}
               value={values.nickname}

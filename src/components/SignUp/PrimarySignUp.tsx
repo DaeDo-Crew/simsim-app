@@ -1,11 +1,9 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Alert } from "react-native";
 import {
   TextareaItem,
   Button,
-  Toast,
-  Portal,
   WingBlank,
   WhiteSpace,
 } from "@ant-design/react-native";
@@ -56,9 +54,12 @@ export default function PrimarySignUp() {
     validationSchema: idCheckRequestSchema,
     onSubmit: async (value) => {
       if (!validatePasswordConfirm()) {
-        Toast.fail("비밀번호와 비밀번호 확인이 일치하지 않습니다.", 1);
+        Alert.alert("비밀번호와 비밀번호 확인이 일치하지 않습니다.", "", [
+          {
+            text: "확인",
+          },
+        ]);
       } else {
-        const toastKey = Toast.loading("아이디 중복 체크 중...");
         await axios
           .post<boolean>(
             ID_CHECK,
@@ -67,13 +68,22 @@ export default function PrimarySignUp() {
             })
           )
           .then(() => {
-            Portal.remove(toastKey);
-            Toast.success("아이디 중복 체크에 성공했습니다.", 1);
             setPrimarySignUpCompleted(true);
           })
           .catch((error) => {
-            Portal.remove(toastKey);
-            Toast.fail(error.response.data, 1);
+            if (error.response.data) {
+              Alert.alert("다시 시도해주세요", error.response.data, [
+                {
+                  text: "확인",
+                },
+              ]);
+            } else {
+              Alert.alert("다시 시도해주세요", "", [
+                {
+                  text: "확인",
+                },
+              ]);
+            }
           });
       }
     },

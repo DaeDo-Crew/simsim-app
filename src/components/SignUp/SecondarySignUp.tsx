@@ -1,6 +1,6 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
-import { ScrollView, View, Text } from "react-native";
+import { ScrollView, View, Text, Alert } from "react-native";
 import {
   TextareaItem,
   Button,
@@ -24,8 +24,6 @@ export default function PrimarySignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  // TODO: 아래 삭제 하고 관련 에러메시지는 react-native-paper의 toast로 처리
-  const [tempErrorMessage, setTempErrorMessage] = React.useState<string>();
   const [emailSent, setEmailSent] = React.useState<boolean>(false);
   const [
     secondarySignUpCompleted,
@@ -62,7 +60,19 @@ export default function PrimarySignUp() {
         setEmailSent(true);
       })
       .catch((error) => {
-        setTempErrorMessage(error.response.data);
+        if (error.response.data) {
+          Alert.alert("다시 시도해주세요", error.response.data, [
+            {
+              text: "확인",
+            },
+          ]);
+        } else {
+          Alert.alert("다시 시도해주세요", "", [
+            {
+              text: "확인",
+            },
+          ]);
+        }
       });
   };
 
@@ -84,7 +94,19 @@ export default function PrimarySignUp() {
           setSecondarySignUpCompleted(true);
         })
         .catch((error) => {
-          setTempErrorMessage(error.response.data);
+          if (error.response.data) {
+            Alert.alert(error.response.data, "다시 시도해주세요", [
+              {
+                text: "확인",
+              },
+            ]);
+          } else {
+            Alert.alert("다시 시도해주세요", undefined, [
+              {
+                text: "확인",
+              },
+            ]);
+          }
         });
     },
   });
@@ -95,11 +117,6 @@ export default function PrimarySignUp() {
         <WingBlank>
           <SignUpSteps currentStep={1} />
           <View style={AuthStyles.container}>
-            {tempErrorMessage && (
-              <Text style={AuthStyles.mainButtonText}>
-                {`rnPaper로 변경하면 없앨거임: ${tempErrorMessage}`}
-              </Text>
-            )}
             <TextareaItem
               onChangeText={handleChange("email")}
               value={values.email}
@@ -115,7 +132,10 @@ export default function PrimarySignUp() {
                     <Button
                       style={AuthStyles.button}
                       onPress={handleSendEmailCode}
-                      disabled={typeof errors.email !== "undefined"}
+                      disabled={
+                        typeof errors.email !== "undefined" &&
+                        values.email !== ""
+                      }
                     >
                       <Text style={AuthStyles.mainButtonText}>
                         이메일 인증메일 발송
