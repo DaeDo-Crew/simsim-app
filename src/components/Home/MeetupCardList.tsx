@@ -16,36 +16,36 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "./redux/actions";
 import { getMeetUpList } from './redux/selectors';
 
-const DATA: MeetupCard[] = [
-  {
-    id: "1",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-7",
-  },
-  {
-    id: "2",
-    title: "일일 댄스 클래스",
-    communityName: "아발론",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-6",
-  },
-  {
-    id: "3",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
-    dueDay: "D-7",
-  },
-  {
-    id: "4",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-7",
-  },
-];
+// const DATA: MeetupCard[] = [
+//   {
+//     id: "1",
+//     title: "일일 댄스 클래스",
+//     communityName: "RAH",
+//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
+//     dueDay: "D-7",
+//   },
+//   {
+//     id: "2",
+//     title: "일일 댄스 클래스",
+//     communityName: "아발론",
+//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
+//     dueDay: "D-6",
+//   },
+//   {
+//     id: "3",
+//     title: "일일 댄스 클래스",
+//     communityName: "RAH",
+//     imageSource: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
+//     dueDay: "D-7",
+//   },
+//   {
+//     id: "4",
+//     title: "일일 댄스 클래스",
+//     communityName: "RAH",
+//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
+//     dueDay: "D-7",
+//   },
+// ];
 
 function MeetupCardListHeader() {
   return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
@@ -65,14 +65,14 @@ export default function MeetupCardList() {
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={styles.meetupCardItemContainer}>
           <Image
-            source={{ uri: item.imageSource, width: 150, height: 150 }}
+            source={{ uri: item.imgUrlList[0], width: 150, height: 150 }}
             style={styles.meetupCardImage}
           />
           <View style={styles.meetupCardItemInfoContainer}>
-            <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
+            <Text style={styles.meetupCardItemTitle}>{item.meetingName}</Text>
             <View style={styles.meetupCardItemSubInfoContainer}>
-              <Text>{item.communityName}</Text>
-              <Text>{item.dueDay}</Text>
+              <Text>{item.clubName}</Text>
+              <Text>{item.deadline}</Text>
             </View>
           </View>
         </View>
@@ -101,19 +101,17 @@ export default function MeetupCardList() {
         
       });
     }
-      
-    
   }, [])
 
   return (
     <View style={styles.meetupCardListContainer}>
       <MeetupCardListHeader />
       <FlatList
-        data={DATA}
+        data={meetUpList}
         renderItem={MeetupCardItem}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.meetingId)}
       />
     </View>
   );

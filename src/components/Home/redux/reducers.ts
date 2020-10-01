@@ -10,7 +10,7 @@ const reducer = combineReducers({
       return action.payload;
     }
   ),
-  meetUpList: createReducer<MeetupCard | null>(null).handleAction(
+  meetUpList: createReducer<MeetupCard[] | null>(null).handleAction(
     setMeetUpList,
     (_state, action) => {
       return action.payload;

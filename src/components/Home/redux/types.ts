@@ -1,7 +1,7 @@
 export type MeetupCard = {
-  id: string;
-  title: string;
-  communityName: string;
-  imageSource: string;
-  dueDay: string;
+  meetingId: number;
+  meetingName: string;
+  clubName: string;
+  imgUrlList: string[];
+  deadline: string;
 };
