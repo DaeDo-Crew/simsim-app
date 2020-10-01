@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "./redux/actions";
 import { getMeetUpList } from './redux/selectors';
+import { MEEING_LIST_URL } from './apiUrls'
 
 // const DATA: MeetupCard[] = [
 //   {
@@ -82,10 +83,9 @@ export default function MeetupCardList() {
 
   React.useEffect(() => {
     console.log(token)
-    console.log('앙부름띄 할시 모임 불러옴');
     if(token !== null) {
       axios
-      .get("http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/meeting/readAll", {
+      .get( MEEING_LIST_URL , {
         headers: { 
           "Authorization" : token.accessToken
         },

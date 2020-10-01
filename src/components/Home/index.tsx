@@ -10,6 +10,8 @@ import { setUserLogout } from "components/Login/redux/actions";
 import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
 import { LOGOUT_URL } from "./apiUrls";
+import qs from "qs";
+
 
 const CATEGORY = [
   {
@@ -51,14 +53,15 @@ export default function Home() {
   });
 
   const handleLogout = () => {
+
+    console.log(userToken);
+    
     if (userToken !== null) {
       const toastKey = Toast.loading("로그아웃 하는 중...");
       axios
-        .get(LOGOUT_URL, {
-          params: {
-            access_token: userToken.accessToken,
-          },
-        })
+        .post(LOGOUT_URL, qs.stringify({
+          access_token: userToken.accessToken, 
+        }))
         .then(() => {
           Portal.remove(toastKey);
           dispatch(setUserLogout(null));
