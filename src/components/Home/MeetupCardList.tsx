@@ -6,47 +6,17 @@ import {
   Text,
   Image,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import axios from "axios";
 import { MeetupCard } from "./redux/types";
 import theme from "theme";
 import { useNavigation } from "@react-navigation/native";
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "./redux/actions";
-import { getMeetUpList } from './redux/selectors';
-import { MEEING_LIST_URL } from './apiUrls'
-
-// const DATA: MeetupCard[] = [
-//   {
-//     id: "1",
-//     title: "일일 댄스 클래스",
-//     communityName: "RAH",
-//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-//     dueDay: "D-7",
-//   },
-//   {
-//     id: "2",
-//     title: "일일 댄스 클래스",
-//     communityName: "아발론",
-//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-//     dueDay: "D-6",
-//   },
-//   {
-//     id: "3",
-//     title: "일일 댄스 클래스",
-//     communityName: "RAH",
-//     imageSource: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
-//     dueDay: "D-7",
-//   },
-//   {
-//     id: "4",
-//     title: "일일 댄스 클래스",
-//     communityName: "RAH",
-//     imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-//     dueDay: "D-7",
-//   },
-// ];
+import { getMeetUpList } from "./redux/selectors";
+import { MEEING_LIST_URL } from "./apiUrls";
 
 function MeetupCardListHeader() {
   return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
@@ -82,26 +52,25 @@ export default function MeetupCardList() {
   };
 
   React.useEffect(() => {
-    console.log(token)
-    if(token !== null) {
+    if (token !== null) {
       axios
-      .get( MEEING_LIST_URL , {
-        headers: { 
-          "Authorization" : token.accessToken
-        },
-      })
-      .then((response) => {
-        console.log(response);
-        dispatch(setMeetUpList(response.data));
-        console.log(meetUpList);
-      })
-      .catch((error) => {
-        console.log("모임 불러오기 실패");
-        console.log(error);
-        
-      });
+        .get(MEEING_LIST_URL, {
+          headers: {
+            Authorization: token.accessToken,
+          },
+        })
+        .then((response) => {
+          dispatch(setMeetUpList(response.data));
+        })
+        .catch(() => {
+          Alert.alert("데이터를 불러올 수 없습니다.", "", [
+            {
+              text: "확인",
+            },
+          ]);
+        });
     }
-  }, [])
+  }, []);
 
   return (
     <View style={styles.meetupCardListContainer}>

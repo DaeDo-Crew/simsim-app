@@ -12,7 +12,6 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { LOGOUT_URL } from "./apiUrls";
 import qs from "qs";
 
-
 const CATEGORY = [
   {
     key: 1,
@@ -53,15 +52,15 @@ export default function Home() {
   });
 
   const handleLogout = () => {
-
-    console.log(userToken);
-    
     if (userToken !== null) {
       const toastKey = Toast.loading("로그아웃 하는 중...");
       axios
-        .post(LOGOUT_URL, qs.stringify({
-          access_token: userToken.accessToken, 
-        }))
+        .post(
+          LOGOUT_URL,
+          qs.stringify({
+            access_token: userToken.accessToken,
+          })
+        )
         .then(() => {
           Portal.remove(toastKey);
           dispatch(setUserLogout(null));
