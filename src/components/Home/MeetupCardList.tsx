@@ -28,11 +28,10 @@ export default function MeetupCardList() {
   const token = useSelector(getUserToken);
   const meetUpList = useSelector(getMeetUpList);
 
-  const handleClickMeetUpCardItem = React.useCallback(() => {
-    navigation.navigate("MeetUp");
-  }, []);
-
   const MeetupCardItem = ({ item }: { item: MeetUpItem }) => {
+    const handleClickMeetUpCardItem = () => {
+      navigation.navigate("MeetUp", { meetingId: item.meetingId });
+    };
     return (
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={MeetUpCardStyles.itemContainer}>

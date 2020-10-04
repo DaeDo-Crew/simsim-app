@@ -12,6 +12,14 @@ import Community from "./Community";
 // import MeetUpComment from "./MeetUpComment";
 import { MeetUpItem } from "./redux/types";
 
+type MeetingProps = {
+  key: string;
+  name: string;
+  params: {
+    meetingId: number;
+  };
+};
+
 const TEMP_MEETUP_ITEM: MeetUpItem = {
   category: "아직",
   clubId: 1,
@@ -30,9 +38,11 @@ const TEMP_MEETUP_ITEM: MeetUpItem = {
   imgUrlList: ["123"],
 };
 
-export default function MeetUp() {
+export default function MeetUp({ route }: { route: MeetingProps }) {
   const navigation = useNavigation();
-  const meetUpList = useSelector(getMeetUpList);
+  const meetUpList = useSelector(getMeetUpList) !== null && [
+    route.params.meetingId,
+  ];
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
