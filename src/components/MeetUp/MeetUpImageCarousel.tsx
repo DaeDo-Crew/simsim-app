@@ -27,13 +27,16 @@ const TEMP_DATA: TempData[] = [
   },
 ];
 
-function MeetUpImage({ imageSource }: { imageSource: string }) {
+const MeetUpImage = ({ item }: { item: TempData }) => {
   return (
     <View style={MeetUpImageStyle.itemContainer}>
-      <Image source={{ uri: imageSource }} style={MeetUpImageStyle.image} />
+      <Image
+        source={{ uri: item.imageSource }}
+        style={MeetUpImageStyle.image}
+      />
     </View>
   );
-}
+};
 
 export default function MeetUpImageCarousel() {
   const [seletedIndex, setSelectedIndex] = React.useState(2);
@@ -41,11 +44,7 @@ export default function MeetUpImageCarousel() {
     setSelectedIndex(index);
   }, []);
 
-  function _renderItem({ item }: { item: TempData }) {
-    return <MeetUpImage imageSource={item.imageSource} />;
-  }
-
-  function CarouselPagination() {
+  const CarouselPagination = () => {
     return (
       <Pagination
         dotsLength={TEMP_DATA.length}
@@ -65,19 +64,19 @@ export default function MeetUpImageCarousel() {
         inactiveDotScale={0.6}
       />
     );
-  }
+  };
 
   return (
-    <View>
+    <>
       <Carousel
         data={TEMP_DATA}
-        renderItem={_renderItem}
+        renderItem={MeetUpImage}
         onSnapToItem={(index) => onHorizontalSelectedIndexChange(index)}
         sliderWidth={SCREEN_WIDTH}
         itemWidth={SCREEN_WIDTH}
       />
       <CarouselPagination />
-    </View>
+    </>
   );
 }
 
