@@ -13,4 +13,5 @@ export type MeetUpItem = {
   meetingName: string;
   meetingLoaction: string;
   startDate: string;
+  imgUrlList: string[];
 };

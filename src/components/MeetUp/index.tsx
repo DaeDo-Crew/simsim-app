@@ -1,4 +1,6 @@
 import * as React from "react";
+import { useSelector } from "react-redux";
+import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, StyleSheet, View } from "react-native";
 import AppLayout from "modules/AppLayout";
@@ -25,15 +27,21 @@ const TEMP_MEETUP_ITEM: MeetUpItem = {
   meetingId: 1,
   meetingName: "일일 댄스 클래스",
   meetingLoaction: "서울시립대학교 정문 [주향]",
+  imgUrlList: ["123"],
 };
 
 export default function MeetUp() {
   const navigation = useNavigation();
+  const meetUpList = useSelector(getMeetUpList);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "모임 상세보기",
     });
+  });
+
+  React.useEffect(() => {
+    console.log(meetUpList);
   });
 
   return (

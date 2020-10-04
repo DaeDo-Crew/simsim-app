@@ -9,13 +9,13 @@ import {
   Alert,
 } from "react-native";
 import axios from "axios";
-import { MeetupCard } from "./redux/types";
+import { MeetUpItem } from "components/MeetUp/redux/types";
 import theme from "theme";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
-import { setMeetUpList } from "./redux/actions";
-import { getMeetUpList } from "./redux/selectors";
+import { setMeetUpList } from "components/MeetUp/redux/actions";
+import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { MEEING_LIST_URL } from "./apiUrls";
 
 function MeetupCardListHeader() {
@@ -32,7 +32,7 @@ export default function MeetupCardList() {
     navigation.navigate("MeetUp");
   }, []);
 
-  const MeetupCardItem = ({ item }: { item: MeetupCard }) => {
+  const MeetupCardItem = ({ item }: { item: MeetUpItem }) => {
     return (
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={MeetUpCardStyles.itemContainer}>
@@ -65,8 +65,8 @@ export default function MeetupCardList() {
         .then((response) => {
           dispatch(setMeetUpList(response.data));
         })
-        .catch((error) => {
-          Alert.alert("데이터를 불러올 수 없습니다.", error, [
+        .catch(() => {
+          Alert.alert("데이터를 불러올 수 없습니다.", "", [
             {
               text: "확인",
             },
