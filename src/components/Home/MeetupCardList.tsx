@@ -31,6 +31,7 @@ export default function MeetupCardList() {
   const handleClickMeetUpCardItem = React.useCallback(() => {
     navigation.navigate("MeetUp");
   }, []);
+
   const MeetupCardItem = ({ item }: { item: MeetupCard }) => {
     return (
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
@@ -74,14 +75,18 @@ export default function MeetupCardList() {
 
   return (
     <View style={styles.meetupCardListContainer}>
-      <MeetupCardListHeader />
-      <FlatList
-        data={meetUpList}
-        renderItem={MeetupCardItem}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => String(item.meetingId)}
-      />
+      {meetUpList !== null && (
+        <>
+          <MeetupCardListHeader />
+          <FlatList
+            data={meetUpList}
+            renderItem={MeetupCardItem}
+            horizontal={true}
+            showsHorizontalScrollIndicator={true}
+            keyExtractor={(item) => String(item.meetingId)}
+          />
+        </>
+      )}
     </View>
   );
 }
