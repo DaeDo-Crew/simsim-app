@@ -60,7 +60,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
           ]);
         });
     }
-  }, []);
+  }, [token]);
 
   return (
     <AppLayout>
