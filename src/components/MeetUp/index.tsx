@@ -1,8 +1,7 @@
 import * as React from "react";
 import { useSelector } from "react-redux";
-import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import AppLayout from "modules/AppLayout";
 import MeetUpImageCarousel from "./MeetUpImageCarousel";
 import MeetUpHeader from "./MeetUpHeader";
@@ -11,6 +10,9 @@ import MeetUpContent from "./MeetUpContent";
 import Community from "./Community";
 // import MeetUpComment from "./MeetUpComment";
 import { MeetUpItem } from "./redux/types";
+import axios from "axios";
+import { getUserToken } from "components/Login/redux/selectors";
+import { MEETING_DETAIL_URL } from "./apiUrls";
 
 type MeetingProps = {
   key: string;
@@ -20,29 +22,14 @@ type MeetingProps = {
   };
 };
 
-const TEMP_MEETUP_ITEM: MeetUpItem = {
-  category: "아직",
-  clubId: 1,
-  clubName: "RAH",
-  createdTime: "2020년 10월 24일",
-  deadline: "2020년 10월 31일",
-  startDate: "2020년 10월 25일",
-  endDate: "2020년 11월 31일",
-  explanationTitle: "어서오세요",
-  explanationContent: "모임설명",
-  curParticipant: 2,
-  maxParticipant: 8,
-  meetingId: 1,
-  meetingName: "일일 댄스 클래스",
-  meetingLoaction: "서울시립대학교 정문 [주향]",
-  imgUrlList: ["123"],
-};
-
 export default function MeetUp({ route }: { route: MeetingProps }) {
   const navigation = useNavigation();
-  const meetUpList = useSelector(getMeetUpList) !== null && [
-    route.params.meetingId,
-  ];
+  const token = useSelector(getUserToken);
+
+  const [
+    meetUpDetailData,
+    setMeetUpDetailData,
+  ] = React.useState<MeetUpItem | null>(null);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,28 +38,55 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
   });
 
   React.useEffect(() => {
-    console.log(meetUpList);
-  });
+    if (token !== null) {
+      axios
+        .get(MEETING_DETAIL_URL, {
+          headers: {
+            Authorization: token.accessToken,
+          },
+          params: {
+            meetingId: route.params.meetingId,
+          },
+        })
+        .then((response) => {
+          setMeetUpDetailData(response.data);
+        })
+        .catch(() => {
+          Alert.alert("데이터를 불러올 수 없습니다.", "", [
+            {
+              text: "확인",
+              onPress: () => navigation.goBack(),
+            },
+          ]);
+        });
+    }
+  }, []);
 
   return (
     <AppLayout>
       <ScrollView>
-        <MeetUpImageCarousel />
-        <View style={MeetUpItemStyles.container}>
-          <MeetUpHeader
-            title={TEMP_MEETUP_ITEM.meetingName}
-            communityName={TEMP_MEETUP_ITEM.clubName}
-          />
-          <MeetUpInfo
-            startDate={TEMP_MEETUP_ITEM.startDate}
-            currentParticipants={TEMP_MEETUP_ITEM.curParticipant}
-            maxParticipants={TEMP_MEETUP_ITEM.maxParticipant}
-            location={TEMP_MEETUP_ITEM.meetingLoaction}
-          />
-          <MeetUpContent content={TEMP_MEETUP_ITEM.explanationContent} />
-          <Community clubId={TEMP_MEETUP_ITEM.clubId} />
-          {/* <MeetUpComment /> */}
-        </View>
+        {meetUpDetailData !== null && (
+          <>
+            <MeetUpImageCarousel imageUrlList={meetUpDetailData.imgUrlList} />
+            <View style={MeetUpItemStyles.container}>
+              <>
+                <MeetUpHeader
+                  title={meetUpDetailData.meetingName}
+                  communityName={meetUpDetailData.clubName}
+                />
+                <MeetUpInfo
+                  startDate={meetUpDetailData.startDate}
+                  currentParticipants={meetUpDetailData.curParticipant}
+                  maxParticipants={meetUpDetailData.maxParticipant}
+                  location={meetUpDetailData.meetingLoaction}
+                />
+                <MeetUpContent content={meetUpDetailData.explanationContent} />
+                <Community clubId={meetUpDetailData.clubId} />
+                {/* <MeetUpComment /> */}
+              </>
+            </View>
+          </>
+        )}
       </ScrollView>
     </AppLayout>
   );
