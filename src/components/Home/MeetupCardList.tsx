@@ -19,7 +19,7 @@ import { getMeetUpList } from "./redux/selectors";
 import { MEEING_LIST_URL } from "./apiUrls";
 
 function MeetupCardListHeader() {
-  return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
+  return <Text style={MeetUpCardStyles.cardListheader}>모집중인 모임</Text>;
 }
 
 export default function MeetupCardList() {
@@ -35,14 +35,16 @@ export default function MeetupCardList() {
   const MeetupCardItem = ({ item }: { item: MeetupCard }) => {
     return (
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
-        <View style={styles.meetupCardItemContainer}>
+        <View style={MeetUpCardStyles.itemContainer}>
           <Image
-            source={{ uri: item.imgUrlList[0], width: 150, height: 150 }}
-            style={styles.meetupCardImage}
+            source={{ uri: item.imgUrlList[0] }}
+            style={MeetUpCardStyles.cardImage}
           />
-          <View style={styles.meetupCardItemInfoContainer}>
-            <Text style={styles.meetupCardItemTitle}>{item.meetingName}</Text>
-            <View style={styles.meetupCardItemSubInfoContainer}>
+          <View style={MeetUpCardStyles.itemInfoContainer}>
+            <Text style={MeetUpCardStyles.cardItemTitle}>
+              {item.meetingName}
+            </Text>
+            <View style={MeetUpCardStyles.itemSubInfoContainer}>
               <Text>{item.clubName}</Text>
               <Text>{item.deadline}</Text>
             </View>
@@ -63,8 +65,8 @@ export default function MeetupCardList() {
         .then((response) => {
           dispatch(setMeetUpList(response.data));
         })
-        .catch(() => {
-          Alert.alert("데이터를 불러올 수 없습니다.", "", [
+        .catch((error) => {
+          Alert.alert("데이터를 불러올 수 없습니다.", error, [
             {
               text: "확인",
             },
@@ -74,7 +76,7 @@ export default function MeetupCardList() {
   }, []);
 
   return (
-    <View style={styles.meetupCardListContainer}>
+    <View style={MeetUpCardStyles.listContainer}>
       {meetUpList !== null && (
         <>
           <MeetupCardListHeader />
@@ -91,31 +93,34 @@ export default function MeetupCardList() {
   );
 }
 
-const styles = StyleSheet.create({
-  meetupCardListContainer: {},
-  meetupCardItemContainer: {
+const MeetUpCardStyles = StyleSheet.create({
+  listContainer: {},
+  itemContainer: {
     marginVertical: 8,
     marginHorizontal: 8,
-    backgroundColor: `${theme.colors.ligthGrey}`,
-    borderRadius: theme.borderRadius,
+    backgroundColor: theme.colors.ligthGrey,
+    height: 200,
+    width: 200,
+    overflow: "hidden",
   },
-  meetupCardItemInfoContainer: {
+  itemInfoContainer: {
     padding: 8,
   },
-  meetupCardItemSubInfoContainer: {
+  itemSubInfoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  meetupCardListheader: {
+  cardListheader: {
     marginStart: 8,
     fontSize: 20,
     fontWeight: "bold",
   },
-  meetupCardItemTitle: {
+  cardItemTitle: {
     fontSize: 16,
   },
-  meetupCardImage: {
+  cardImage: {
+    width: "100%",
+    height: 150,
     resizeMode: "cover",
-    borderRadius: theme.borderRadius,
   },
 });

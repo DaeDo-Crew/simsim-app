@@ -39,7 +39,7 @@ const MeetUpImage = ({ item }: { item: TempData }) => {
 };
 
 export default function MeetUpImageCarousel() {
-  const [seletedIndex, setSelectedIndex] = React.useState(2);
+  const [seletedIndex, setSelectedIndex] = React.useState(0);
   const onHorizontalSelectedIndexChange = React.useCallback((index: number) => {
     setSelectedIndex(index);
   }, []);
@@ -88,6 +88,6 @@ const MeetUpImageStyle = StyleSheet.create({
   image: {
     ...StyleSheet.absoluteFillObject,
     resizeMode: "cover",
-    borderRadius: theme.borderRadius,
+    borderRadius: 5,
   },
 });
