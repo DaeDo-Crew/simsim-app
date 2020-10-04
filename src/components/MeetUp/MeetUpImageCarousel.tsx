@@ -1,6 +1,7 @@
-import React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import * as React from "react";
+import { StyleSheet, View, Image, Dimensions, Alert } from "react-native";
 import { Carousel } from "@ant-design/react-native";
+import axios from "axios";
 
 type TempData = {
   id: number;
@@ -45,6 +46,8 @@ export default function MeetUpImageCarousel() {
   const onHorizontalSelectedIndexChange = React.useCallback((index: number) => {
     setSelectedIndex(index);
   }, []);
+
+
   return (
     <View>
       <View>

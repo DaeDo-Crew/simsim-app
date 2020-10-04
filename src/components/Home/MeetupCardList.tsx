@@ -6,41 +6,17 @@ import {
   Text,
   Image,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
+import axios from "axios";
 import { MeetupCard } from "./redux/types";
 import theme from "theme";
 import { useNavigation } from "@react-navigation/native";
-
-const DATA: MeetupCard[] = [
-  {
-    id: "1",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-7",
-  },
-  {
-    id: "2",
-    title: "일일 댄스 클래스",
-    communityName: "아발론",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-6",
-  },
-  {
-    id: "3",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "https://homepages.cae.wisc.edu/~ece533/images/airplane.png",
-    dueDay: "D-7",
-  },
-  {
-    id: "4",
-    title: "일일 댄스 클래스",
-    communityName: "RAH",
-    imageSource: "http://homepages.cae.wisc.edu/~ece533/images/cat.png",
-    dueDay: "D-7",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { getUserToken } from "components/Login/redux/selectors";
+import { setMeetUpList } from "./redux/actions";
+import { getMeetUpList } from "./redux/selectors";
+import { MEEING_LIST_URL } from "./apiUrls";
 
 function MeetupCardListHeader() {
   return <Text style={styles.meetupCardListheader}>모집중인 모임</Text>;
@@ -48,6 +24,10 @@ function MeetupCardListHeader() {
 
 export default function MeetupCardList() {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const token = useSelector(getUserToken);
+  const meetUpList = useSelector(getMeetUpList);
+
   const handleClickMeetUpCardItem = React.useCallback(() => {
     navigation.navigate("MeetUp");
   }, []);
@@ -56,29 +36,51 @@ export default function MeetupCardList() {
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={styles.meetupCardItemContainer}>
           <Image
-            source={{ uri: item.imageSource, width: 150, height: 150 }}
+            source={{ uri: item.imgUrlList[0], width: 150, height: 150 }}
             style={styles.meetupCardImage}
           />
           <View style={styles.meetupCardItemInfoContainer}>
-            <Text style={styles.meetupCardItemTitle}>{item.title}</Text>
+            <Text style={styles.meetupCardItemTitle}>{item.meetingName}</Text>
             <View style={styles.meetupCardItemSubInfoContainer}>
-              <Text>{item.communityName}</Text>
-              <Text>{item.dueDay}</Text>
+              <Text>{item.clubName}</Text>
+              <Text>{item.deadline}</Text>
             </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
     );
   };
+
+  React.useEffect(() => {
+    if (token !== null) {
+      axios
+        .get(MEEING_LIST_URL, {
+          headers: {
+            Authorization: token.accessToken,
+          },
+        })
+        .then((response) => {
+          dispatch(setMeetUpList(response.data));
+        })
+        .catch(() => {
+          Alert.alert("데이터를 불러올 수 없습니다.", "", [
+            {
+              text: "확인",
+            },
+          ]);
+        });
+    }
+  }, []);
+
   return (
     <View style={styles.meetupCardListContainer}>
       <MeetupCardListHeader />
       <FlatList
-        data={DATA}
+        data={meetUpList}
         renderItem={MeetupCardItem}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => String(item.meetingId)}
       />
     </View>
   );

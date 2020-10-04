@@ -18,6 +18,7 @@ import {
 } from "@ant-design/react-native";
 import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
+import qs from "qs";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -36,13 +37,14 @@ export default function Login() {
     validationSchema: loginRequestSchema,
     onSubmit: async (value) => {
       const toastKey = Toast.loading("로그인 하는 중...");
-      await axios
-        .get<LoginResponse>(LOGIN_URL, {
-          params: {
+      axios
+        .post<LoginResponse>(
+          LOGIN_URL,
+          qs.stringify({
             loginId: value.id,
             password: value.password,
-          },
-        })
+          })
+        )
         .then((response) => {
           Portal.remove(toastKey);
           dispatch(
