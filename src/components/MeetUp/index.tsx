@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView, StyleSheet, View } from "react-native";
-import axios from "axios";
 import AppLayout from "modules/AppLayout";
 import MeetUpImageCarousel from "./MeetUpImageCarousel";
 import MeetUpHeader from "./MeetUpHeader";
