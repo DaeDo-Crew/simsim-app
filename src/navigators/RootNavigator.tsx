@@ -35,14 +35,14 @@ export default function RootNavigator() {
           RETOKEN_URL,
           qs.stringify({
             accessToken: userToken.accessToken,
-            refreshToken: userToken.refreshToken,
+            // refreshToken: userToken.refreshToken,
           })
         )
         .then((response) => {
           dispatch(
             setUserToken({
               accessToken: response.data.accessToken,
-              refreshToken: response.data.refreshToken,
+              // refreshToken: response.data.refreshToken,
             })
           );
           setIsUserValid(true);
@@ -50,10 +50,8 @@ export default function RootNavigator() {
         .catch(() => {
           setIsUserValid(false);
         });
-    } else {
-      setIsUserValid(false);
     }
-  }, [userToken, isUserValid]);
+  }, [userToken.accessToken]);
   return (
     <NavigationContainer>
       <RootStack.Navigator

@@ -50,7 +50,7 @@ export default function Login() {
           dispatch(
             setUserToken({
               accessToken: response.data.accessToken,
-              refreshToken: response.data.refreshToken,
+              // refreshToken: response.data.refreshToken,
             })
           );
         })
