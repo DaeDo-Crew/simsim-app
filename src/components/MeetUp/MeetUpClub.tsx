@@ -1,13 +1,78 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import theme from "theme";
 import Avatar from "modules/Avatar";
+import axios, { AxiosResponse } from "axios";
+import { CLUB_NAME_URL, CLUB_DESCRIPTION_URL, CLUB_IMAGE_URL } from "./apiUrls";
+import { getUserToken } from "components/Login/redux/selectors";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
+  const token = useSelector(getUserToken);
+
+  const [clubName, setClubName] = React.useState<AxiosResponse | null>(null);
+  const [
+    clubDescription,
+    setClubDescription,
+  ] = React.useState<AxiosResponse | null>(null);
+  const [clubImageUrl, setClubImageUrl] = React.useState<AxiosResponse | null>(
+    null
+  );
+
   React.useEffect(() => {
-    console.log(clubId);
-  });
+    const getClubInfoAsync = async () => {
+      // 동아리 이름 가져오기
+      try {
+        const fetchedClubName = await axios.get<string>(CLUB_NAME_URL, {
+          headers: {
+            Authorization: token.accessToken,
+          },
+          params: {
+            clubId: clubId,
+          },
+        });
+        setClubName(fetchedClubName);
+      } catch (error) {
+        console.log(error);
+      }
+
+      //동아리 설명 가져오기
+      try {
+        const fetchedClubDescription = await axios.get<string>(
+          CLUB_DESCRIPTION_URL,
+          {
+            headers: {
+              Authorization: token.accessToken,
+            },
+            params: {
+              clubId: clubId,
+            },
+          }
+        );
+        setClubDescription(fetchedClubDescription);
+      } catch (error) {
+        console.log(error);
+      }
+
+      //동아리 이미지 url 가져오기
+      try {
+        const fetchedClubUrl = await axios.get<string>(CLUB_IMAGE_URL, {
+          headers: {
+            Authorization: token.accessToken,
+          },
+          params: {
+            clubId: clubId,
+          },
+        });
+        setClubImageUrl(fetchedClubUrl);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getClubInfoAsync();
+  }, [clubId]);
+
   return (
     <>
       <View style={clubStyles.container}>
@@ -16,25 +81,11 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
             <Avatar size={40} />
           </View>
           <View style={clubStyles.clubNameTextContainer}>
-            <Text>RAH</Text>
+            <Text>{clubName}</Text>
           </View>
         </View>
         <View style={clubStyles.clubIntroductionContainer}>
-          <Text>
-            동아리 소개글 ~~ Lorem ipsum dolor sit amet, consectetur adipiscing
-            elit. Cras commodo odio neque, vitae semper mi iaculis vitae. Donec
-            dui lectus, mollis eu faucibus quis, dictum egestas arcu. Phasellus
-            vestibulum vestibulum dolor a gravida. Integer tellus arcu, lobortis
-            in commodo at, bibendum non sem. Donec massa urna, tincidunt vitae
-            sagittis ac, consequat sit amet nisi. Phasellus diam erat, rhoncus
-            in elit non, volutpat hendrerit ipsum. Curabitur condimentum
-            sollicitudin ex ac commodo. Duis pretium massa quam, in aliquam
-            massa fermentum posuere. Fusce laoreet felis non diam finibus
-            maximus. Etiam ut ligula et velit porttitor pharetra. Ut a vehicula
-            lacus. Interdum et malesuada fames ac ante ipsum primis in faucibus.
-            Etiam eget malesuada lacus. Vivamus molestie nunc id magna volutpat,
-            tristique molestie nisi lacinia. Integer id convallis lacus.
-          </Text>
+          <Text>{clubDescription}</Text>
         </View>
         {/* <View style={clubStyles.clubInfoCardContainer}>
           <View style={clubStyles.clubInfoCard}>
