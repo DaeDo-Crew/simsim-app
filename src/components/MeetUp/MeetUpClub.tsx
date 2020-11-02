@@ -4,23 +4,22 @@ import Divider from "modules/Divider";
 import theme from "theme";
 import Avatar from "modules/Avatar";
 
-export default function MeetUpCommunity({ clubId }: { clubId: number }) {
+export default function MeetUpClub({ clubId }: { clubId: number }) {
   React.useEffect(() => {
     console.log(clubId);
   });
   return (
     <>
-      <View style={communityStyles.container}>
-        <View style={communityStyles.communityNameContainer}>
-          <View style={communityStyles.communityAvatarContainer}>
+      <View style={clubStyles.container}>
+        <View style={clubStyles.clubNameContainer}>
+          <View style={clubStyles.clubAvatarContainer}>
             <Avatar size={40} />
           </View>
-          <View style={communityStyles.communityNameTextContainer}>
+          <View style={clubStyles.clubNameTextContainer}>
             <Text>RAH</Text>
-            <Text>시립대 대표 댄스동아리</Text>
           </View>
         </View>
-        <View style={communityStyles.communityIntroductionContainer}>
+        <View style={clubStyles.clubIntroductionContainer}>
           <Text>
             동아리 소개글 ~~ Lorem ipsum dolor sit amet, consectetur adipiscing
             elit. Cras commodo odio neque, vitae semper mi iaculis vitae. Donec
@@ -37,50 +36,50 @@ export default function MeetUpCommunity({ clubId }: { clubId: number }) {
             tristique molestie nisi lacinia. Integer id convallis lacus.
           </Text>
         </View>
-        <View style={communityStyles.communityInfoCardContainer}>
-          <View style={communityStyles.communityInfoCard}>
+        {/* <View style={clubStyles.clubInfoCardContainer}>
+          <View style={clubStyles.clubInfoCard}>
             <Text>140</Text>
             <Text>모임기록</Text>
           </View>
-          <View style={communityStyles.communityInfoCard}>
+          <View style={clubStyles.clubInfoCard}>
             <Text>140</Text>
             <Text>모임기록</Text>
           </View>
-          <View style={communityStyles.communityInfoCard}>
+          <View style={clubStyles.clubInfoCard}>
             <Text>140</Text>
             <Text>모임기록</Text>
           </View>
-        </View>
+        </View> */}
       </View>
       <Divider />
     </>
   );
 }
 
-const communityStyles = StyleSheet.create({
+const clubStyles = StyleSheet.create({
   container: {
     marginVertical: 16,
   },
-  communityNameContainer: {
+  clubNameContainer: {
     flexDirection: "row",
   },
-  communityAvatarContainer: {
+  clubAvatarContainer: {
     alignSelf: "center",
   },
-  communityNameTextContainer: {
+  clubNameTextContainer: {
     marginLeft: 16,
     alignSelf: "center",
     justifyContent: "space-between",
   },
-  communityIntroductionContainer: {
+  clubIntroductionContainer: {
     paddingVertical: 16,
     paddingHorizontal: 8,
   },
-  communityInfoCardContainer: {
+  clubInfoCardContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  communityInfoCard: {
+  clubInfoCard: {
     borderRadius: 6,
     padding: 16,
     backgroundColor: theme.colors.secondary,
