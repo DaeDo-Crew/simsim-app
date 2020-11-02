@@ -4,7 +4,10 @@ import Divider from "modules/Divider";
 import theme from "theme";
 import Avatar from "modules/Avatar";
 
-export default function Community({ clubId }: { clubId: number }) {
+export default function MeetUpCommunity({ clubId }: { clubId: number }) {
+  React.useEffect(() => {
+    console.log(clubId);
+  });
   return (
     <>
       <View style={communityStyles.container}>

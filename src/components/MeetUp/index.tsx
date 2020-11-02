@@ -7,7 +7,7 @@ import MeetUpImageCarousel from "./MeetUpImageCarousel";
 import MeetUpHeader from "./MeetUpHeader";
 import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
-import Community from "./Community";
+import MeetUpCommunity from "./MeetUpCommunity";
 // import MeetUpComment from "./MeetUpComment";
 import { MeetUpItem } from "./redux/types";
 import axios from "axios";
@@ -81,7 +81,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
                   location={meetUpDetailData.meetingLoaction}
                 />
                 <MeetUpContent content={meetUpDetailData.explanationContent} />
-                <Community clubId={meetUpDetailData.clubId} />
+                <MeetUpCommunity clubId={meetUpDetailData.clubId} />
                 {/* <MeetUpComment /> */}
               </>
             </View>
