@@ -110,6 +110,7 @@ const MeetUpCardStyles = StyleSheet.create({
     justifyContent: "space-between",
   },
   cardListheader: {
+    marginTop: 16,
     marginStart: 8,
     fontSize: 20,
     fontWeight: "bold",
