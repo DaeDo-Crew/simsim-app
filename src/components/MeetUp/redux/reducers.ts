@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
-import {
-  getMeetingItemList
-} from "./actions";
+import { setMeetUpList } from "./actions";
+import { MeetUpItem } from "./types";
 
 const reducer = combineReducers({
-  data: createReducer<string | null>(null)
-  .handleAction(getMeetingItemList, (_state, action) => {
+  meetUpList: createReducer<MeetUpItem[] | null>(null).handleAction(
+    setMeetUpList,
+    (_state, action) => {
       return action.payload;
     }
   ),
