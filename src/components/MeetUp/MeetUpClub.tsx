@@ -4,23 +4,22 @@ import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import theme from "theme";
 import Avatar from "modules/Avatar";
-import axios, { AxiosResponse } from "axios";
+import axios from "axios";
 import { CLUB_NAME_URL, CLUB_DESCRIPTION_URL, CLUB_IMAGE_URL } from "./apiUrls";
 import { getUserToken } from "components/Login/redux/selectors";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
 
-  const [clubName, setClubName] = React.useState<AxiosResponse | null>(null);
-  const [
-    clubDescription,
-    setClubDescription,
-  ] = React.useState<AxiosResponse | null>(null);
-  const [clubImageUrl, setClubImageUrl] = React.useState<AxiosResponse | null>(
-    null
+  const [clubName, setClubName] = React.useState<string>("알 수 없음");
+  const [clubDescription, setClubDescription] = React.useState<string>(
+    "내용 없음"
   );
 
+  const [clubImageUrl, setClubImageUrl] = React.useState<string | null>(null);
+
   React.useEffect(() => {
+    console.log(clubId);
     const getClubInfoAsync = async () => {
       // 동아리 이름 가져오기
       try {
@@ -29,10 +28,10 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
             Authorization: token.accessToken,
           },
           params: {
-            clubId: clubId,
+            club_id: clubId,
           },
         });
-        setClubName(fetchedClubName);
+        setClubName(fetchedClubName.data);
       } catch (error) {
         console.log(error);
       }
@@ -46,11 +45,11 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
               Authorization: token.accessToken,
             },
             params: {
-              clubId: clubId,
+              club_id: clubId,
             },
           }
         );
-        setClubDescription(fetchedClubDescription);
+        setClubDescription(fetchedClubDescription.data);
       } catch (error) {
         console.log(error);
       }
@@ -62,10 +61,10 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
             Authorization: token.accessToken,
           },
           params: {
-            clubId: clubId,
+            club_id: clubId,
           },
         });
-        setClubImageUrl(fetchedClubUrl);
+        setClubImageUrl(fetchedClubUrl.data);
       } catch (error) {
         console.log(error);
       }
@@ -81,11 +80,11 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
             <Avatar size={40} />
           </View>
           <View style={clubStyles.clubNameTextContainer}>
-            <Text>{clubName}</Text>
+            {clubName !== null && <Text>{clubName}</Text>}
           </View>
         </View>
         <View style={clubStyles.clubIntroductionContainer}>
-          <Text>{clubDescription}</Text>
+          {clubDescription !== null && <Text>{clubDescription}</Text>}
         </View>
         {/* <View style={clubStyles.clubInfoCardContainer}>
           <View style={clubStyles.clubInfoCard}>
