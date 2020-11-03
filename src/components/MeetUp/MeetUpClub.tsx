@@ -7,6 +7,7 @@ import Avatar from "modules/Avatar";
 import axios from "axios";
 import { CLUB_NAME_URL, CLUB_DESCRIPTION_URL, CLUB_IMAGE_URL } from "./apiUrls";
 import { getUserToken } from "components/Login/redux/selectors";
+import { Button } from "@ant-design/react-native";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
@@ -19,7 +20,6 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
   const [clubImageUrl, setClubImageUrl] = React.useState<string | null>(null);
 
   React.useEffect(() => {
-    console.log(clubId);
     const getClubInfoAsync = async () => {
       // 동아리 이름 가져오기
       try {
@@ -82,6 +82,9 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
           <View style={clubStyles.clubNameTextContainer}>
             {clubName !== null && <Text>{clubName}</Text>}
           </View>
+          <View>
+            <Button>구독</Button>
+          </View>
         </View>
         <View style={clubStyles.clubIntroductionContainer}>
           {clubDescription !== null && <Text>{clubDescription}</Text>}
@@ -112,6 +115,7 @@ const clubStyles = StyleSheet.create({
   },
   clubNameContainer: {
     flexDirection: "row",
+    justifyContent: "space-between",
   },
   clubAvatarContainer: {
     alignSelf: "center",
