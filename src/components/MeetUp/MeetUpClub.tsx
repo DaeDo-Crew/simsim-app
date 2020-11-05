@@ -81,7 +81,8 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
                 )}
               </View>
               <View>
-                {isSubscribed === false ? (
+                {isSubscribed === false &&
+                typeof isSubscribed !== "undefined" ? (
                   <Button onPress={handleClickSubscribeButton}>구독</Button>
                 ) : (
                   <Button onPress={handleClickUnsubscribeButton}>
