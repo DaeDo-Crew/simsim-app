@@ -8,7 +8,7 @@ import axios from "axios";
 import { setUserToken } from "./redux/actions";
 import { LoginResponse, LoginRequest } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
-import { LOGIN_URL } from "./apiUrls";
+import { LOGIN_URL, UPLOAD_EXPO_PUSH_TOKEN_URL } from "./apiUrls";
 import {
   Toast,
   Portal,
@@ -19,6 +19,7 @@ import {
 import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
 import qs from "qs";
+import { registerForPushNotificationsAsync } from "utils/pushNotifications";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -45,13 +46,23 @@ export default function Login() {
             password: value.password,
           })
         )
-        .then((response) => {
+        .then(async (response) => {
           Portal.remove(toastKey);
           dispatch(
             setUserToken({
               accessToken: response.data.accessToken,
               // refreshToken: response.data.refreshToken,
             })
+          );
+          const expoPushToken = await registerForPushNotificationsAsync();
+          await axios.post(
+            UPLOAD_EXPO_PUSH_TOKEN_URL,
+            qs.stringify({ expoPushToken: expoPushToken }),
+            {
+              headers: {
+                Authorization: response.data.accessToken,
+              },
+            }
           );
         })
         .catch(() => {
