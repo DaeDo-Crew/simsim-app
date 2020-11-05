@@ -4,21 +4,50 @@ import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import Avatar from "modules/Avatar";
 import axios from "axios";
-import { CLUB_DETAIL_URL } from "./apiUrls";
+import {
+  CLUB_DETAIL_URL,
+  CLUB_SUBSCRIBE_URL,
+  CLUB_UNSUBSCRIBE_URL,
+} from "./apiUrls";
 import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "@ant-design/react-native";
 import { ClubItem } from "./redux/types";
+import qs from "qs";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();
+  const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
 
-  const handleClickSubscribeButton = React.useCallback(() => {}, []);
+  const handleClickSubscribeButton = React.useCallback(() => {
+    axios
+      .post(CLUB_SUBSCRIBE_URL, qs.stringify({ club_id: clubId }), {
+        headers: {
+          Authorization: token.accessToken,
+        },
+      })
+      .then(() => {
+        setIsSubscribed(true);
+      });
+  }, []);
+
+  const handleClickUnsubscribeButton = React.useCallback(() => {
+    axios
+      .post(CLUB_UNSUBSCRIBE_URL, qs.stringify({ club_id: clubId }), {
+        headers: {
+          Authorization: token.accessToken,
+        },
+      })
+      .then((response) => {
+        setIsSubscribed(false);
+        console.log(response);
+      });
+  }, []);
 
   React.useEffect(() => {
     const getClubInfoAsync = async () => {
-      // 동아리 이름 가져오기
+      // 동아리 상세정보 가져오기
       try {
         const fetchedClubItem = await axios.get<ClubItem>(CLUB_DETAIL_URL, {
           headers: {
@@ -29,6 +58,7 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
           },
         });
         setClubItem(fetchedClubItem.data);
+        setIsSubscribed(fetchedClubItem.data.Is_user_subscribing_club);
       } catch (error) {
         console.log(error);
       }
@@ -51,7 +81,13 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
                 )}
               </View>
               <View>
-                <Button>구독</Button>
+                {isSubscribed === false ? (
+                  <Button onPress={handleClickSubscribeButton}>구독</Button>
+                ) : (
+                  <Button onPress={handleClickUnsubscribeButton}>
+                    구독해지
+                  </Button>
+                )}
               </View>
             </View>
             <View style={clubStyles.clubIntroductionContainer}>
