@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import Avatar from "modules/Avatar";
@@ -13,12 +13,18 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "@ant-design/react-native";
 import { ClubItem } from "./redux/types";
 import qs from "qs";
+import { useNavigation } from "@react-navigation/native";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
+  const navigation = useNavigation();
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();
   const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
+
+  const handleClickClubDetail = React.useCallback(() => {
+    navigation.navigate("Club");
+  }, []);
 
   const handleClickSubscribeButton = React.useCallback(() => {
     axios
@@ -39,9 +45,8 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
           Authorization: token.accessToken,
         },
       })
-      .then((response) => {
+      .then(() => {
         setIsSubscribed(false);
-        console.log(response);
       });
   }, []);
 
@@ -72,14 +77,18 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
         <>
           <View style={clubStyles.container}>
             <View style={clubStyles.clubNameContainer}>
-              <View style={clubStyles.clubAvatarContainer}>
-                <Avatar size={40} />
-              </View>
-              <View style={clubStyles.clubNameTextContainer}>
-                {clubItem.club_name !== null && (
-                  <Text>{clubItem.club_name}</Text>
-                )}
-              </View>
+              <TouchableWithoutFeedback onPress={handleClickClubDetail}>
+                <View style={clubStyles.clubAvatarContainer}>
+                  <Avatar size={40} />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={handleClickClubDetail}>
+                <View style={clubStyles.clubNameTextContainer}>
+                  {clubItem.club_name !== null && (
+                    <Text>{clubItem.club_name}</Text>
+                  )}
+                </View>
+              </TouchableWithoutFeedback>
               <View>
                 {isSubscribed === false &&
                 typeof isSubscribed !== "undefined" ? (

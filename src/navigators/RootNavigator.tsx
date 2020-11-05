@@ -19,6 +19,7 @@ import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
 import { LoginResponse } from "components/Login/redux/types";
 import qs from "qs";
+import Club from "components/Club";
 
 const RootStack = createStackNavigator();
 
@@ -77,6 +78,7 @@ export default function RootNavigator() {
           <>
             <RootStack.Screen name="Home" component={Home} />
             <RootStack.Screen name="MeetUp" component={MeetUp} />
+            <RootStack.Screen name="Club" component={Club} />
           </>
         ) : (
           <>
