@@ -72,7 +72,7 @@ export default function MeetupCardList() {
           ]);
         });
     }
-  }, [token]);
+  }, [token, setMeetUpList, dispatch]);
 
   return (
     <View style={MeetUpCardStyles.listContainer}>
