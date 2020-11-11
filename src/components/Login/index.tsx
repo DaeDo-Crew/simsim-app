@@ -55,6 +55,7 @@ export default function Login() {
             })
           );
           const expoPushToken = await registerForPushNotificationsAsync();
+          console.log(expoPushToken);
           await axios.post(
             UPLOAD_EXPO_PUSH_TOKEN_URL,
             qs.stringify({ expoPushToken: expoPushToken }),

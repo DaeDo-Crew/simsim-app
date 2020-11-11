@@ -44,6 +44,7 @@ export default function PrimarySignUp() {
           password: userSignUpPayload.password,
           email: userSignUpPayload.email,
           nickname: userSignUpPayload.nickname,
+          code: userSignUpPayload.emailCode,
         })
       )
       .catch((error) => {

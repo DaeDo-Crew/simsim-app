@@ -4,6 +4,7 @@ import {
   setSignUpLoginId,
   setSignUpPassword,
   setSignUpEmail,
+  setSignUpEmailCode,
   setSignUpNickname,
 } from "./actions";
 
@@ -22,6 +23,12 @@ const reducer = combineReducers({
   ),
   email: createReducer<string | null>(null).handleAction(
     setSignUpEmail,
+    (_state, action) => {
+      return action.payload;
+    }
+  ),
+  emailCode: createReducer<string | null>(null).handleAction(
+    setSignUpEmailCode,
     (_state, action) => {
       return action.payload;
     }

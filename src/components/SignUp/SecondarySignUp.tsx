@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { EMAIL_CHECK, SEND_EMAIL_CODE } from "./apiUrls";
 import { AuthStyles } from "modules/auth/base";
-import { setSignUpEmail } from "./redux/actions";
+import { setSignUpEmail, setSignUpEmailCode } from "./redux/actions";
 import { EmailCheckRequest } from "./redux/types";
 import { emailCheckRequestSchema } from "./schemas";
 import { useDispatch } from "react-redux";
@@ -46,6 +46,7 @@ export default function PrimarySignUp() {
   const handleNextButtonClicked = () => {
     navigation.navigate("ThirdarySignUp");
     dispatch(setSignUpEmail(values.email));
+    dispatch(setSignUpEmailCode(values.emailCheckCode));
   };
 
   const handleSendEmailCode = async () => {
