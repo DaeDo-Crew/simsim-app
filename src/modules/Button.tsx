@@ -6,17 +6,18 @@ import theme from "theme";
 type ButtonProps = {
   type: "text" | "outlined" | "contained";
   label: string;
+  disabled?: boolean;
   isSubmitting?: boolean;
   onPress: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
 };
 
 export default function Button(props: ButtonProps) {
-  const { type, label, isSubmitting, onPress } = props;
+  const { type, label, isSubmitting, onPress, disabled } = props;
   return (
     <RnpButton
       mode={type}
       loading={isSubmitting}
-      disabled={isSubmitting}
+      disabled={disabled}
       contentStyle={ButtonStyles.buttonContainer}
       labelStyle={
         type == "contained"

@@ -7,7 +7,12 @@ type TextInputProps = {
   onChangeText: ((text: string) => void) & Function;
   value: string;
   placeholder: string;
-  textContentType?: "username" | "password";
+  textContentType?:
+    | "username"
+    | "password"
+    | "emailAddress"
+    | "newPassword"
+    | "none";
   secureTextEntry?: boolean;
   error?: boolean;
 };
