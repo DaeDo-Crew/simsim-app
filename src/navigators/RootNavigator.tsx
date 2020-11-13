@@ -60,7 +60,9 @@ export default function RootNavigator() {
           },
           headerTitleStyle: {
             fontWeight: "bold",
+            fontSize: 20,
           },
+          headerTitleAlign: "left",
           headerTintColor: `${theme.colors.black}`,
           headerBackImage: () => (
             <MaterialIcons
