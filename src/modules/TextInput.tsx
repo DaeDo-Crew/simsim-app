@@ -4,6 +4,7 @@ import { TextInput as RnpTextInput } from "react-native-paper";
 import theme from "theme";
 
 type TextInputProps = {
+  label: string;
   onChangeText: ((text: string) => void) & Function;
   value: string;
   placeholder: string;
@@ -12,7 +13,8 @@ type TextInputProps = {
     | "password"
     | "emailAddress"
     | "newPassword"
-    | "none";
+    | "none"
+    | "nickname";
   secureTextEntry?: boolean;
   error?: boolean;
 };
@@ -20,6 +22,7 @@ type TextInputProps = {
 export default function TextInput(props: TextInputProps) {
   const {
     onChangeText,
+    label,
     value,
     placeholder,
     textContentType,
@@ -29,6 +32,7 @@ export default function TextInput(props: TextInputProps) {
   return (
     <RnpTextInput
       mode="outlined"
+      label={label}
       onChangeText={onChangeText}
       value={value}
       placeholder={placeholder}

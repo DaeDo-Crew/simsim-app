@@ -67,6 +67,7 @@ export default function FindPassword() {
       <View>
         <View style={FindPasswordStyles.container}>
           <TextInput
+            label="학교 이메일"
             onChangeText={handleChange("email")}
             value={values.email}
             placeholder="sshz@uos.ac.kr"
@@ -76,18 +77,20 @@ export default function FindPassword() {
         </View>
         <View style={FindPasswordStyles.container}>
           <TextInput
+            label="새로운 비밀번호"
             onChangeText={handleChange("newqw")}
             value={values.newqw}
-            placeholder="새로운 비밀번호"
+            placeholder="9자리 이상 영문 + 숫자"
             textContentType="newPassword"
             error={typeof errors.newqw !== "undefined"}
           />
         </View>
         <View style={FindPasswordStyles.container}>
           <TextInput
+            label="새로운 비밀번호를 한번 더 입력해주세요."
             onChangeText={handlePasswordConfirmChange}
             value={passwordConfirm}
-            placeholder="새로운 비밀번호 확인"
+            placeholder="9자리 이상 영문 + 숫자"
             textContentType="none"
             secureTextEntry={true}
             error={passwordConfirmError !== ""}

@@ -15,6 +15,7 @@ import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
 import qs from "qs";
 import { registerForPushNotificationsAsync } from "utils/pushNotifications";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -63,6 +64,12 @@ export default function Login() {
           );
         })
         .catch((error) => {
+          dispatch(
+            showSnackbar({
+              visible: true,
+              message: "실패!",
+            })
+          );
           console.log(error);
         })
         .finally(() => {
@@ -72,7 +79,7 @@ export default function Login() {
   });
 
   const handleSignupButtonClicked = () => {
-    navigation.navigate("PrimarySignUp");
+    navigation.navigate("SignUp");
   };
 
   const handleFindPasswordButtonClicked = () => {
@@ -87,6 +94,7 @@ export default function Login() {
         </View>
         <View style={AuthStyles.textInputContainer}>
           <TextInput
+            label="학교 이메일"
             onChangeText={handleChange("id")}
             value={values.id}
             placeholder="sshz@uos.ac.kr"
@@ -96,9 +104,10 @@ export default function Login() {
         </View>
         <View style={AuthStyles.textInputContainer}>
           <TextInput
+            label="비밀번호"
             onChangeText={handleChange("password")}
             value={values.password}
-            placeholder="비밀번호를 입력해주세요"
+            placeholder="9자리 이상 영문 + 숫자"
             textContentType="password"
             secureTextEntry={true}
             error={typeof errors.password !== "undefined"}
@@ -122,10 +131,12 @@ export default function Login() {
             type="text"
             onPress={handleSignupButtonClicked}
             label="회원가입"
+            compact={true}
           />
           <Button
             type="text"
             onPress={handleFindPasswordButtonClicked}
+            compact={true}
             label="비밀번호 변경"
           />
         </View>
@@ -144,5 +155,6 @@ const LoginStyles = StyleSheet.create({
     marginTop: 32,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-around",
   },
 });
