@@ -12,7 +12,6 @@ import {
 import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "@ant-design/react-native";
 import { ClubItem } from "./redux/types";
-import qs from "qs";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
@@ -21,27 +20,37 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
   const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
 
   const handleClickSubscribeButton = React.useCallback(() => {
-    axios
-      .post(CLUB_SUBSCRIBE_URL, qs.stringify({ club_id: clubId }), {
-        headers: {
-          Authorization: token.accessToken,
-        },
-      })
-      .then(() => {
-        setIsSubscribed(true);
-      });
+    axios({
+      method: "POST",
+      url: CLUB_SUBSCRIBE_URL,
+      params: {
+        club_id: clubId,
+      },
+      headers: {
+        Authorization: token.accessToken,
+      },
+    }).then(() => {
+      setIsSubscribed(true);
+    });
   }, []);
 
   const handleClickUnsubscribeButton = React.useCallback(() => {
-    axios
-      .post(CLUB_UNSUBSCRIBE_URL, qs.stringify({ club_id: clubId }), {
-        headers: {
-          Authorization: token.accessToken,
-        },
-      })
+    axios({
+      method: "DELETE",
+      url: CLUB_UNSUBSCRIBE_URL,
+      headers: {
+        Authorization: token.accessToken,
+      },
+      params: {
+        club_id: clubId,
+      },
+    })
       .then((response) => {
         setIsSubscribed(false);
         console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
       });
   }, []);
 
