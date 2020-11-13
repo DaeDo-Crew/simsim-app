@@ -10,9 +10,13 @@ const { store, persistor } = createReduxStore();
 export default function App() {
   const theme = {
     ...DefaultTheme,
+    roundness: 10,
     colors: {
       ...DefaultTheme.colors,
       primary: "#0a4e9b",
+      accent: "#0a4e9b",
+      text: "#2b2926",
+      placeholder: "#bdbdbd",
     },
   };
 
