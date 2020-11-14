@@ -4,10 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Home from "components/Home";
 import MeetUp from "components/MeetUp";
 import Login from "components/Login";
-import PrimarySignUp from "components/SignUp/PrimarySignUp";
-import SecondarySignUp from "components/SignUp/SecondarySignUp";
-import ThirdarySignUp from "components/SignUp/ThirdarySignUp";
-import FindId from "components/FindId";
+import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -61,7 +58,9 @@ export default function RootNavigator() {
           },
           headerTitleStyle: {
             fontWeight: "bold",
+            fontSize: 20,
           },
+          headerTitleAlign: "left",
           headerTintColor: `${theme.colors.black}`,
           headerBackImage: () => (
             <MaterialIcons
@@ -81,16 +80,7 @@ export default function RootNavigator() {
         ) : (
           <>
             <RootStack.Screen name="Login" component={Login} />
-            <RootStack.Screen name="PrimarySignUp" component={PrimarySignUp} />
-            <RootStack.Screen
-              name="SecondarySignUp"
-              component={SecondarySignUp}
-            />
-            <RootStack.Screen
-              name="ThirdarySignUp"
-              component={ThirdarySignUp}
-            />
-            <RootStack.Screen name="FindId" component={FindId} />
+            <RootStack.Screen name="SignUp" component={SignUp} />
             <RootStack.Screen name="FindPassword" component={FindPassword} />
           </>
         )}
