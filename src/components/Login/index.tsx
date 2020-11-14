@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useDispatch } from "react-redux";
 import AppLayout from "modules/AppLayout";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { Checkbox } from "react-native-paper";
 import TextInput from "modules/TextInput";
 import Button from "modules/Button";
@@ -15,13 +15,10 @@ import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
 import qs from "qs";
 import { registerForPushNotificationsAsync } from "utils/pushNotifications";
-import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -29,13 +26,16 @@ export default function Login() {
     });
   });
 
-  const { values, errors, handleSubmit, handleChange } = useFormik<
-    LoginRequest
-  >({
+  const {
+    values,
+    errors,
+    handleSubmit,
+    handleChange,
+    isSubmitting,
+  } = useFormik<LoginRequest>({
     initialValues: { id: "", password: "" },
     validationSchema: loginRequestSchema,
     onSubmit: async (value) => {
-      setIsSubmitting(true);
       axios
         .post<LoginResponse>(
           LOGIN_URL,
@@ -52,7 +52,6 @@ export default function Login() {
             })
           );
           const expoPushToken = await registerForPushNotificationsAsync();
-          console.log(expoPushToken);
           await axios.post(
             UPLOAD_EXPO_PUSH_TOKEN_URL,
             qs.stringify({ expoPushToken: expoPushToken }),
@@ -64,16 +63,11 @@ export default function Login() {
           );
         })
         .catch((error) => {
-          dispatch(
-            showSnackbar({
-              visible: true,
-              message: "실패!",
-            })
-          );
-          console.log(error);
-        })
-        .finally(() => {
-          setIsSubmitting(false);
+          Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
+            {
+              text: "확인",
+            },
+          ]);
         });
     },
   });

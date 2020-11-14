@@ -6,7 +6,7 @@ import { AuthStyles } from "modules/auth/base";
 import TextInput from "modules/TextInput";
 import { SignUpRequest } from "./redux/types";
 import { useFormik } from "formik";
-import { signUpRequestSchema } from "./schemas";
+// import { signUpRequestSchema } from "./schemas";
 import axios from "axios";
 import { SIGN_UP, SEND_EMAIL_CODE } from "./apiUrls";
 import Button from "modules/Button";
@@ -19,12 +19,15 @@ export default function SignUp() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [agreed, setAgreed] = React.useState(false);
 
-  const { values, errors, handleSubmit, handleChange } = useFormik<
-    SignUpRequest
-  >({
+  const {
+    values,
+    errors,
+    handleSubmit,
+    handleChange,
+    isSubmitting,
+  } = useFormik<SignUpRequest>({
     initialValues: {
       // TODO: loginId는 나중에 아이디 삭제할떄 제거
       loginId: "",
@@ -33,11 +36,10 @@ export default function SignUp() {
       nickname: "",
       code: "",
     },
-    validationSchema: signUpRequestSchema,
-    onSubmit: async (value) => {
-      console.log("실행");
-      setIsSubmitting(true);
-      await axios({
+    // TODO: 나중에 아이디 삭제할떄 제거
+    // validationSchema: signUpRequestSchema,
+    onSubmit: async (value: SignUpRequest) => {
+      axios({
         method: "POST",
         url: SIGN_UP,
         params: {
@@ -49,7 +51,9 @@ export default function SignUp() {
         },
       })
         .then(() => {
-          console.log("성공");
+          dispatch(
+            showSnackbar({ visible: true, message: "회원가입에 성공했습니다." })
+          );
           navigation.navigate("Login");
         })
         .catch((error) => {
@@ -58,9 +62,6 @@ export default function SignUp() {
               text: "확인",
             },
           ]);
-        })
-        .finally(() => {
-          setIsSubmitting(false);
         });
     },
   });
@@ -191,11 +192,12 @@ export default function SignUp() {
               <Text>심심했지의 이용약관에 동의합니다.</Text>
             </View>
             <View style={SignUpStyles.submitContainer}>
+              {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
               <Button
                 type="contained"
                 label="회원가입"
                 isSubmitting={isSubmitting}
-                onPress={handleSubmit}
+                onPress={handleSubmit as any}
               />
             </View>
           </View>
