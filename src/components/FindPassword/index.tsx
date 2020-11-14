@@ -1,22 +1,22 @@
 import * as React from "react";
+import { useDispatch } from "react-redux";
 import AppLayout from "modules/AppLayout";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import TextInput from "modules/TextInput";
 import Button from "modules/Button";
 import { useNavigation } from "@react-navigation/native";
-import qs from "qs";
 import axios from "axios";
 import { useFormik } from "formik";
 import { AuthStyles } from "modules/auth/base";
 import { FindPwRequest } from "./redux/types";
-import { findPwRequestSchema } from "./schemas";
+// import { findPwRequestSchema } from "./schemas";
 import { FIND_PW } from "./apiUrls";
 import { usePasswordConfirm } from "modules/auth/hooks";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function FindPassword() {
   const navigation = useNavigation();
-
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const dispatch = useDispatch();
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -24,32 +24,44 @@ export default function FindPassword() {
     });
   });
 
-  const { values, errors, handleSubmit, handleChange } = useFormik<
-    FindPwRequest
-  >({
+  const {
+    values,
+    errors,
+    handleSubmit,
+    handleChange,
+    isSubmitting,
+  } = useFormik<FindPwRequest>({
     initialValues: { email: "", loginId: "", newqw: "" },
-    validationSchema: findPwRequestSchema,
+    // TODO: 로그인에 아이디 없어지면 주석 해제
+    // validationSchema: findPwRequestSchema,
     onSubmit: async (value) => {
       if (!validatePasswordConfirm()) {
       } else {
-        setIsSubmitting(true);
-        await axios
-          .post<boolean>(
-            FIND_PW,
-            qs.stringify({
-              email: value.email,
-              loginId: value.loginId,
-              newqw: value.newqw,
-            })
-          )
+        await axios({
+          method: "PATCH",
+          url: FIND_PW,
+          params: {
+            email: value.email,
+            loginId: value.loginId,
+            newqw: value.newqw,
+          },
+        })
           .then(() => {
             navigation.navigate("Login");
+            dispatch(
+              showSnackbar({
+                visible: true,
+                message: "비밀번호를 재설정했습니다.",
+              })
+            );
           })
           .catch((error) => {
-            console.log(error.response.data);
-          })
-          .finally(() => {
-            setIsSubmitting(false);
+            console.log(error);
+            Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
+              {
+                text: "확인",
+              },
+            ]);
           });
       }
     },
@@ -82,6 +94,7 @@ export default function FindPassword() {
             value={values.newqw}
             placeholder="9자리 이상 영문 + 숫자"
             textContentType="newPassword"
+            secureTextEntry={true}
             error={typeof errors.newqw !== "undefined"}
           />
         </View>
