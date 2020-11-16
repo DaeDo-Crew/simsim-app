@@ -1,7 +1,14 @@
 import * as React from "react";
 import AppLayout from "modules/AppLayout";
 import { useNavigation } from "@react-navigation/native";
-import { ScrollView, Text, StyleSheet, View, Alert } from "react-native";
+import {
+  ScrollView,
+  Text,
+  StyleSheet,
+  View,
+  Alert,
+  KeyboardAvoidingView,
+} from "react-native";
 import { AuthStyles } from "modules/auth/base";
 import TextInput from "modules/TextInput";
 import { SignUpRequest } from "./redux/types";
@@ -118,7 +125,7 @@ export default function SignUp() {
   return (
     <AppLayout>
       <ScrollView>
-        <View style={SignUpStyles.container}>
+        <KeyboardAvoidingView style={SignUpStyles.container} behavior="height">
           <View style={SignUpStyles.introContainer}>
             <Text style={AuthStyles.introText}>반갑습니다!</Text>
           </View>
@@ -201,7 +208,7 @@ export default function SignUp() {
               />
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
       </ScrollView>
     </AppLayout>
   );
