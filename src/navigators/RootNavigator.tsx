@@ -59,7 +59,7 @@ export default function RootNavigator() {
           },
           headerTitleStyle: {
             fontWeight: "bold",
-            fontSize: 24,
+            fontSize: 20,
           },
           headerTitleAlign: "left",
           headerTintColor: `${theme.colors.black}`,

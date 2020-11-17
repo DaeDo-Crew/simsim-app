@@ -21,6 +21,10 @@ export default function Home() {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerTitle: "심심했지 🙋‍♀️",
+      headerTitleStyle: {
+        fontSize: 24,
+        fontWeight: "bold",
+      },
     });
   });
 
