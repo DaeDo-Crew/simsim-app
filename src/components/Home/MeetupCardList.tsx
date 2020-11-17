@@ -18,9 +18,9 @@ import { setMeetUpList } from "components/MeetUp/redux/actions";
 import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { MEEING_LIST_URL } from "./apiUrls";
 
-function MeetupCardListHeader() {
+const MeetupCardListHeader = () => {
   return <Text style={MeetUpCardStyles.cardListheader}>모집중인 모임</Text>;
-}
+};
 
 export default function MeetupCardList() {
   const navigation = useNavigation();
