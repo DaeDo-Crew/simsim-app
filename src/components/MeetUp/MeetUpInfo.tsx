@@ -1,38 +1,44 @@
 import * as React from "react";
 import Divider from "modules/Divider";
-import { Fontisto, Entypo } from "@expo/vector-icons";
 import { StyleSheet, View, Text } from "react-native";
+import { MeetUpItemBaseStyle } from "./base";
+import theme from "theme";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 type MeetUpInfoType = "DATE" | "PERSONNEL" | "LOCATION";
 
 function MeetUpInfoItem({
   type,
-  content,
-  secondContent,
+  label,
 }: {
   type: MeetUpInfoType;
-  content: string;
-  secondContent?: string;
+  label: string;
 }) {
   if (type == "DATE") {
     return (
-      <View style={MeetUpInfoItemStyles.container}>
-        <Fontisto name="date" size={24} color="black" />
-        <Text>{content}</Text>
+      <View style={MeetUpInfoStyles.itemContainer}>
+        <MaterialCommunityIcons name="calendar" size={24} color="black" />
+        <Text style={MeetUpInfoStyles.itemLabelText}>{label}</Text>
       </View>
     );
   } else if (type == "PERSONNEL") {
     return (
-      <View style={MeetUpInfoItemStyles.container}>
-        <Fontisto name="person" size={24} color="black" />
-        <Text>{`현재${content}명 / 최대${secondContent}명`}</Text>
+      <View style={MeetUpInfoStyles.itemContainer}>
+        <MaterialCommunityIcons name="account-alert" size={24} color="black" />
+        <Text
+          style={MeetUpInfoStyles.itemLabelText}
+        >{`현재${label}명 / 최대${label}명`}</Text>
       </View>
     );
   } else if (type == "LOCATION") {
     return (
-      <View style={MeetUpInfoItemStyles.container}>
-        <Entypo name="location" size={24} color="black" />
-        <Text>{content}</Text>
+      <View style={MeetUpInfoStyles.itemContainer}>
+        <MaterialCommunityIcons
+          name="map-marker-question"
+          size={24}
+          color="black"
+        />
+        <Text style={MeetUpInfoStyles.itemLabelText}>{label}</Text>
       </View>
     );
   }
@@ -41,33 +47,45 @@ function MeetUpInfoItem({
 
 export default function MeetUpInfo({
   startDate,
-  currentParticipants,
   maxParticipants,
   location,
+  clubName,
 }: {
   startDate: string;
-  currentParticipants: number;
   maxParticipants: number;
   location: string;
+  clubName: string;
 }) {
   return (
     <>
-      <MeetUpInfoItem type="DATE" content={startDate} />
-      <MeetUpInfoItem
-        type="PERSONNEL"
-        content={currentParticipants.toString()}
-        secondContent={maxParticipants.toString()}
-      />
-      <MeetUpInfoItem type="LOCATION" content={location} />
+      <View style={MeetUpInfoStyles.container}>
+        <View style={MeetUpInfoStyles.titleContainer}>
+          <Text style={MeetUpItemBaseStyle.title}>{`${clubName}의 모임`}</Text>
+        </View>
+        <MeetUpInfoItem type="DATE" label={startDate} />
+        <MeetUpInfoItem type="PERSONNEL" label={maxParticipants.toString()} />
+        <MeetUpInfoItem type="LOCATION" label={location} />
+      </View>
       <Divider />
     </>
   );
 }
 
-const MeetUpInfoItemStyles = StyleSheet.create({
+const MeetUpInfoStyles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginVertical: 32,
+  },
+  titleContainer: {
+    marginBottom: 32,
+  },
+  itemContainer: {
+    marginBottom: 16,
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  itemLabelText: {
+    marginLeft: 16,
+    fontSize: 16,
+    color: theme.colors.black,
   },
 });
