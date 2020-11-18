@@ -10,7 +10,7 @@ import {
   CLUB_UNSUBSCRIBE_URL,
 } from "./apiUrls";
 import { getUserToken } from "components/Login/redux/selectors";
-import { Button } from "@ant-design/react-native";
+import { Button } from "react-native-paper";
 import { ClubItem } from "./redux/types";
 
 export default function MeetUpClub({ clubId }: { clubId: number }) {
@@ -68,6 +68,7 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
         });
         setClubItem(fetchedClubItem.data);
         setIsSubscribed(fetchedClubItem.data.Is_user_subscribing_club);
+        console.log(clubId);
       } catch (error) {
         console.log(error);
       }
@@ -80,31 +81,43 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
       {typeof clubItem !== "undefined" && (
         <>
           <View style={clubStyles.container}>
-            <View style={clubStyles.clubNameContainer}>
-              <View style={clubStyles.clubAvatarContainer}>
-                <Avatar size={40} />
-              </View>
-              <View style={clubStyles.clubNameTextContainer}>
-                {clubItem.club_name !== null && (
-                  <Text>{clubItem.club_name}</Text>
-                )}
+            <View style={clubStyles.clubHeaderContainer}>
+              <View style={clubStyles.clubNameContainer}>
+                <Avatar size={48} imageSource={clubItem.club_profile_image} />
+                <View style={clubStyles.clubNameTextContainer}>
+                  {clubItem.club_name !== null && (
+                    <Text style={clubStyles.clubNameText}>
+                      {clubItem.club_name}
+                    </Text>
+                  )}
+                </View>
               </View>
               <View>
                 {isSubscribed === false &&
                 typeof isSubscribed !== "undefined" ? (
-                  <Button onPress={handleClickSubscribeButton}>구독</Button>
+                  <Button
+                    mode="text"
+                    onPress={handleClickSubscribeButton}
+                    labelStyle={clubStyles.subScribeButtonLabel}
+                  >
+                    구독
+                  </Button>
                 ) : (
-                  <Button onPress={handleClickUnsubscribeButton}>
+                  <Button
+                    mode="text"
+                    onPress={handleClickUnsubscribeButton}
+                    labelStyle={clubStyles.subScribeButtonLabel}
+                  >
                     구독해지
                   </Button>
                 )}
               </View>
             </View>
-            <View style={clubStyles.clubIntroductionContainer}>
-              {clubItem.club_description !== null && (
+            {clubItem.club_description !== null && (
+              <View style={clubStyles.clubIntroductionContainer}>
                 <Text>{clubItem.club_description}</Text>
-              )}
-            </View>
+              </View>
+            )}
           </View>
           <Divider />
         </>
@@ -115,22 +128,30 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
 
 const clubStyles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginVertical: 32,
+  },
+  clubHeaderContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   clubNameContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  clubAvatarContainer: {
-    alignSelf: "center",
+    alignItems: "center",
   },
   clubNameTextContainer: {
     marginLeft: 16,
-    alignSelf: "center",
-    justifyContent: "space-between",
+  },
+  clubNameText: {
+    fontSize: 16,
+    fontWeight: "700",
   },
   clubIntroductionContainer: {
-    paddingVertical: 16,
+    paddingTop: 16,
     paddingHorizontal: 8,
+  },
+  subScribeButtonLabel: {
+    fontWeight: "700",
+    fontSize: 16,
   },
 });

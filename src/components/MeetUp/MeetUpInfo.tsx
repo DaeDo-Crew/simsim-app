@@ -17,14 +17,22 @@ function MeetUpInfoItem({
   if (type == "DATE") {
     return (
       <View style={MeetUpInfoStyles.itemContainer}>
-        <MaterialCommunityIcons name="calendar" size={24} color="black" />
+        <MaterialCommunityIcons
+          name="calendar"
+          size={24}
+          color={theme.colors.darkGrey}
+        />
         <Text style={MeetUpInfoStyles.itemLabelText}>{label}</Text>
       </View>
     );
   } else if (type == "PERSONNEL") {
     return (
       <View style={MeetUpInfoStyles.itemContainer}>
-        <MaterialCommunityIcons name="account-alert" size={24} color="black" />
+        <MaterialCommunityIcons
+          name="account-alert"
+          size={24}
+          color={theme.colors.darkGrey}
+        />
         <Text
           style={MeetUpInfoStyles.itemLabelText}
         >{`최대${label}명까지 신청 가능`}</Text>
@@ -36,7 +44,7 @@ function MeetUpInfoItem({
         <MaterialCommunityIcons
           name="map-marker-question"
           size={24}
-          color="black"
+          color={theme.colors.darkGrey}
         />
         <Text style={MeetUpInfoStyles.itemLabelText}>{label}</Text>
       </View>
