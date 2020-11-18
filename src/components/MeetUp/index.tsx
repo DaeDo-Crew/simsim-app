@@ -72,15 +72,18 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
               <>
                 <MeetUpHeader
                   title={meetUpDetailData.meetingName}
-                  communityName={meetUpDetailData.clubName}
+                  createdTime={meetUpDetailData.createdTime}
                 />
                 <MeetUpInfo
                   startDate={meetUpDetailData.startDate}
-                  currentParticipants={meetUpDetailData.curParticipant}
                   maxParticipants={meetUpDetailData.maxParticipant}
                   location={meetUpDetailData.meetingLoaction}
+                  clubName={meetUpDetailData.clubName}
                 />
-                <MeetUpContent content={meetUpDetailData.explanationContent} />
+                <MeetUpContent
+                  title={meetUpDetailData.explanationTitle}
+                  content={meetUpDetailData.explanationContent}
+                />
                 <MeetUpClub clubId={meetUpDetailData.clubId} />
                 {/* <MeetUpComment /> */}
               </>
@@ -94,6 +97,6 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
 
 const MeetUpItemStyles = StyleSheet.create({
   container: {
-    marginHorizontal: 8,
+    marginHorizontal: 16,
   },
 });

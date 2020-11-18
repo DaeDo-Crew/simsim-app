@@ -27,7 +27,7 @@ function MeetUpInfoItem({
         <MaterialCommunityIcons name="account-alert" size={24} color="black" />
         <Text
           style={MeetUpInfoStyles.itemLabelText}
-        >{`현재${label}명 / 최대${label}명`}</Text>
+        >{`최대${label}명까지 신청 가능`}</Text>
       </View>
     );
   } else if (type == "LOCATION") {

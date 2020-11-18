@@ -62,8 +62,7 @@ export default function MeetUpImageCarousel({
 const MeetUpImageCarouselStyle = StyleSheet.create({
   paginationContainer: {
     backgroundColor: theme.colors.white,
-    paddingTop: 16,
-    paddingBottom: 32,
+    paddingVertical: 32,
   },
   pageDotContainer: {
     marginHorizontal: 2,
