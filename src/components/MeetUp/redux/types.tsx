@@ -1,4 +1,5 @@
 export type MeetUpItem = {
+  applied: boolean;
   category: string;
   clubId: number;
   clubName: string;
@@ -20,5 +21,5 @@ export type ClubItem = {
   Is_user_subscribing_club: boolean;
   club_name: string;
   club_description: string;
-  club_profile_image?: [string];
+  club_profile_image?: string | null;
 };

@@ -56,7 +56,6 @@ export default function FindPassword() {
             );
           })
           .catch((error) => {
-            console.log(error);
             Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
               {
                 text: "확인",

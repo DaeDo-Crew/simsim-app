@@ -1,30 +1,20 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
-import theme from "theme";
+import { Avatar as RnpAvatar } from "react-native-paper";
 
 type Props = {
   size: number;
+  imageSource?: string | null;
 };
 
 export default function Avatar(props: Props) {
-  const { size } = props;
-  const avatarStyles = getAvatarStyles({ size });
+  const { size, imageSource } = props;
   return (
-    <View style={avatarStyles.AvatarContainer}>
-      <AntDesign name="user" size={size} color={theme.colors.white} />
-    </View>
+    <>
+      {imageSource !== null ? (
+        <RnpAvatar.Image size={size} source={{ uri: imageSource }} />
+      ) : (
+        <RnpAvatar.Icon size={size} icon="account-circle" />
+      )}
+    </>
   );
 }
-
-const getAvatarStyles = (props: Props) => {
-  const { size } = props;
-  return StyleSheet.create({
-    AvatarContainer: {
-      width: size,
-      height: size,
-      borderRadius: size / 2,
-      backgroundColor: theme.colors.primary,
-    },
-  });
-};

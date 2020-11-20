@@ -55,6 +55,7 @@ export default function RootNavigator() {
         screenOptions={{
           headerStyle: {
             backgroundColor: `${theme.colors.white}`,
+            height: 100,
           },
           headerTitleStyle: {
             fontWeight: "bold",
