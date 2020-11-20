@@ -1,27 +1,27 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import Divider from "modules/Divider";
 import { Button } from "react-native-paper";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
 import { MEETING_REGISTER_URL, MEETING_UNREGISTER_URL } from "./apiUrls";
-import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function MeetUpBottomBar({
   currentParticipants,
   meetingId,
+  meetingName,
+  userRegistered,
 }: {
   currentParticipants: number;
   meetingId: number;
+  meetingName: string;
+  userRegistered: boolean;
 }) {
-  const dispatch = useDispatch();
   const token = useSelector(getUserToken);
-  const [isRegistered, setIsRegistered] = React.useState<boolean>();
-
-  React.useEffect(() => {
-    console.log(meetingId);
-  });
+  const [isRegistered, setIsRegistered] = React.useState<boolean>(
+    userRegistered
+  );
 
   const handleMeetingRegister = React.useCallback(() => {
     axios({
@@ -35,12 +35,20 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
-        dispatch(
-          showSnackbar({ visible: true, message: "모임에 참가신청 했습니다." })
-        );
+        Alert.alert("모임에 참여했습니다.", `${meetingName}`, [
+          {
+            text: "확인",
+          },
+        ]);
         setIsRegistered(true);
       })
-      .catch((error) => console.log(error));
+      .catch((error) => {
+        Alert.alert("오류가 발생했습니다.", `${error.response.data}`, [
+          {
+            text: "확인",
+          },
+        ]);
+      });
   }, []);
   const handleMeetingUnregister = React.useCallback(() => {
     axios({
@@ -54,16 +62,19 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
-        dispatch(
-          showSnackbar({
-            visible: true,
-            message: "모임의 참가신청을 취소했습니다.",
-          })
-        );
+        Alert.alert("모임을 참여취소했습니다.", `${meetingName}`, [
+          {
+            text: "확인",
+          },
+        ]);
         setIsRegistered(false);
       })
       .catch((error) => {
-        console.log(error);
+        Alert.alert("오류가 발생했습니다.", `${error.response.data}`, [
+          {
+            text: "확인",
+          },
+        ]);
       });
   }, []);
 
@@ -90,7 +101,7 @@ export default function MeetUpBottomBar({
             labelStyle={MeetUpBottomBarStyle.meetingRegisterLabel}
             onPress={handleMeetingUnregister}
           >
-            참가신청취소
+            참가신청 취소
           </Button>
         )}
       </View>
@@ -110,6 +121,6 @@ const MeetUpBottomBarStyle = StyleSheet.create({
     fontWeight: "700",
   },
   meetingRegisterButton: {
-    padding: 6,
+    padding: 4,
   },
 });

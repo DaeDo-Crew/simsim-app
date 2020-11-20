@@ -1,4 +1,5 @@
 export type MeetUpItem = {
+  applied: boolean;
   category: string;
   clubId: number;
   clubName: string;
