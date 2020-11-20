@@ -1,11 +1,12 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, SafeAreaView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import theme from "theme";
 import Snackbar from "modules/Snackbar";
 
 type AppLayoutProps = {
   children?: React.ReactNode;
+  isSafeArea?: boolean;
 };
 
 const style = StyleSheet.create({
@@ -16,13 +17,23 @@ const style = StyleSheet.create({
 });
 
 export default function AppLayout(props: AppLayoutProps) {
-  const { children } = props;
+  const { children, isSafeArea } = props;
 
   return (
-    <View style={style.MainSection}>
-      {children}
-      <StatusBar style="dark" />
-      <Snackbar />
-    </View>
+    <>
+      {isSafeArea ? (
+        <SafeAreaView style={style.MainSection}>
+          {children}
+          <StatusBar style="dark" />
+          <Snackbar />
+        </SafeAreaView>
+      ) : (
+        <View style={style.MainSection}>
+          {children}
+          <StatusBar style="dark" />
+          <Snackbar />
+        </View>
+      )}
+    </>
   );
 }
