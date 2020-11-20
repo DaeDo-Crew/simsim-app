@@ -2,19 +2,20 @@ import * as React from "react";
 import { Text, View, StyleSheet } from "react-native";
 import theme from "theme";
 import Divider from "modules/Divider";
+import { MeetUpItemBaseStyle } from "./base";
 
 export default function MeetUpHeader({
   title,
-  communityName,
+  createdTime,
 }: {
   title: string;
-  communityName: string;
+  createdTime: string;
 }) {
   return (
     <>
       <View style={MeetUpHeaderStyles.container}>
-        <Text style={MeetUpHeaderStyles.title}>{title}</Text>
-        <Text style={MeetUpHeaderStyles.communityName}>{communityName}</Text>
+        <Text style={MeetUpItemBaseStyle.title}>{title}</Text>
+        <Text style={MeetUpHeaderStyles.createdTime}>{createdTime}</Text>
       </View>
       <Divider />
     </>
@@ -23,15 +24,13 @@ export default function MeetUpHeader({
 
 const MeetUpHeaderStyles = StyleSheet.create({
   container: {
-    marginVertical: 16,
+    marginBottom: 32,
   },
-  title: {
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-  communityName: {
+
+  createdTime: {
     marginVertical: 8,
     fontSize: 16,
-    color: theme.colors.green,
+    color: theme.colors.darkGrey,
+    fontStyle: "italic",
   },
 });

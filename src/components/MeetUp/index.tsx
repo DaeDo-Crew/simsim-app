@@ -9,6 +9,7 @@ import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
 import MeetUpClub from "./MeetUpClub";
 // import MeetUpComment from "./MeetUpComment";
+import MeetUpBottomBar from "./MeetUpBottomBar";
 import { MeetUpItem } from "./redux/types";
 import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
@@ -33,7 +34,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "모임 상세보기",
+      headerTitle: null,
     });
   });
 
@@ -63,37 +64,46 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
   }, [token]);
 
   return (
-    <AppLayout>
-      <ScrollView>
-        {meetUpDetailData !== null && (
-          <>
+    <AppLayout isSafeArea={true}>
+      {meetUpDetailData !== null && (
+        <>
+          <ScrollView>
             <MeetUpImageCarousel imageUrlList={meetUpDetailData.imgUrlList} />
             <View style={MeetUpItemStyles.container}>
               <>
                 <MeetUpHeader
                   title={meetUpDetailData.meetingName}
-                  communityName={meetUpDetailData.clubName}
+                  createdTime={meetUpDetailData.createdTime}
                 />
                 <MeetUpInfo
                   startDate={meetUpDetailData.startDate}
-                  currentParticipants={meetUpDetailData.curParticipant}
                   maxParticipants={meetUpDetailData.maxParticipant}
                   location={meetUpDetailData.meetingLoaction}
+                  clubName={meetUpDetailData.clubName}
                 />
-                <MeetUpContent content={meetUpDetailData.explanationContent} />
+                <MeetUpContent
+                  title={meetUpDetailData.explanationTitle}
+                  content={meetUpDetailData.explanationContent}
+                />
                 <MeetUpClub clubId={meetUpDetailData.clubId} />
                 {/* <MeetUpComment /> */}
               </>
             </View>
-          </>
-        )}
-      </ScrollView>
+          </ScrollView>
+          <MeetUpBottomBar
+            userRegistered={meetUpDetailData.applied}
+            meetingName={meetUpDetailData.meetingName}
+            meetingId={meetUpDetailData.meetingId}
+            currentParticipants={meetUpDetailData?.curParticipant}
+          />
+        </>
+      )}
     </AppLayout>
   );
 }
 
 const MeetUpItemStyles = StyleSheet.create({
   container: {
-    marginHorizontal: 8,
+    marginHorizontal: 16,
   },
 });

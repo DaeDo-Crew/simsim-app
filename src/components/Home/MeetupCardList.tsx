@@ -3,13 +3,13 @@ import {
   FlatList,
   StyleSheet,
   View,
-  Text,
   Image,
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
 import axios from "axios";
 import { MeetUpItem } from "components/MeetUp/redux/types";
+import { Text } from "react-native-paper";
 import theme from "theme";
 import { useNavigation } from "@react-navigation/native";
 import { useDispatch, useSelector } from "react-redux";
@@ -17,10 +17,25 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "components/MeetUp/redux/actions";
 import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { MEEING_LIST_URL } from "./apiUrls";
+import { Entypo } from "@expo/vector-icons";
 
-function MeetupCardListHeader() {
-  return <Text style={MeetUpCardStyles.cardListheader}>모집중인 모임</Text>;
-}
+const MeetupCardListHeader = () => {
+  return (
+    <View style={MeetUpCardStyles.cardListHeaderContainer}>
+      <View>
+        <Text style={MeetUpCardStyles.cardListHeaderTitle}>모집중인 모임</Text>
+      </View>
+      <View style={MeetUpCardStyles.cardListHeaderSubItemContainer}>
+        <Text>전체보기</Text>
+        <Entypo
+          name="chevron-small-right"
+          size={20}
+          color={theme.colors.darkGrey}
+        />
+      </View>
+    </View>
+  );
+};
 
 export default function MeetupCardList() {
   const navigation = useNavigation();
@@ -43,10 +58,6 @@ export default function MeetupCardList() {
             <Text style={MeetUpCardStyles.cardItemTitle}>
               {item.meetingName}
             </Text>
-            <View style={MeetUpCardStyles.itemSubInfoContainer}>
-              <Text>{item.clubName}</Text>
-              <Text>{item.deadline}</Text>
-            </View>
           </View>
         </View>
       </TouchableWithoutFeedback>
@@ -83,7 +94,7 @@ export default function MeetupCardList() {
             data={meetUpList}
             renderItem={MeetupCardItem}
             horizontal={true}
-            showsHorizontalScrollIndicator={true}
+            showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => String(item.meetingId)}
           />
         </>
@@ -95,23 +106,33 @@ export default function MeetupCardList() {
 const MeetUpCardStyles = StyleSheet.create({
   listContainer: {},
   itemContainer: {
-    marginVertical: 8,
-    marginHorizontal: 8,
-    backgroundColor: theme.colors.ligthGrey,
-    height: 200,
-    width: 200,
+    marginVertical: 16,
+    marginHorizontal: 16,
     overflow: "hidden",
   },
   itemInfoContainer: {
-    padding: 8,
+    marginTop: 16,
   },
   itemSubInfoContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  cardListheader: {
-    marginTop: 16,
-    marginStart: 8,
+  cardListHeaderContainer: {
+    marginTop: 32,
+    marginHorizontal: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  cardListHeaderSubItemContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-start",
+  },
+  cardListHeaderSubItemIcon: {
+    color: theme.colors.black,
+  },
+  cardListHeaderTitle: {
     fontSize: 20,
     fontWeight: "bold",
   },
@@ -119,8 +140,9 @@ const MeetUpCardStyles = StyleSheet.create({
     fontSize: 16,
   },
   cardImage: {
-    width: "100%",
-    height: 150,
+    width: 200,
+    aspectRatio: 1,
     resizeMode: "cover",
+    borderRadius: theme.borderRadius,
   },
 });

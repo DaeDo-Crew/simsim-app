@@ -3,7 +3,8 @@ import { ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import MeetupCardList from "./MeetupCardList";
-import { Button, Toast, Portal } from "@ant-design/react-native";
+import Button from "modules/Button";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLogout } from "components/Login/redux/actions";
 import axios from "axios";
@@ -19,13 +20,16 @@ export default function Home() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "홈",
+      headerTitle: "심심했지 🙋‍♀️",
+      headerTitleStyle: {
+        fontSize: 24,
+        fontWeight: "bold",
+      },
     });
   });
 
   const handleLogout = () => {
     if (userToken !== null) {
-      const toastKey = Toast.loading("로그아웃 하는 중...");
       axios
         .post(
           LOGOUT_URL,
@@ -34,17 +38,25 @@ export default function Home() {
           })
         )
         .then(() => {
-          Portal.remove(toastKey);
+          dispatch(
+            showSnackbar({ visible: true, message: "로그아웃 했습니다." })
+          );
           dispatch(setUserLogout(null));
         })
-        .catch(() => Portal.remove(toastKey));
+        .catch(() => {
+          showSnackbar({ visible: true, message: "로그아웃에 실패 했습니다." });
+        });
     }
   };
 
   return (
     <AppLayout>
       <ScrollView>
-        <Button onPress={handleLogout}>임시 로그아웃 버튼</Button>
+        <Button
+          type="outlined"
+          onPress={handleLogout}
+          label="임시 로그아웃 버튼"
+        />
         <View>
           <MeetupCardList />
         </View>

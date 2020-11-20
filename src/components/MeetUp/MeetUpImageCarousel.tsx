@@ -30,17 +30,9 @@ export default function MeetUpImageCarousel({
           <Pagination
             dotsLength={imageUrlList.length}
             activeDotIndex={seletedIndex}
-            containerStyle={{ backgroundColor: theme.colors.white }}
-            dotStyle={{
-              width: 10,
-              height: 10,
-              borderRadius: 5,
-              marginHorizontal: 8,
-              backgroundColor: theme.colors.primary,
-            }}
-            dotContainerStyle={{
-              marginHorizontal: 2,
-            }}
+            containerStyle={MeetUpImageCarouselStyle.paginationContainer}
+            dotStyle={MeetUpImageCarouselStyle.pageDot}
+            dotContainerStyle={MeetUpImageCarouselStyle.pageDotContainer}
             inactiveDotOpacity={0.4}
             inactiveDotScale={0.6}
           />
@@ -67,14 +59,30 @@ export default function MeetUpImageCarousel({
   );
 }
 
+const MeetUpImageCarouselStyle = StyleSheet.create({
+  paginationContainer: {
+    backgroundColor: theme.colors.white,
+    paddingVertical: 32,
+  },
+  pageDotContainer: {
+    marginHorizontal: 2,
+  },
+  pageDot: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    marginHorizontal: 8,
+    backgroundColor: theme.colors.primary,
+  },
+});
+
 const MeetUpImageStyle = StyleSheet.create({
   itemContainer: {
     width: SCREEN_WIDTH,
-    height: 300,
+    height: 320,
   },
   image: {
     ...StyleSheet.absoluteFillObject,
     resizeMode: "cover",
-    borderRadius: 5,
   },
 });

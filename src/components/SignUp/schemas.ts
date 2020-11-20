@@ -1,21 +1,10 @@
 import * as yup from "yup";
-import {
-  IdCheckRequest,
-  EmailCheckRequest,
-  NicknameCheckRequest,
-} from "./redux/types";
+import { SignUpRequest } from "./redux/types";
 
-export const idCheckRequestSchema = yup.object<IdCheckRequest>({
+export const signUpRequestSchema = yup.object<SignUpRequest>({
   loginId: yup.string().required(),
   password: yup.string().required(),
-});
-
-export const emailCheckRequestSchema = yup.object<EmailCheckRequest>({
-  // email 은 향후 uos.ac.kr 같은 특정 도메인만 허용하도록 regex로 변경해야함
   email: yup.string().email().required(),
-  emailCheckCode: yup.string().required(),
-});
-
-export const nicknameCheckRequestSchema = yup.object<NicknameCheckRequest>({
+  code: yup.string().required(),
   nickname: yup.string().required(),
 });
