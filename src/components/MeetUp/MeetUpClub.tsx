@@ -44,14 +44,9 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
       params: {
         club_id: clubId,
       },
-    })
-      .then((response) => {
-        setIsSubscribed(false);
-        console.log(response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    }).then(() => {
+      setIsSubscribed(false);
+    });
   }, []);
 
   React.useEffect(() => {
@@ -68,7 +63,6 @@ export default function MeetUpClub({ clubId }: { clubId: number }) {
         });
         setClubItem(fetchedClubItem.data);
         setIsSubscribed(fetchedClubItem.data.Is_user_subscribing_club);
-        console.log(clubId);
       } catch (error) {
         console.log(error);
       }

@@ -9,6 +9,7 @@ import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
 import MeetUpClub from "./MeetUpClub";
 // import MeetUpComment from "./MeetUpComment";
+import MeetUpBottomBar from "./MeetUpBottomBar";
 import { MeetUpItem } from "./redux/types";
 import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
@@ -63,10 +64,10 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
   }, [token]);
 
   return (
-    <AppLayout>
-      <ScrollView>
-        {meetUpDetailData !== null && (
-          <>
+    <AppLayout isSafeArea={true}>
+      {meetUpDetailData !== null && (
+        <>
+          <ScrollView>
             <MeetUpImageCarousel imageUrlList={meetUpDetailData.imgUrlList} />
             <View style={MeetUpItemStyles.container}>
               <>
@@ -88,9 +89,13 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
                 {/* <MeetUpComment /> */}
               </>
             </View>
-          </>
-        )}
-      </ScrollView>
+          </ScrollView>
+          <MeetUpBottomBar
+            meetingId={meetUpDetailData.meetingId}
+            currentParticipants={meetUpDetailData?.curParticipant}
+          />
+        </>
+      )}
     </AppLayout>
   );
 }
