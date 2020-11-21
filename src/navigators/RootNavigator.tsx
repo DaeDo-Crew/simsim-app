@@ -94,12 +94,6 @@ export default function RootNavigator() {
                       style={StyleSheet.absoluteFill}
                     />
                   </View>
-                  // <View
-                  //   style={[
-                  //     { backgroundColor: "#000" },
-                  //     StyleSheet.absoluteFill,
-                  //   ]}
-                  // />
                 ),
               }}
             />
