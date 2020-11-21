@@ -50,10 +50,18 @@ export default function MeetupCardList() {
     return (
       <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
         <View style={MeetUpCardStyles.itemContainer}>
-          <Image
-            source={{ uri: item.imgUrlList[0] }}
-            style={MeetUpCardStyles.cardImage}
-          />
+          {item.imgUrlList.length !== 0 ? (
+            <Image
+              source={{ uri: item.imgUrlList[0] }}
+              style={MeetUpCardStyles.cardImage}
+            />
+          ) : (
+            <Image
+              source={require("../../../assets/no_image.png")}
+              style={MeetUpCardStyles.cardImage}
+            />
+          )}
+
           <View style={MeetUpCardStyles.itemInfoContainer}>
             <Text style={MeetUpCardStyles.cardItemTitle}>
               {item.meetingName}
@@ -141,6 +149,7 @@ const MeetUpCardStyles = StyleSheet.create({
   },
   cardImage: {
     width: 200,
+    height: 200,
     aspectRatio: 1,
     resizeMode: "cover",
     borderRadius: theme.borderRadius,

@@ -42,9 +42,9 @@ export default function MeetUpImageCarousel({
   };
 
   return (
-    <>
-      {imageUrlList !== null && (
-        <View style={MeetUpImageCarouselStyle.carouselContainer}>
+    <View style={MeetUpImageCarouselStyle.carouselContainer}>
+      {imageUrlList !== null && imageUrlList.length !== 0 ? (
+        <>
           <Carousel
             data={imageUrlList}
             renderItem={MeetUpImage}
@@ -53,9 +53,16 @@ export default function MeetUpImageCarousel({
             itemWidth={SCREEN_WIDTH}
           />
           <CarouselPagination />
+        </>
+      ) : (
+        <View style={MeetUpImageStyle.itemContainer}>
+          <Image
+            source={require("../../../assets/no_image.png")}
+            style={MeetUpImageStyle.image}
+          />
         </View>
       )}
-    </>
+    </View>
   );
 }
 
