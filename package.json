@@ -27,6 +27,7 @@
     "css-to-react-native": "^3.0.0",
     "expo": "~38.0.8",
     "expo-font": "~8.2.1",
+    "expo-linear-gradient": "~8.2.1",
     "expo-notifications": "~0.3.3",
     "expo-status-bar": "^1.0.0",
     "expo-web-browser": "~8.3.1",

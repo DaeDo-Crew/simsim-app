@@ -4,6 +4,7 @@ import createReduxStore from "redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider as PaperProvider, DefaultTheme } from "react-native-paper";
 import RootNavigator from "navigators/RootNavigator";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const { store, persistor } = createReduxStore();
 
@@ -24,7 +25,9 @@ export default function App() {
     <StoreProvider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <PaperProvider theme={theme}>
-          <RootNavigator />
+          <SafeAreaProvider>
+            <RootNavigator />
+          </SafeAreaProvider>
         </PaperProvider>
       </PersistGate>
     </StoreProvider>

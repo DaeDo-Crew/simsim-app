@@ -67,7 +67,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
     <AppLayout isSafeArea={true}>
       {meetUpDetailData !== null && (
         <>
-          <ScrollView>
+          <ScrollView scrollIndicatorInsets={{ right: 1 }}>
             <MeetUpImageCarousel imageUrlList={meetUpDetailData.imgUrlList} />
             <View style={MeetUpItemStyles.container}>
               <>

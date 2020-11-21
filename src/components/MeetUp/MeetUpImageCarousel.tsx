@@ -79,7 +79,7 @@ const MeetUpImageCarouselStyle = StyleSheet.create({
 const MeetUpImageStyle = StyleSheet.create({
   itemContainer: {
     width: SCREEN_WIDTH,
-    height: 320,
+    height: 480,
   },
   image: {
     ...StyleSheet.absoluteFillObject,

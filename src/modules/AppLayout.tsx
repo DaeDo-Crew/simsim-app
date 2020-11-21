@@ -1,8 +1,8 @@
 import * as React from "react";
-import { View, StyleSheet, SafeAreaView } from "react-native";
-import { StatusBar } from "expo-status-bar";
+import { View, StyleSheet } from "react-native";
 import theme from "theme";
 import Snackbar from "modules/Snackbar";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type AppLayoutProps = {
   children?: React.ReactNode;
@@ -22,15 +22,13 @@ export default function AppLayout(props: AppLayoutProps) {
   return (
     <>
       {isSafeArea ? (
-        <SafeAreaView style={style.MainSection}>
+        <SafeAreaView style={style.MainSection} edges={["bottom"]}>
           {children}
-          <StatusBar style="dark" />
           <Snackbar />
         </SafeAreaView>
       ) : (
         <View style={style.MainSection}>
           {children}
-          <StatusBar style="dark" />
           <Snackbar />
         </View>
       )}

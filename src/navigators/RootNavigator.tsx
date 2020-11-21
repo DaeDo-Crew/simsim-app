@@ -8,7 +8,7 @@ import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
@@ -16,6 +16,7 @@ import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
 import { LoginResponse } from "components/Login/redux/types";
 import qs from "qs";
+import { LinearGradient } from "expo-linear-gradient";
 
 const RootStack = createStackNavigator();
 
@@ -76,7 +77,32 @@ export default function RootNavigator() {
         {isUserValid == true ? (
           <>
             <RootStack.Screen name="Home" component={Home} />
-            <RootStack.Screen name="MeetUp" component={MeetUp} />
+            <RootStack.Screen
+              name="MeetUp"
+              component={MeetUp}
+              options={{
+                headerTransparent: true,
+                headerBackground: () => (
+                  <View
+                    style={[
+                      { backgroundColor: "transparent" },
+                      StyleSheet.absoluteFill,
+                    ]}
+                  >
+                    <LinearGradient
+                      colors={["rgba(0,0,0,0.5)", "transparent"]}
+                      style={StyleSheet.absoluteFill}
+                    />
+                  </View>
+                  // <View
+                  //   style={[
+                  //     { backgroundColor: "#000" },
+                  //     StyleSheet.absoluteFill,
+                  //   ]}
+                  // />
+                ),
+              }}
+            />
           </>
         ) : (
           <>
