@@ -44,7 +44,7 @@ export default function MeetUpImageCarousel({
   return (
     <>
       {imageUrlList !== null && (
-        <>
+        <View style={MeetUpImageCarouselStyle.carouselContainer}>
           <Carousel
             data={imageUrlList}
             renderItem={MeetUpImage}
@@ -53,16 +53,20 @@ export default function MeetUpImageCarousel({
             itemWidth={SCREEN_WIDTH}
           />
           <CarouselPagination />
-        </>
+        </View>
       )}
     </>
   );
 }
 
 const MeetUpImageCarouselStyle = StyleSheet.create({
+  carouselContainer: {
+    marginBottom: 32,
+  },
   paginationContainer: {
     backgroundColor: theme.colors.white,
-    paddingVertical: 32,
+    paddingTop: 32,
+    paddingBottom: 0,
   },
   pageDotContainer: {
     marginHorizontal: 2,
