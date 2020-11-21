@@ -79,7 +79,7 @@ export default function MeetupCardList() {
     <View style={MeetUpCardStyles.listContainer}>
       {meetUpList !== null && (
         <>
-          <CardListHeader listTitle="모집중인 모임" />
+          <CardListHeader listTitle="모집중인 모임" isViewAll={true} />
           <FlatList
             data={meetUpList}
             renderItem={MeetupCardItem}

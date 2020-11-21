@@ -4,20 +4,28 @@ import theme from "theme";
 import { Text } from "react-native-paper";
 import { Entypo } from "@expo/vector-icons";
 
-export default function CardListHeader({ listTitle }: { listTitle: string }) {
+export default function CardListHeader({
+  listTitle,
+  isViewAll,
+}: {
+  listTitle: string;
+  isViewAll: boolean;
+}) {
   return (
     <View style={CardListHeaderStyles.container}>
       <View>
         <Text style={CardListHeaderStyles.headerTitle}>{listTitle}</Text>
       </View>
-      <View style={CardListHeaderStyles.subItemContainer}>
-        <Text>전체보기</Text>
-        <Entypo
-          name="chevron-small-right"
-          size={20}
-          color={theme.colors.darkGrey}
-        />
-      </View>
+      {isViewAll && (
+        <View style={CardListHeaderStyles.subItemContainer}>
+          <Text>전체보기</Text>
+          <Entypo
+            name="chevron-small-right"
+            size={20}
+            color={theme.colors.darkGrey}
+          />
+        </View>
+      )}
     </View>
   );
 }

@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import theme from "theme";
 import Snackbar from "modules/Snackbar";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 type AppLayoutProps = {
   children?: React.ReactNode;
@@ -25,10 +26,12 @@ export default function AppLayout(props: AppLayoutProps) {
         <SafeAreaView style={style.MainSection} edges={["bottom"]}>
           {children}
           <Snackbar />
+          <StatusBar style="dark" />
         </SafeAreaView>
       ) : (
         <View style={style.MainSection}>
           {children}
+          <StatusBar style="dark" />
           <Snackbar />
         </View>
       )}
