@@ -22,7 +22,9 @@ function MeetUpInfoItem({
           size={24}
           color={theme.colors.darkGrey}
         />
-        <Text style={MeetUpInfoStyles.itemLabelText}>{label}</Text>
+        <Text
+          style={MeetUpInfoStyles.itemLabelText}
+        >{`${label} 에 진행됨`}</Text>
       </View>
     );
   } else if (type == "PERSONNEL") {
