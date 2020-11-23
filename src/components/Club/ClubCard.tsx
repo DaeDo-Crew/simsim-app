@@ -13,7 +13,7 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "react-native-paper";
 import { ClubItem } from "./redux/types";
 
-export default function MeetUpClub({ clubId }: { clubId: number }) {
+export default function ClubCard({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();

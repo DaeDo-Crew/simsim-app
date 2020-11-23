@@ -7,7 +7,7 @@ import MeetUpImageCarousel from "./MeetUpImageCarousel";
 import MeetUpHeader from "./MeetUpHeader";
 import MeetUpInfo from "./MeetUpInfo";
 import MeetUpContent from "./MeetUpContent";
-import MeetUpClub from "./MeetUpClub";
+import ClubCard from "components/Club/ClubCard";
 // import MeetUpComment from "./MeetUpComment";
 import MeetUpBottomBar from "./MeetUpBottomBar";
 import { MeetUpItem } from "./redux/types";
@@ -85,7 +85,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
                   title={meetUpDetailData.explanationTitle}
                   content={meetUpDetailData.explanationContent}
                 />
-                <MeetUpClub clubId={meetUpDetailData.clubId} />
+                <ClubCard clubId={meetUpDetailData.clubId} />
                 {/* <MeetUpComment /> */}
               </>
             </View>
