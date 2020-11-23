@@ -90,7 +90,7 @@ export default function RootNavigator() {
                     ]}
                   >
                     <LinearGradient
-                      colors={["rgba(0,0,0,0.5)", "transparent"]}
+                      colors={["rgba(0,0,0,0.4)", "transparent"]}
                       style={StyleSheet.absoluteFill}
                     />
                   </View>

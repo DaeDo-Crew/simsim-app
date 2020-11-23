@@ -33,14 +33,14 @@ export default function Login() {
     handleChange,
     isSubmitting,
   } = useFormik<LoginRequest>({
-    initialValues: { id: "", password: "" },
+    initialValues: { email: "", password: "" },
     validationSchema: loginRequestSchema,
     onSubmit: async (value) => {
       axios
         .post<LoginResponse>(
           LOGIN_URL,
           qs.stringify({
-            loginId: value.id,
+            email: value.email,
             password: value.password,
           })
         )
@@ -89,11 +89,11 @@ export default function Login() {
         <View style={AuthStyles.textInputContainer}>
           <TextInput
             label="학교 이메일"
-            onChangeText={handleChange("id")}
-            value={values.id}
+            onChangeText={handleChange("email")}
+            value={values.email}
             placeholder="sshz@uos.ac.kr"
             textContentType="username"
-            error={typeof errors.id !== "undefined"}
+            error={typeof errors.email !== "undefined"}
           />
         </View>
         <View style={AuthStyles.textInputContainer}>
@@ -107,7 +107,7 @@ export default function Login() {
             error={typeof errors.password !== "undefined"}
           />
         </View>
-        <View style={LoginStyles.saveIdContainer}>
+        <View style={LoginStyles.saveEmailContainer}>
           <Checkbox.Android status="checked" />
           <Text>학교 이메일 저장하기</Text>
         </View>
@@ -140,7 +140,7 @@ export default function Login() {
 }
 
 const LoginStyles = StyleSheet.create({
-  saveIdContainer: {
+  saveEmailContainer: {
     flexDirection: "row",
     marginTop: 16,
     alignItems: "center",
