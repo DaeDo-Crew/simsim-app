@@ -6,6 +6,7 @@ import MeetUp from "components/MeetUp";
 import Login from "components/Login";
 import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
+import Club from "components/Club";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
@@ -97,6 +98,7 @@ export default function RootNavigator() {
                 ),
               }}
             />
+            <RootStack.Screen name="Club" component={Club} />
           </>
         ) : (
           <>
