@@ -6,6 +6,7 @@ import MeetUp from "components/MeetUp";
 import Login from "components/Login";
 import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
+import Club from "components/Club";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet, View } from "react-native";
@@ -56,7 +57,6 @@ export default function RootNavigator() {
         screenOptions={{
           headerStyle: {
             backgroundColor: `${theme.colors.white}`,
-            height: 100,
           },
           headerTitleStyle: {
             fontWeight: "bold",
@@ -90,13 +90,14 @@ export default function RootNavigator() {
                     ]}
                   >
                     <LinearGradient
-                      colors={["rgba(0,0,0,0.5)", "transparent"]}
+                      colors={["rgba(0,0,0,0.4)", "transparent"]}
                       style={StyleSheet.absoluteFill}
                     />
                   </View>
                 ),
               }}
             />
+            <RootStack.Screen name="Club" component={Club} />
           </>
         ) : (
           <>

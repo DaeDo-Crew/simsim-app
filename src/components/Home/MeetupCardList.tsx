@@ -17,25 +17,7 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "components/MeetUp/redux/actions";
 import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { MEEING_LIST_URL } from "./apiUrls";
-import { Entypo } from "@expo/vector-icons";
-
-const MeetupCardListHeader = () => {
-  return (
-    <View style={MeetUpCardStyles.cardListHeaderContainer}>
-      <View>
-        <Text style={MeetUpCardStyles.cardListHeaderTitle}>모집중인 모임</Text>
-      </View>
-      <View style={MeetUpCardStyles.cardListHeaderSubItemContainer}>
-        <Text>전체보기</Text>
-        <Entypo
-          name="chevron-small-right"
-          size={20}
-          color={theme.colors.darkGrey}
-        />
-      </View>
-    </View>
-  );
-};
+import CardListHeader from "modules/CardListHeader";
 
 export default function MeetupCardList() {
   const navigation = useNavigation();
@@ -97,7 +79,7 @@ export default function MeetupCardList() {
     <View style={MeetUpCardStyles.listContainer}>
       {meetUpList !== null && (
         <>
-          <MeetupCardListHeader />
+          <CardListHeader listTitle="모집중인 모임" isViewAll={true} />
           <FlatList
             data={meetUpList}
             renderItem={MeetupCardItem}
@@ -125,25 +107,11 @@ const MeetUpCardStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
   },
-  cardListHeaderContainer: {
-    marginTop: 32,
-    marginHorizontal: 16,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  cardListHeaderSubItemContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-start",
-  },
+
   cardListHeaderSubItemIcon: {
     color: theme.colors.black,
   },
-  cardListHeaderTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-  },
+
   cardItemTitle: {
     fontSize: 16,
   },

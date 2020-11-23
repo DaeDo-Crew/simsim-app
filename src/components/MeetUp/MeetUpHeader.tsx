@@ -15,7 +15,9 @@ export default function MeetUpHeader({
     <>
       <View style={MeetUpHeaderStyles.container}>
         <Text style={MeetUpItemBaseStyle.title}>{title}</Text>
-        <Text style={MeetUpHeaderStyles.createdTime}>{createdTime}</Text>
+        <Text
+          style={MeetUpHeaderStyles.createdTime}
+        >{`${createdTime} 에 게시됨`}</Text>
       </View>
       <Divider />
     </>

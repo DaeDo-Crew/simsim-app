@@ -1,8 +1,9 @@
 import * as React from "react";
-import { ScrollView, View } from "react-native";
+import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import MeetupCardList from "./MeetupCardList";
+import ClubList from "./ClubList";
 import Button from "modules/Button";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,9 +58,8 @@ export default function Home() {
           onPress={handleLogout}
           label="임시 로그아웃 버튼"
         />
-        <View>
-          <MeetupCardList />
-        </View>
+        <MeetupCardList />
+        <ClubList />
       </ScrollView>
     </AppLayout>
   );
