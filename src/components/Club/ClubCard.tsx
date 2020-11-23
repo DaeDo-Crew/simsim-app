@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import Avatar from "modules/Avatar";
@@ -12,12 +12,18 @@ import {
 import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "react-native-paper";
 import { ClubItem } from "./redux/types";
+import { useNavigation } from "@react-navigation/native";
 
 export default function ClubCard({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
+  const navigation = useNavigation();
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();
   const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
+
+  const handleMoveToClubClicked = React.useCallback(() => {
+    navigation.navigate("Club", { club_id: clubId });
+  }, [clubId]);
 
   const handleClickSubscribeButton = React.useCallback(() => {
     axios({
@@ -76,19 +82,21 @@ export default function ClubCard({ clubId }: { clubId: number }) {
         <>
           <View style={clubStyles.container}>
             <View style={clubStyles.clubHeaderContainer}>
-              <View style={clubStyles.clubNameContainer}>
-                <Avatar size={48} imageSource={clubItem.club_profile_image} />
-                <View style={clubStyles.clubNameTextContainer}>
-                  {clubItem.club_name !== null && (
-                    <>
-                      <Text style={clubStyles.clubNameText}>
-                        {clubItem.club_name}
-                      </Text>
-                      <Text>{`구독자 ${clubItem.NumSubscribe}명`}</Text>
-                    </>
-                  )}
+              <TouchableWithoutFeedback onPress={handleMoveToClubClicked}>
+                <View style={clubStyles.clubNameContainer}>
+                  <Avatar size={48} imageSource={clubItem.club_profile_image} />
+                  <View style={clubStyles.clubNameTextContainer}>
+                    {clubItem.club_name !== null && (
+                      <>
+                        <Text style={clubStyles.clubNameText}>
+                          {clubItem.club_name}
+                        </Text>
+                        <Text>{`구독자 ${clubItem.NumSubscribe}명`}</Text>
+                      </>
+                    )}
+                  </View>
                 </View>
-              </View>
+              </TouchableWithoutFeedback>
               <View>
                 {isSubscribed === false &&
                 typeof isSubscribed !== "undefined" ? (

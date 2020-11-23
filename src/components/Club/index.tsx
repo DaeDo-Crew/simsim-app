@@ -10,7 +10,7 @@ type ClubProps = {
   name: string;
   params: {
     club_id: number;
-    club_name: string;
+    club_name?: string;
   };
 };
 
