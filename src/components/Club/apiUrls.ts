@@ -6,3 +6,6 @@ export const CLUB_SUBSCRIBE_URL =
 
 export const CLUB_UNSUBSCRIBE_URL =
   "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/club/deleteSubs";
+
+export const CLUB_NOTICE_ALL =
+  "http://ec2-3-35-88-123.ap-northeast-2.compute.amazonaws.com:8080/club/readWholeNotice";

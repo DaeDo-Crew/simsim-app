@@ -14,7 +14,7 @@ export default function ClubListItem(props: ClubItem) {
   const navigation = useNavigation();
 
   const handleClickClub = React.useCallback(() => {
-    navigation.navigate("Club", { club_id: club_id });
+    navigation.navigate("Club", { club_id: club_id, club_name: club_name });
   }, [club_id]);
 
   return (

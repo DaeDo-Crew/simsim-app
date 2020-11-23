@@ -17,7 +17,7 @@ import { getUserToken } from "components/Login/redux/selectors";
 import { setMeetUpList } from "components/MeetUp/redux/actions";
 import { getMeetUpList } from "components/MeetUp/redux/selector";
 import { MEEING_LIST_URL } from "./apiUrls";
-import CardListHeader from "./CardListHeader";
+import CardListHeader from "modules/CardListHeader";
 
 export default function MeetupCardList() {
   const navigation = useNavigation();

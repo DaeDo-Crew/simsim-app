@@ -5,3 +5,11 @@ export type ClubItem = {
   club_description: string;
   club_profile_image?: string | null;
 };
+
+export type ClubNoticeData = {
+  noticeId: number;
+  clubId: number;
+  title: string;
+  content: string;
+  createdTime: string;
+};

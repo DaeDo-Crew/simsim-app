@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import CardListHeader from "./CardListHeader";
+import CardListHeader from "modules/CardListHeader";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import theme from "theme";
