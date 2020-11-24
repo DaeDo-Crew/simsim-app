@@ -8,6 +8,7 @@ import {
   View,
   Alert,
   KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { AuthStyles } from "modules/auth/base";
 import TextInput from "modules/TextInput";
@@ -37,7 +38,6 @@ export default function SignUp() {
   } = useFormik<SignUpRequest>({
     initialValues: {
       // TODO: loginId는 나중에 아이디 삭제할떄 제거
-      loginId: "",
       password: "",
       email: "",
       nickname: "",
@@ -50,7 +50,6 @@ export default function SignUp() {
         method: "POST",
         url: SIGN_UP,
         params: {
-          loginId: value.email,
           password: value.password,
           email: value.email,
           nickname: value.nickname,
@@ -121,6 +120,8 @@ export default function SignUp() {
       headerTitle: "회원가입",
     });
   });
+
+  const handleAgreementDetailClick = React.useCallback(() => {}, []);
 
   return (
     <AppLayout>
@@ -196,7 +197,11 @@ export default function SignUp() {
                 status={agreed ? "checked" : "unchecked"}
                 onPress={handleAgreeClick}
               />
-              <Text>심심했지의 이용약관에 동의합니다.</Text>
+              <TouchableWithoutFeedback onPress={handleAgreementDetailClick}>
+                <Text style={SignUpStyles.agreementText}>
+                  심심했지의 이용약관에 동의합니다.
+                </Text>
+              </TouchableWithoutFeedback>
             </View>
             <View style={SignUpStyles.submitContainer}>
               {/* https://github.com/formium/formik/issues/376/#issuecomment-466964585 */}
@@ -258,5 +263,8 @@ const SignUpStyles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 16,
     alignItems: "center",
+  },
+  agreementText: {
+    textDecorationLine: "underline",
   },
 });
