@@ -12,6 +12,7 @@ import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
 import { LOGOUT_URL } from "./apiUrls";
 import qs from "qs";
+import HeaderRightButton from "./HeaderRightButton";
 
 export default function Home() {
   const navigation = useNavigation();
@@ -26,6 +27,7 @@ export default function Home() {
         fontSize: 24,
         fontWeight: "bold",
       },
+      headerRight: () => <HeaderRightButton />,
     });
   });
 
