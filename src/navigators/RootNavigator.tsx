@@ -30,15 +30,15 @@ export default function RootNavigator() {
 
   React.useEffect(() => {
     if (userToken !== null) {
-      axios
-        .post<LoginResponse>(
-          RETOKEN_URL,
-          qs.stringify({
-            accessToken: userToken.accessToken,
-            // refreshToken: userToken.refreshToken,
-          })
-        )
+      axios({
+        method: "POST",
+        url: RETOKEN_URL,
+        params: {
+          accessToken: userToken.accessToken,
+        },
+      })
         .then((response) => {
+          console.log(response.data.accessToken);
           dispatch(
             setUserToken({
               accessToken: response.data.accessToken,
@@ -47,8 +47,9 @@ export default function RootNavigator() {
           );
           setIsUserValid(true);
         })
-        .catch(() => {
-          setIsUserValid(false);
+        .catch((error) => {
+          console.log("retoken error");
+          console.log(error);
         });
     }
   }, [userToken.accessToken]);
