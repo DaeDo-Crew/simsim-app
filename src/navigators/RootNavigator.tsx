@@ -7,9 +7,10 @@ import Login from "components/Login";
 import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
 import Club from "components/Club";
+import MyPage from "components/MyPage";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
@@ -17,7 +18,7 @@ import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
 import { LoginResponse } from "components/Login/redux/types";
 import qs from "qs";
-import { LinearGradient } from "expo-linear-gradient";
+import TransparentHeader from "modules/TransparentHeader";
 
 const RootStack = createStackNavigator();
 
@@ -82,22 +83,11 @@ export default function RootNavigator() {
               component={MeetUp}
               options={{
                 headerTransparent: true,
-                headerBackground: () => (
-                  <View
-                    style={[
-                      { backgroundColor: "transparent" },
-                      StyleSheet.absoluteFill,
-                    ]}
-                  >
-                    <LinearGradient
-                      colors={["rgba(0,0,0,0.4)", "transparent"]}
-                      style={StyleSheet.absoluteFill}
-                    />
-                  </View>
-                ),
+                headerBackground: () => <TransparentHeader />,
               }}
             />
             <RootStack.Screen name="Club" component={Club} />
+            <RootStack.Screen name="MyPage" component={MyPage} />
           </>
         ) : (
           <>
