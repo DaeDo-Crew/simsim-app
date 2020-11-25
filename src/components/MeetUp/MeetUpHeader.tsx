@@ -30,7 +30,6 @@ const MeetUpHeaderStyles = StyleSheet.create({
   },
 
   createdTime: {
-    marginVertical: 8,
     fontSize: 16,
     color: theme.colors.darkGrey,
     fontStyle: "italic",

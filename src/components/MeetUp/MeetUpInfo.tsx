@@ -86,7 +86,7 @@ const MeetUpInfoStyles = StyleSheet.create({
     marginVertical: 32,
   },
   titleContainer: {
-    marginBottom: 32,
+    marginBottom: 16,
   },
   itemContainer: {
     marginBottom: 16,

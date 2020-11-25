@@ -29,7 +29,7 @@ const MeetUpContentStyles = StyleSheet.create({
     marginVertical: 32,
   },
   itemTitleContainer: {
-    marginBottom: 32,
+    marginBottom: 16,
   },
   title: {
     fontSize: 16,
