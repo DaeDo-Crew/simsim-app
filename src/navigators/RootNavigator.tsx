@@ -7,7 +7,6 @@ import Login from "components/Login";
 import SignUp from "components/SignUp";
 import FindPassword from "components/FindPassword";
 import Club from "components/Club";
-import MyPage from "components/MyPage";
 import theme from "theme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
@@ -16,8 +15,6 @@ import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
 import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
-import { LoginResponse } from "components/Login/redux/types";
-import qs from "qs";
 import TransparentHeader from "modules/TransparentHeader";
 
 const RootStack = createStackNavigator();
@@ -88,7 +85,6 @@ export default function RootNavigator() {
               }}
             />
             <RootStack.Screen name="Club" component={Club} />
-            <RootStack.Screen name="MyPage" component={MyPage} />
           </>
         ) : (
           <>

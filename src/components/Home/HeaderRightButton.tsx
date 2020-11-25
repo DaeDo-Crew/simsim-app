@@ -1,21 +1,46 @@
 import * as React from "react";
-import { MaterialIcons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { HeaderRightStyles } from "modules/headerRightButton/base";
 import theme from "theme";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { setUserLogout } from "components/Login/redux/actions";
+import axios from "axios";
+import { getUserToken } from "components/Login/redux/selectors";
+import { LOGOUT_URL } from "./apiUrls";
+import qs from "qs";
 
 export default function HeaderRightButton() {
-  const navigation = useNavigation();
+  const dispatch = useDispatch();
 
-  const handleClickHeaderRightButton = React.useCallback(() => {
-    navigation.navigate("MyPage");
-  }, [navigation]);
+  const userToken = useSelector(getUserToken);
+
+  const handleLogout = () => {
+    if (userToken.accessToken !== null) {
+      axios
+        .post(
+          LOGOUT_URL,
+          qs.stringify({
+            access_token: userToken.accessToken,
+          })
+        )
+        .then(() => {
+          dispatch(
+            showSnackbar({ visible: true, message: "로그아웃 했습니다." })
+          );
+          dispatch(setUserLogout(null));
+        })
+        .catch(() => {
+          showSnackbar({ visible: true, message: "로그아웃에 실패 했습니다." });
+        });
+    }
+  };
 
   return (
-    <MaterialIcons
-      name="account-circle"
+    <MaterialCommunityIcons
+      name="logout"
       size={theme.size.headerIconSize}
-      onPress={handleClickHeaderRightButton}
+      onPress={handleLogout}
       color={theme.colors.black}
       style={HeaderRightStyles.icon}
     />

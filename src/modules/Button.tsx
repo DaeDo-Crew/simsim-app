@@ -10,10 +10,19 @@ type ButtonProps = {
   isSubmitting?: boolean;
   onPress: (e?: React.FormEvent<HTMLFormElement> | undefined) => void;
   compact?: boolean;
+  style?: object;
 };
 
 export default function Button(props: ButtonProps) {
-  const { type, label, isSubmitting, onPress, disabled, compact } = props;
+  const {
+    type,
+    label,
+    isSubmitting,
+    onPress,
+    disabled,
+    compact,
+    style,
+  } = props;
   return (
     <RnpButton
       mode={type}
@@ -21,11 +30,12 @@ export default function Button(props: ButtonProps) {
       disabled={disabled}
       compact={compact}
       contentStyle={ButtonStyles.buttonContainer}
-      labelStyle={
+      labelStyle={[
         type == "contained"
           ? ButtonStyles.containedLabelStyle
-          : ButtonStyles.textLabelStyle
-      }
+          : ButtonStyles.textLabelStyle,
+        style,
+      ]}
       onPress={onPress}
     >
       {label}
