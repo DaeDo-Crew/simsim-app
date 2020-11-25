@@ -66,7 +66,7 @@ export default function MeetupCardList() {
           dispatch(setMeetUpList(response.data));
         })
         .catch(() => {
-          Alert.alert("데이터를 불러올 수 없습니다.", "", [
+          Alert.alert("모집중인 모임을 불러올 수 없습니다.", "", [
             {
               text: "확인",
             },

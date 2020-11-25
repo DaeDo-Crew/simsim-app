@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, Alert } from "react-native";
 import CardListHeader from "modules/CardListHeader";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
@@ -21,9 +21,17 @@ export default function ClubList() {
       headers: {
         Authorization: token.accessToken,
       },
-    }).then((response) => {
-      setClubListItemData(response.data);
-    });
+    })
+      .then((response) => {
+        setClubListItemData(response.data);
+      })
+      .catch(() => {
+        Alert.alert("동아리 목록을 불러올 수 없습니다.", "", [
+          {
+            text: "확인",
+          },
+        ]);
+      });
   }, []);
   return (
     <>
