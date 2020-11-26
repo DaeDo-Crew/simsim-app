@@ -12,7 +12,7 @@ export type MeetUpItem = {
   maxParticipant: number;
   meetingId: number;
   meetingName: string;
-  meetingLoaction: string;
+  meetingPlace: string;
   startDate: string;
   imgUrlList: string[];
 };

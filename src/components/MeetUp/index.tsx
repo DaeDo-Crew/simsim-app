@@ -78,7 +78,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
                 <MeetUpInfo
                   startDate={meetUpDetailData.startDate}
                   maxParticipants={meetUpDetailData.maxParticipant}
-                  location={meetUpDetailData.meetingLoaction}
+                  location={meetUpDetailData.meetingPlace}
                   clubName={meetUpDetailData.clubName}
                 />
                 <MeetUpContent
