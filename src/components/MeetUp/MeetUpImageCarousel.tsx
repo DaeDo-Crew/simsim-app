@@ -1,15 +1,37 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import theme from "theme";
+import { IImageInfo } from "react-native-image-zoom-viewer/src/image-viewer.type";
+import { useDispatch } from "react-redux";
+import { showImageViewer } from "modules/ImageViewer/redux/actions";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 const MeetUpImage = ({ item }: { item: string }) => {
+  const dispatch = useDispatch();
+  const images: IImageInfo[] = [
+    {
+      url: item,
+    },
+  ];
+  const handleClickImage = () => {
+    dispatch(
+      showImageViewer({ images: images, selectedIndex: 0, visible: true })
+    );
+  };
   return (
-    <View style={MeetUpImageStyle.itemContainer}>
-      <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
-    </View>
+    <TouchableWithoutFeedback onPress={handleClickImage}>
+      <View style={MeetUpImageStyle.itemContainer}>
+        <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
+      </View>
+    </TouchableWithoutFeedback>
   );
 };
 
@@ -47,7 +69,9 @@ export default function MeetUpImageCarousel({
         <>
           <Carousel
             data={imageUrlList}
-            renderItem={MeetUpImage}
+            renderItem={({ item }: { item: string }) => (
+              <MeetUpImage item={item} />
+            )}
             onSnapToItem={(index) => onHorizontalSelectedIndexChange(index)}
             sliderWidth={SCREEN_WIDTH}
             itemWidth={SCREEN_WIDTH}
