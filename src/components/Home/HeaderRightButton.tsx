@@ -16,6 +16,8 @@ export default function HeaderRightButton() {
   const userToken = useSelector(getUserToken);
 
   const handleLogout = () => {
+    dispatch(setUserLogout(null));
+
     if (userToken.accessToken !== null) {
       axios
         .post(

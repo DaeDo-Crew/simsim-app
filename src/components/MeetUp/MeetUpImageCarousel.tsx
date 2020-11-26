@@ -1,7 +1,17 @@
 import * as React from "react";
-import { StyleSheet, View, Image, Dimensions } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Dimensions,
+  TouchableWithoutFeedback,
+} from "react-native";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import theme from "theme";
+import { IImageInfo } from "react-native-image-zoom-viewer/src/image-viewer.type";
+import { useDispatch } from "react-redux";
+import { showImageViewer } from "modules/ImageViewer/redux/actions";
+import _ from "underscore";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
@@ -19,9 +29,36 @@ export default function MeetUpImageCarousel({
   imageUrlList: string[] | null;
 }) {
   const [seletedIndex, setSelectedIndex] = React.useState(0);
+  const [imageViewerImages, setImageViewerImages] = React.useState<
+    IImageInfo[] | null
+  >(null);
+
   const onHorizontalSelectedIndexChange = React.useCallback((index: number) => {
     setSelectedIndex(index);
   }, []);
+
+  const dispatch = useDispatch();
+
+  const handleClickImage = () => {
+    dispatch(
+      showImageViewer({
+        images: imageViewerImages,
+        selectedIndex: seletedIndex,
+        visible: true,
+      })
+    );
+  };
+
+  React.useEffect(() => {
+    if (imageUrlList !== null && imageUrlList.length !== 0) {
+      const mappedImages: IImageInfo[] = _.map(imageUrlList, (url) => {
+        return {
+          url: url,
+        };
+      });
+      setImageViewerImages(mappedImages);
+    }
+  }, [imageUrlList]);
 
   const CarouselPagination = () => {
     return (
@@ -47,7 +84,11 @@ export default function MeetUpImageCarousel({
         <>
           <Carousel
             data={imageUrlList}
-            renderItem={MeetUpImage}
+            renderItem={({ item }: { item: string }) => (
+              <TouchableWithoutFeedback onPress={handleClickImage}>
+                <MeetUpImage item={item} />
+              </TouchableWithoutFeedback>
+            )}
             onSnapToItem={(index) => onHorizontalSelectedIndexChange(index)}
             sliderWidth={SCREEN_WIDTH}
             itemWidth={SCREEN_WIDTH}

@@ -80,10 +80,10 @@ export default function RootNavigator() {
             <RootStack.Screen
               name="MeetUp"
               component={MeetUp}
-              options={{
-                headerTransparent: true,
-                headerBackground: TransparentHeader,
-              }}
+              // options={{
+              //   headerTransparent: true,
+              //   headerBackground: TransparentHeader,
+              // }}
             />
             <RootStack.Screen name="Club" component={Club} />
           </>
