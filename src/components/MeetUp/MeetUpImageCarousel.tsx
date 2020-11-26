@@ -11,27 +11,15 @@ import theme from "theme";
 import { IImageInfo } from "react-native-image-zoom-viewer/src/image-viewer.type";
 import { useDispatch } from "react-redux";
 import { showImageViewer } from "modules/ImageViewer/redux/actions";
+import _ from "underscore";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 const MeetUpImage = ({ item }: { item: string }) => {
-  const dispatch = useDispatch();
-  const images: IImageInfo[] = [
-    {
-      url: item,
-    },
-  ];
-  const handleClickImage = () => {
-    dispatch(
-      showImageViewer({ images: images, selectedIndex: 0, visible: true })
-    );
-  };
   return (
-    <TouchableWithoutFeedback onPress={handleClickImage}>
-      <View style={MeetUpImageStyle.itemContainer}>
-        <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
-      </View>
-    </TouchableWithoutFeedback>
+    <View style={MeetUpImageStyle.itemContainer}>
+      <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
+    </View>
   );
 };
 
@@ -41,9 +29,36 @@ export default function MeetUpImageCarousel({
   imageUrlList: string[] | null;
 }) {
   const [seletedIndex, setSelectedIndex] = React.useState(0);
+  const [imageViewerImages, setImageViewerImages] = React.useState<
+    IImageInfo[] | null
+  >(null);
+
   const onHorizontalSelectedIndexChange = React.useCallback((index: number) => {
     setSelectedIndex(index);
   }, []);
+
+  const dispatch = useDispatch();
+
+  const handleClickImage = () => {
+    dispatch(
+      showImageViewer({
+        images: imageViewerImages,
+        selectedIndex: seletedIndex,
+        visible: true,
+      })
+    );
+  };
+
+  React.useEffect(() => {
+    if (imageUrlList !== null && imageUrlList.length !== 0) {
+      const mappedImages: IImageInfo[] = _.map(imageUrlList, (url) => {
+        return {
+          url: url,
+        };
+      });
+      setImageViewerImages(mappedImages);
+    }
+  }, [imageUrlList]);
 
   const CarouselPagination = () => {
     return (
@@ -70,7 +85,9 @@ export default function MeetUpImageCarousel({
           <Carousel
             data={imageUrlList}
             renderItem={({ item }: { item: string }) => (
-              <MeetUpImage item={item} />
+              <TouchableWithoutFeedback onPress={handleClickImage}>
+                <MeetUpImage item={item} />
+              </TouchableWithoutFeedback>
             )}
             onSnapToItem={(index) => onHorizontalSelectedIndexChange(index)}
             sliderWidth={SCREEN_WIDTH}
