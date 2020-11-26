@@ -12,15 +12,15 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
-// import axios from "axios";
-// import { RETOKEN_URL } from "./apiUrls";
-// import { setUserToken } from "components/Login/redux/actions";
-import TransparentHeader from "modules/TransparentHeader";
+import axios from "axios";
+import { RETOKEN_URL } from "./apiUrls";
+import { setUserToken } from "components/Login/redux/actions";
+import { TransparentHeader } from "modules/TransparentHeader";
 
 const RootStack = createStackNavigator();
 
 export default function RootNavigator() {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   const [isUserValid, setIsUserValid] = React.useState<boolean>(false);
   const userToken = useSelector(getUserToken);
@@ -28,26 +28,26 @@ export default function RootNavigator() {
   React.useEffect(() => {
     if (userToken.accessToken === null) {
       setIsUserValid(false);
-      // axios({
-      //   method: "POST",
-      //   url: RETOKEN_URL,
-      //   params: {
-      //     accessToken: userToken.accessToken,
-      //   },
-      // })
-      //   .then((response) => {
-      //     dispatch(
-      //       setUserToken({
-      //         accessToken: response.data.accessToken,
-      //         // refreshToken: response.data.refreshToken,
-      //       })
-      //     );
-      //     setIsUserValid(true);
-      //   })
-      //   .catch((error) => {
-      //     console.log(error);
-      //   });
     } else {
+      axios({
+        method: "POST",
+        url: RETOKEN_URL,
+        params: {
+          accessToken: userToken.accessToken,
+        },
+      })
+        .then((response) => {
+          dispatch(
+            setUserToken({
+              accessToken: response.data.accessToken,
+              // refreshToken: response.data.refreshToken,
+            })
+          );
+          setIsUserValid(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       setIsUserValid(true);
     }
   }, [userToken.accessToken]);
@@ -82,7 +82,7 @@ export default function RootNavigator() {
               component={MeetUp}
               options={{
                 headerTransparent: true,
-                headerBackground: () => <TransparentHeader />,
+                headerBackground: TransparentHeader,
               }}
             />
             <RootStack.Screen name="Club" component={Club} />

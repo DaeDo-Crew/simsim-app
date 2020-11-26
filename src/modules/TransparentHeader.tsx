@@ -2,7 +2,7 @@ import * as React from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, View } from "react-native";
 
-export default function TransparentHeader() {
+export const TransparentHeader = () => {
   return (
     <View style={[{ backgroundColor: "transparent" }, StyleSheet.absoluteFill]}>
       <LinearGradient
@@ -11,4 +11,4 @@ export default function TransparentHeader() {
       />
     </View>
   );
-}
+};
