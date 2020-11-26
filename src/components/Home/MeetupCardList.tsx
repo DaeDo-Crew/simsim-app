@@ -5,20 +5,26 @@ import CardListHeader from "modules/CardListHeader";
 import { MeetUpItem } from "components/MeetUp/redux/types";
 
 export default function MeetupCardList({
+  title,
   meetupList,
 }: {
-  meetupList: MeetUpItem[];
+  title: string;
+  meetupList?: MeetUpItem[];
 }) {
   return (
     <>
-      <CardListHeader listTitle="모집중인 모임" isViewAll={true} />
-      <FlatList
-        data={meetupList}
-        renderItem={({ item }) => <MeetupCardItem item={item} />}
-        horizontal={true}
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(item) => String(item.meetingId)}
-      />
+      {typeof meetupList !== "undefined" && (
+        <>
+          <CardListHeader listTitle={title} isViewAll={true} />
+          <FlatList
+            data={meetupList}
+            renderItem={({ item }) => <MeetupCardItem item={item} />}
+            horizontal={true}
+            showsHorizontalScrollIndicator={false}
+            keyExtractor={(item) => String(item.meetingId)}
+          />
+        </>
+      )}
     </>
   );
 }

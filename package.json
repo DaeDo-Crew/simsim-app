@@ -23,6 +23,7 @@
     "@types/yup": "^0.29.6",
     "axios": "^0.20.0",
     "css-to-react-native": "^3.0.0",
+    "date-fns": "^2.16.1",
     "expo": "~38.0.8",
     "expo-font": "~8.2.1",
     "expo-linear-gradient": "~8.2.1",

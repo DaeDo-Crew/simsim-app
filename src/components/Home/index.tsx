@@ -3,6 +3,7 @@ import { ScrollView } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import CurrentMeetUpList from "./CurrentMeetUpList";
+import MyMeetUpList from "./MyMeetUpList";
 import ClubList from "./ClubList";
 import HeaderRightButton from "./HeaderRightButton";
 
@@ -23,6 +24,7 @@ export default function Home() {
   return (
     <AppLayout>
       <ScrollView>
+        <MyMeetUpList />
         <CurrentMeetUpList />
         <ClubList />
       </ScrollView>
