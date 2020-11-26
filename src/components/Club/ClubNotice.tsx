@@ -8,12 +8,21 @@ import axios from "axios";
 import { CLUB_NOTICE_ALL } from "./apiUrls";
 import { ClubNoticeData } from "./redux/types";
 import theme from "theme";
+import { List } from "react-native-paper";
+import _ from "underscore";
 
-const ClubNoticeItem = (props: ClubNoticeData) => {
-  const { title, content } = props;
+const ClubNoticeItem = ({
+  content,
+  createdTime,
+}: {
+  content: string;
+  createdTime: string;
+}) => {
   return (
     <View style={ClubNoticeItemStyles.container}>
-      <Text style={ClubNoticeItemStyles.titleText}>{title}</Text>
+      <Text
+        style={ClubNoticeItemStyles.createdTimeText}
+      >{`${createdTime}에 작성됨`}</Text>
       <Text style={ClubNoticeItemStyles.contentText}>{content}</Text>
     </View>
   );
@@ -38,11 +47,15 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
       },
     })
       .then((response) => {
-        setClubNoticeData(response.data);
+        const sortedClubNoticeData = _.sortBy(
+          response.data,
+          "createdTime"
+        ).reverse();
+        setClubNoticeData(sortedClubNoticeData);
       })
       .catch((error) => {
         console.log(error);
-        Alert.alert("데이터를 불러오지 못했습니다.", "", [
+        Alert.alert("동아리 공지사항을 불러오지 못했습니다.", "", [
           {
             text: "확인",
           },
@@ -55,16 +68,15 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
       <CardListHeader listTitle="공지사항" isViewAll={false} />
       <View style={ClubNoticeStyles.clubNoticeItemContainer}>
         {typeof clubNoticeData !== "undefined" &&
+          // 최근 공지사항 10개만 보여줌
           clubNoticeData.slice(0, 11).map((data) => {
             return (
-              <ClubNoticeItem
-                key={data.noticeId}
-                title={data.title}
-                content={data.content}
-                createdTime={data.createdTime}
-                noticeId={data.noticeId}
-                clubId={data.clubId}
-              />
+              <List.Accordion key={data.noticeId} title={data.title}>
+                <ClubNoticeItem
+                  content={data.content}
+                  createdTime={data.createdTime}
+                />
+              </List.Accordion>
             );
           })}
       </View>
@@ -75,19 +87,17 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
 
 const ClubNoticeItemStyles = StyleSheet.create({
   container: {
-    marginTop: 16,
-    marginEnd: 32,
-    marginHorizontal: 16,
+    marginHorizontal: 12,
+    marginLeft: 32,
   },
-  titleText: {
-    fontSize: 16,
-    fontWeight: "700",
-    marginBottom: 8,
-    color: theme.colors.black,
+  createdTimeText: {
+    fontSize: 10,
+    fontStyle: "italic",
+    color: theme.colors.darkGrey,
   },
   contentText: {
+    marginTop: 8,
     fontSize: 12,
-    color: theme.colors.darkGrey,
   },
 });
 
