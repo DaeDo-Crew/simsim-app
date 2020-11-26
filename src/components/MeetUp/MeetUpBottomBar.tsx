@@ -6,17 +6,20 @@ import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
 import { MEETING_REGISTER_URL, MEETING_UNREGISTER_URL } from "./apiUrls";
+import theme from "theme";
 
 export default function MeetUpBottomBar({
   currentParticipants,
   meetingId,
   meetingName,
   userRegistered,
+  deadline,
 }: {
   currentParticipants: number;
   meetingId: number;
   meetingName: string;
   userRegistered: boolean;
+  deadline: string;
 }) {
   const token = useSelector(getUserToken);
   const [isRegistered, setIsRegistered] = React.useState<boolean>(
@@ -82,7 +85,12 @@ export default function MeetUpBottomBar({
     <>
       <Divider />
       <View style={MeetUpBottomBarStyle.container}>
-        <Text>{`현재 ${currentParticipants}명이 참가중입니다.`}</Text>
+        <View>
+          <Text>{`현재 ${currentParticipants}명이 참가중입니다.`}</Text>
+          <Text
+            style={MeetUpBottomBarStyle.deadlineTextStyle}
+          >{`${deadline}까지 신청가능`}</Text>
+        </View>
         {isRegistered === false && typeof isRegistered !== "undefined" ? (
           <Button
             mode="contained"
@@ -122,5 +130,9 @@ const MeetUpBottomBarStyle = StyleSheet.create({
   },
   meetingRegisterButton: {
     padding: 4,
+  },
+  deadlineTextStyle: {
+    fontSize: 10,
+    color: theme.colors.darkGrey,
   },
 });

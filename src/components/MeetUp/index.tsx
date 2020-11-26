@@ -91,6 +91,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
             </View>
           </ScrollView>
           <MeetUpBottomBar
+            deadline={meetUpDetailData.deadline}
             userRegistered={meetUpDetailData.applied}
             meetingName={meetUpDetailData.meetingName}
             meetingId={meetUpDetailData.meetingId}
