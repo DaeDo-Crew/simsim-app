@@ -2,6 +2,7 @@ import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import theme from "theme";
 import Snackbar from "modules/Snackbar";
+import ImageViewer from "modules/ImageViewer";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
 
@@ -33,6 +34,7 @@ export default function AppLayout(props: AppLayoutProps) {
           {children}
           <StatusBar style="dark" />
           <Snackbar />
+          <ImageViewer />
         </View>
       )}
     </>
