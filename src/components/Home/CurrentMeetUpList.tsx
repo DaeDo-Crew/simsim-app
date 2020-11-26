@@ -38,13 +38,6 @@ export default function CurrentMeetUpList() {
               return differenceInHours(parseISO(data.deadline), new Date()) > 0;
             })
           );
-          console.log(
-            differenceInHours(
-              parseISO(response.data[0].createdTime),
-              new Date()
-            )
-          );
-          console.log(parseISO(response.data[0].createdTime));
         })
         .catch(() => {
           Alert.alert("모집중인 모임을 불러올 수 없습니다.", "", [
