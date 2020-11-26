@@ -20,17 +20,11 @@ export default function MeetupCardItem({ item }: { item: MeetUpItem }) {
   return (
     <TouchableWithoutFeedback onPress={handleClickMeetUpCardItem}>
       <View style={MeetUpCardItemStyles.itemContainer}>
-        {item.imgUrlList.length !== 0 ? (
-          <Image
-            source={{ uri: item.imgUrlList[0] }}
-            style={MeetUpCardItemStyles.cardImage}
-          />
-        ) : (
-          <Image
-            source={require("../../../assets/no_image.png")}
-            style={MeetUpCardItemStyles.cardImage}
-          />
-        )}
+        <Image
+          source={{ uri: item.imgUrlList[0] }}
+          style={MeetUpCardItemStyles.cardImage}
+          defaultSource={require("../../../assets/no_image.png")}
+        />
 
         <View style={MeetUpCardItemStyles.itemInfoContainer}>
           <Text style={MeetUpCardItemStyles.cardItemTitle}>
