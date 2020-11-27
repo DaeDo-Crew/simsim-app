@@ -15,16 +15,35 @@ import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
 import qs from "qs";
 import { registerForPushNotificationsAsync } from "utils/pushNotifications";
+import { storeData, retrieveData } from "utils/asyncStorage";
 
 export default function Login() {
   const dispatch = useDispatch();
   const navigation = useNavigation();
+
+  const [savedEmail, setSavedEmail] = React.useState("");
+  const [isSaved, setIsSaved] = React.useState(false);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: false,
     });
   });
+
+  React.useEffect(() => {
+    retrieveData("EMAIL").then((data) => {
+      if (data !== null) {
+        setSavedEmail(data);
+      }
+    });
+    retrieveData("IS_EMAIL_SAVED").then((data) => {
+      if (data !== null && data == "saved") {
+        setIsSaved(true);
+      } else {
+        setIsSaved(false);
+      }
+    });
+  }, []);
 
   const {
     values,
@@ -33,8 +52,9 @@ export default function Login() {
     handleChange,
     isSubmitting,
   } = useFormik<LoginRequest>({
-    initialValues: { email: "", password: "" },
+    initialValues: { email: savedEmail, password: "" },
     validationSchema: loginRequestSchema,
+    enableReinitialize: true,
     onSubmit: async (value) => {
       axios
         .post<LoginResponse>(
@@ -61,6 +81,13 @@ export default function Login() {
               },
             }
           );
+          if (isSaved == true) {
+            storeData({ key: "EMAIL", data: values.email });
+            storeData({ key: "IS_EMAIL_SAVED", data: "saved" });
+          } else {
+            storeData({ key: "EMAIL", data: "" });
+            storeData({ key: "IS_EMAIL_SAVED", data: "" });
+          }
         })
         .catch((error) => {
           Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
@@ -78,6 +105,10 @@ export default function Login() {
 
   const handleFindPasswordButtonClicked = () => {
     navigation.navigate("FindPassword");
+  };
+
+  const handleSaveIdClick = () => {
+    setIsSaved(!isSaved);
   };
 
   return (
@@ -108,7 +139,10 @@ export default function Login() {
           />
         </View>
         <View style={LoginStyles.saveEmailContainer}>
-          <Checkbox.Android status="checked" />
+          <Checkbox.Android
+            status={isSaved ? "checked" : "unchecked"}
+            onPress={handleSaveIdClick}
+          />
           <Text>학교 이메일 저장하기</Text>
         </View>
         <View style={AuthStyles.mainButtonContainer}>
