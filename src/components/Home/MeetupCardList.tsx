@@ -23,7 +23,9 @@ export default function MeetupCardList({
           />
           <FlatList
             data={meetupList}
-            renderItem={({ item }) => <MeetupCardItem item={item} />}
+            renderItem={({ item }) => (
+              <MeetupCardItem item={item} imageHeight={200} imageWidth={200} />
+            )}
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             keyExtractor={(item) => String(item.meetingId)}

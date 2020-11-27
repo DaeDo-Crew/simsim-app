@@ -10,7 +10,15 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import theme from "theme";
 
-export default function MeetupCardItem({ item }: { item: MeetUpItem }) {
+export default function MeetupCardItem({
+  item,
+  imageWidth,
+  imageHeight,
+}: {
+  item: MeetUpItem;
+  imageWidth?: number;
+  imageHeight?: number;
+}) {
   const navigation = useNavigation();
 
   const handleClickMeetUpCardItem = () => {
@@ -22,7 +30,10 @@ export default function MeetupCardItem({ item }: { item: MeetUpItem }) {
       <View style={MeetUpCardItemStyles.itemContainer}>
         <Image
           source={{ uri: item.imgUrlList[0] }}
-          style={MeetUpCardItemStyles.cardImage}
+          style={[
+            { width: imageWidth, height: imageHeight },
+            MeetUpCardItemStyles.cardImage,
+          ]}
           defaultSource={require("../../../assets/no_image.png")}
         />
 
@@ -49,8 +60,6 @@ const MeetUpCardItemStyles = StyleSheet.create({
     fontSize: 16,
   },
   cardImage: {
-    width: 200,
-    height: 200,
     aspectRatio: 1,
     resizeMode: "cover",
     borderRadius: theme.borderRadius,
