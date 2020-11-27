@@ -37,7 +37,11 @@ export default function ClubList() {
     <>
       {typeof clubListItemData !== "undefined" && (
         <View style={ClubListStyles.container}>
-          <CardListHeader listTitle="동아리 알아보기" isViewAll={false} />
+          <CardListHeader
+            type="CLUB"
+            listTitle="동아리 알아보기"
+            isViewAll={false}
+          />
           <View style={ClubListStyles.clubListContainer}>
             <FlatGrid
               itemDimension={60}

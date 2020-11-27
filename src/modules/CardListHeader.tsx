@@ -6,7 +6,7 @@ import { Entypo } from "@expo/vector-icons";
 import { MeetUpItem } from "components/MeetUp/redux/types";
 import { useNavigation } from "@react-navigation/native";
 
-type HeaderType = "MEETUP";
+type HeaderType = "MEETUP" | "CLUB";
 
 export default function CardListHeader({
   type,
@@ -23,7 +23,10 @@ export default function CardListHeader({
 
   const handleClickMoreButton = React.useCallback(() => {
     if (type == "MEETUP") {
-      navigation.navigate("MeetUpListAll", { meetUpList: meetupList });
+      navigation.navigate("MeetUpListAll", {
+        listTitle: listTitle,
+        meetUpList: meetupList,
+      });
     }
   }, [meetupList, type]);
 
