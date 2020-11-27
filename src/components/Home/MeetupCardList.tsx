@@ -13,9 +13,14 @@ export default function MeetupCardList({
 }) {
   return (
     <>
-      {typeof meetupList !== "undefined" && (
+      {typeof meetupList !== "undefined" && meetupList.length !== 0 && (
         <>
-          <CardListHeader listTitle={title} isViewAll={true} />
+          <CardListHeader
+            listTitle={title}
+            isViewAll={true}
+            type="MEETUP"
+            meetupList={meetupList}
+          />
           <FlatList
             data={meetupList}
             renderItem={({ item }) => <MeetupCardItem item={item} />}

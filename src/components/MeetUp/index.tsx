@@ -34,7 +34,7 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "모임 상세보기",
+      headerTitle: null,
     });
   });
 

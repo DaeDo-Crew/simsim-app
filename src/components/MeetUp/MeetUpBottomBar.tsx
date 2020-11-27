@@ -26,6 +26,8 @@ export default function MeetUpBottomBar({
     userRegistered
   );
 
+  const [additionalParticipant, setAdditionalParticipant] = React.useState(0);
+
   const handleMeetingRegister = React.useCallback(() => {
     axios({
       method: "POST",
@@ -44,6 +46,7 @@ export default function MeetUpBottomBar({
           },
         ]);
         setIsRegistered(true);
+        setAdditionalParticipant(1);
       })
       .catch((error) => {
         Alert.alert("오류가 발생했습니다.", `${error.response.data}`, [
@@ -65,6 +68,7 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
+        setAdditionalParticipant(-1);
         Alert.alert("모임을 참여취소했습니다.", `${meetingName}`, [
           {
             text: "확인",
@@ -86,7 +90,9 @@ export default function MeetUpBottomBar({
       <Divider />
       <View style={MeetUpBottomBarStyle.container}>
         <View>
-          <Text>{`현재 ${currentParticipants}명이 참가중입니다.`}</Text>
+          <Text>{`현재 ${
+            currentParticipants + additionalParticipant
+          }명이 참가중입니다.`}</Text>
           <Text
             style={MeetUpBottomBarStyle.deadlineTextStyle}
           >{`${deadline}까지 신청가능`}</Text>
