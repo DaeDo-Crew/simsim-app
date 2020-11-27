@@ -5,10 +5,8 @@ import theme from "theme";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
 import { useDispatch, useSelector } from "react-redux";
 import { setUserLogout } from "components/Login/redux/actions";
-import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
-import { LOGOUT_URL } from "./apiUrls";
-import qs from "qs";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function HeaderRightButton() {
   const dispatch = useDispatch();
@@ -19,13 +17,13 @@ export default function HeaderRightButton() {
     dispatch(setUserLogout(null));
 
     if (userToken.accessToken !== null) {
-      axios
-        .post(
-          LOGOUT_URL,
-          qs.stringify({
-            access_token: userToken.accessToken,
-          })
-        )
+      axiosInstance({
+        url: "/member/logout",
+        method: "POST",
+        params: {
+          access_token: userToken.accessToken,
+        },
+      })
         .then(() => {
           dispatch(
             showSnackbar({ visible: true, message: "로그아웃 했습니다." })

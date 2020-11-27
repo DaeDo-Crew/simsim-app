@@ -1,13 +1,12 @@
 import * as React from "react";
-import axios from "axios";
 import { Alert } from "react-native";
-import { MEEING_LIST_URL } from "./apiUrls";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import { MeetUpItem } from "components/MeetUp/redux/types";
 import MeetupCardList from "./MeetupCardList";
 import _ from "underscore";
 import { parseISO, differenceInHours } from "date-fns";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function CurrentMeetUpList() {
   const token = useSelector(getUserToken);
@@ -20,12 +19,13 @@ export default function CurrentMeetUpList() {
 
   React.useEffect(() => {
     if (token !== null) {
-      axios
-        .get(MEEING_LIST_URL, {
-          headers: {
-            Authorization: token.accessToken,
-          },
-        })
+      axiosInstance({
+        url: "/meeting/readAll",
+        method: "GET",
+        headers: {
+          Authorization: token.accessToken,
+        },
+      })
         .then((response) => {
           setAllMeetupList(response.data);
           setPastMeetUpList(

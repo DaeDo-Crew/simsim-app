@@ -4,10 +4,9 @@ import CardListHeader from "modules/CardListHeader";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import theme from "theme";
-import { SHOW_CLUB_LIST } from "./apiUrls";
-import axios from "axios";
 import { FlatGrid } from "react-native-super-grid";
 import ClubListItem, { ClubItem } from "./ClubListItem";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function ClubList() {
   const token = useSelector(getUserToken);
@@ -15,9 +14,9 @@ export default function ClubList() {
   const [clubListItemData, setClubListItemData] = React.useState<ClubItem[]>();
 
   React.useEffect(() => {
-    axios({
+    axiosInstance({
+      url: "/club/ShowClubNameAndId",
       method: "GET",
-      url: SHOW_CLUB_LIST,
       headers: {
         Authorization: token.accessToken,
       },
