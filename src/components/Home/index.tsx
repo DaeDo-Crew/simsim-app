@@ -1,5 +1,5 @@
 import * as React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import CurrentMeetUpList from "./CurrentMeetUpList";
@@ -27,6 +27,7 @@ export default function Home() {
         <MyMeetUpList />
         <CurrentMeetUpList />
         <ClubList />
+        <View style={{ marginBottom: 32 }} />
       </ScrollView>
     </AppLayout>
   );

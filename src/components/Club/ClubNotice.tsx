@@ -86,7 +86,7 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
 
 const ClubNoticeItemStyles = StyleSheet.create({
   container: {
-    marginHorizontal: 12,
+    marginVertical: 12,
     marginLeft: 32,
   },
   createdTimeText: {

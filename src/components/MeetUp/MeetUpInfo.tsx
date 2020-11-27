@@ -24,7 +24,7 @@ function MeetUpInfoItem({
         />
         <Text
           style={MeetUpInfoStyles.itemLabelText}
-        >{`${label} 에 진행됨`}</Text>
+        >{`${label}에 진행됨`}</Text>
       </View>
     );
   } else if (type == "PERSONNEL") {
@@ -95,7 +95,7 @@ const MeetUpInfoStyles = StyleSheet.create({
   },
   itemLabelText: {
     marginLeft: 16,
-    fontSize: 16,
+    fontSize: 14,
     color: theme.colors.black,
   },
 });

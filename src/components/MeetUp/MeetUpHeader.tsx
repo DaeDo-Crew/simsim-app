@@ -17,7 +17,7 @@ export default function MeetUpHeader({
         <Text style={MeetUpItemBaseStyle.title}>{title}</Text>
         <Text
           style={MeetUpHeaderStyles.createdTime}
-        >{`${createdTime} 에 게시됨`}</Text>
+        >{`${createdTime}에 게시됨`}</Text>
       </View>
       <Divider />
     </>
@@ -30,7 +30,7 @@ const MeetUpHeaderStyles = StyleSheet.create({
   },
 
   createdTime: {
-    fontSize: 16,
+    fontSize: 14,
     color: theme.colors.darkGrey,
     fontStyle: "italic",
   },
