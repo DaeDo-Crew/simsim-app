@@ -11,9 +11,8 @@ import ClubCard from "components/Club/ClubCard";
 // import MeetUpComment from "./MeetUpComment";
 import MeetUpBottomBar from "./MeetUpBottomBar";
 import { MeetUpItem } from "./redux/types";
-import axios from "axios";
 import { getUserToken } from "components/Login/redux/selectors";
-import { MEETING_DETAIL_URL } from "./apiUrls";
+import { axiosInstance } from "utils/axiosInstance";
 
 type MeetingProps = {
   key: string;
@@ -40,8 +39,8 @@ export default function MeetUp({ route }: { route: MeetingProps }) {
 
   React.useEffect(() => {
     if (token !== null) {
-      axios
-        .get(MEETING_DETAIL_URL, {
+      axiosInstance
+        .get("/meeting/read", {
           headers: {
             Authorization: token.accessToken,
           },

@@ -4,9 +4,8 @@ import Divider from "modules/Divider";
 import { Button } from "react-native-paper";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
-import axios from "axios";
-import { MEETING_REGISTER_URL, MEETING_UNREGISTER_URL } from "./apiUrls";
 import theme from "theme";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function MeetUpBottomBar({
   currentParticipants,
@@ -29,9 +28,9 @@ export default function MeetUpBottomBar({
   const [additionalParticipant, setAdditionalParticipant] = React.useState(0);
 
   const handleMeetingRegister = React.useCallback(() => {
-    axios({
+    axiosInstance({
       method: "POST",
-      url: MEETING_REGISTER_URL,
+      url: "/meeting/user/register",
       params: {
         meetingId: meetingId,
       },
@@ -57,9 +56,9 @@ export default function MeetUpBottomBar({
       });
   }, []);
   const handleMeetingUnregister = React.useCallback(() => {
-    axios({
+    axiosInstance({
       method: "DELETE",
-      url: MEETING_UNREGISTER_URL,
+      url: "/meeting/user/cancel",
       headers: {
         Authorization: token.accessToken,
       },
