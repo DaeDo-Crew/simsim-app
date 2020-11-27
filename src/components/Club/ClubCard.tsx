@@ -3,16 +3,11 @@ import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
 import { useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import Avatar from "modules/Avatar";
-import axios from "axios";
-import {
-  CLUB_DETAIL_URL,
-  CLUB_SUBSCRIBE_URL,
-  CLUB_UNSUBSCRIBE_URL,
-} from "./apiUrls";
 import { getUserToken } from "components/Login/redux/selectors";
 import { Button } from "react-native-paper";
 import { ClubItem } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function ClubCard({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
@@ -26,9 +21,9 @@ export default function ClubCard({ clubId }: { clubId: number }) {
   }, [clubId]);
 
   const handleClickSubscribeButton = React.useCallback(() => {
-    axios({
+    axiosInstance({
       method: "POST",
-      url: CLUB_SUBSCRIBE_URL,
+      url: "/club/createSubs",
       params: {
         club_id: clubId,
       },
@@ -41,9 +36,9 @@ export default function ClubCard({ clubId }: { clubId: number }) {
   }, []);
 
   const handleClickUnsubscribeButton = React.useCallback(() => {
-    axios({
+    axiosInstance({
       method: "DELETE",
-      url: CLUB_UNSUBSCRIBE_URL,
+      url: "/club/deleteSubs",
       headers: {
         Authorization: token.accessToken,
       },
@@ -59,14 +54,17 @@ export default function ClubCard({ clubId }: { clubId: number }) {
     const getClubInfoAsync = async () => {
       // 동아리 상세정보 가져오기
       try {
-        const fetchedClubItem = await axios.get<ClubItem>(CLUB_DETAIL_URL, {
-          headers: {
-            Authorization: token.accessToken,
-          },
-          params: {
-            club_id: clubId,
-          },
-        });
+        const fetchedClubItem = await axiosInstance.get<ClubItem>(
+          "/club/ClubPackage",
+          {
+            headers: {
+              Authorization: token.accessToken,
+            },
+            params: {
+              club_id: clubId,
+            },
+          }
+        );
         setClubItem(fetchedClubItem.data);
         setIsSubscribed(fetchedClubItem.data.Is_user_subscribing_club);
       } catch (error) {

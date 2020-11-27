@@ -4,12 +4,11 @@ import CardListHeader from "modules/CardListHeader";
 import Divider from "modules/Divider";
 import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
-import axios from "axios";
-import { CLUB_NOTICE_ALL } from "./apiUrls";
 import { ClubNoticeData } from "./redux/types";
 import theme from "theme";
 import { List } from "react-native-paper";
 import _ from "underscore";
+import { axiosInstance } from "utils/axiosInstance";
 
 const ClubNoticeItem = ({
   content,
@@ -36,9 +35,9 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
   >();
 
   React.useEffect(() => {
-    axios({
+    axiosInstance({
       method: "GET",
-      url: CLUB_NOTICE_ALL,
+      url: "/club/readWholeNotice",
       params: {
         clubId: club_id,
       },
@@ -65,7 +64,7 @@ export default function ClubNotice({ club_id }: { club_id: number }) {
 
   return (
     <>
-      <CardListHeader listTitle="공지사항" isViewAll={false} />
+      <CardListHeader listTitle="공지사항" isViewAll={false} type="CLUB" />
       <View style={ClubNoticeStyles.clubNoticeItemContainer}>
         {typeof clubNoticeData !== "undefined" &&
           // 최근 공지사항 10개만 보여줌
