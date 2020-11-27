@@ -15,13 +15,12 @@ import TextInput from "modules/TextInput";
 import { SignUpRequest } from "./redux/types";
 import { useFormik } from "formik";
 // import { signUpRequestSchema } from "./schemas";
-import axios from "axios";
-import { SIGN_UP, SEND_EMAIL_CODE } from "./apiUrls";
 import Button from "modules/Button";
 import { Button as RnpButton, Checkbox } from "react-native-paper";
 import * as WebBrowser from "expo-web-browser";
 import { useDispatch } from "react-redux";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -46,9 +45,9 @@ export default function SignUp() {
     // TODO: 나중에 아이디 삭제할떄 제거
     // validationSchema: signUpRequestSchema,
     onSubmit: async (value: SignUpRequest) => {
-      axios({
+      axiosInstance({
         method: "POST",
-        url: SIGN_UP,
+        url: "/member/signup",
         params: {
           password: value.password,
           email: value.email,
@@ -73,9 +72,9 @@ export default function SignUp() {
   });
 
   const handleSendEmailCode = React.useCallback(async () => {
-    await axios({
+    await axiosInstance({
       method: "POST",
-      url: SEND_EMAIL_CODE,
+      url: "/member/signup/sendEmail",
       params: {
         email: values.email,
       },

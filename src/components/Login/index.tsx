@@ -6,16 +6,15 @@ import { Checkbox } from "react-native-paper";
 import TextInput from "modules/TextInput";
 import Button from "modules/Button";
 import { useFormik } from "formik";
-import axios from "axios";
 import { setUserToken } from "./redux/actions";
 import { LoginResponse, LoginRequest } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
-import { LOGIN_URL, UPLOAD_EXPO_PUSH_TOKEN_URL } from "./apiUrls";
 import { AuthStyles } from "modules/auth/base";
 import { loginRequestSchema } from "./schemas";
 import qs from "qs";
 import { registerForPushNotificationsAsync } from "utils/pushNotifications";
 import { storeData, retrieveData } from "utils/asyncStorage";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -56,9 +55,9 @@ export default function Login() {
     validationSchema: loginRequestSchema,
     enableReinitialize: true,
     onSubmit: async (value) => {
-      axios
+      axiosInstance
         .post<LoginResponse>(
-          LOGIN_URL,
+          "/member/signin",
           qs.stringify({
             email: value.email,
             password: value.password,
@@ -72,8 +71,8 @@ export default function Login() {
             })
           );
           const expoPushToken = await registerForPushNotificationsAsync();
-          await axios.post(
-            UPLOAD_EXPO_PUSH_TOKEN_URL,
+          await axiosInstance.post(
+            "/push/getExpoPushToken",
             qs.stringify({ expoPushToken: expoPushToken }),
             {
               headers: {

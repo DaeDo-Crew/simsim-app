@@ -5,14 +5,13 @@ import { View, StyleSheet, Alert } from "react-native";
 import TextInput from "modules/TextInput";
 import Button from "modules/Button";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import { useFormik } from "formik";
 import { AuthStyles } from "modules/auth/base";
 import { FindPwRequest } from "./redux/types";
 // import { findPwRequestSchema } from "./schemas";
-import { FIND_PW } from "./apiUrls";
 import { usePasswordConfirm } from "modules/auth/hooks";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
+import { axiosInstance } from "utils/axiosInstance";
 
 export default function FindPassword() {
   const navigation = useNavigation();
@@ -37,9 +36,9 @@ export default function FindPassword() {
     onSubmit: async (value) => {
       if (!validatePasswordConfirm()) {
       } else {
-        await axios({
+        await axiosInstance({
           method: "PATCH",
-          url: FIND_PW,
+          url: "/member/searchPw",
           params: {
             email: value.email,
             loginId: value.loginId,
