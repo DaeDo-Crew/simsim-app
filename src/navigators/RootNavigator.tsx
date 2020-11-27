@@ -13,9 +13,10 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { StyleSheet } from "react-native";
 import { useSelector, useDispatch } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
-import axios from "axios";
-import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
+import { axiosInstance } from "utils/axiosInstance";
+import { getUserValid } from "modules/auth/redux/selectors";
+import { setUserValid } from "modules/auth/redux/actions";
 // import { TransparentHeader } from "modules/TransparentHeader";
 
 const RootStack = createStackNavigator();
@@ -23,16 +24,16 @@ const RootStack = createStackNavigator();
 export default function RootNavigator() {
   const dispatch = useDispatch();
 
-  const [isUserValid, setIsUserValid] = React.useState<boolean>(false);
   const userToken = useSelector(getUserToken);
+  const userValid = useSelector(getUserValid);
 
   React.useEffect(() => {
     if (userToken.accessToken === null) {
-      setIsUserValid(false);
+      dispatch(setUserValid(false));
     } else {
-      axios({
+      axiosInstance({
         method: "POST",
-        url: RETOKEN_URL,
+        url: "/member/retoken",
         params: {
           accessToken: userToken.accessToken,
         },
@@ -44,12 +45,12 @@ export default function RootNavigator() {
               // refreshToken: response.data.refreshToken,
             })
           );
-          setIsUserValid(true);
+          dispatch(setUserValid(true));
         })
         .catch((error) => {
           console.log(error);
         });
-      setIsUserValid(true);
+      setUserValid(true);
     }
   }, [userToken.accessToken]);
   return (
@@ -75,7 +76,7 @@ export default function RootNavigator() {
           headerBackTitleVisible: false,
         }}
       >
-        {isUserValid == true ? (
+        {userValid == true ? (
           <>
             <RootStack.Screen name="Home" component={Home} />
             <RootStack.Screen
