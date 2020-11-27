@@ -15,7 +15,7 @@ import { getUserToken } from "components/Login/redux/selectors";
 import axios from "axios";
 import { RETOKEN_URL } from "./apiUrls";
 import { setUserToken } from "components/Login/redux/actions";
-import { TransparentHeader } from "modules/TransparentHeader";
+// import { TransparentHeader } from "modules/TransparentHeader";
 
 const RootStack = createStackNavigator();
 

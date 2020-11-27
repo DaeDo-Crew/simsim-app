@@ -15,14 +15,6 @@ import _ from "underscore";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
-const MeetUpImage = ({ item }: { item: string }) => {
-  return (
-    <View style={MeetUpImageStyle.itemContainer}>
-      <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
-    </View>
-  );
-};
-
 export default function MeetUpImageCarousel({
   imageUrlList,
 }: {
@@ -60,6 +52,16 @@ export default function MeetUpImageCarousel({
     }
   }, [imageUrlList]);
 
+  const MeetUpImage = ({ item }: { item: string }) => {
+    return (
+      <TouchableWithoutFeedback onPress={handleClickImage}>
+        <View style={MeetUpImageStyle.itemContainer}>
+          <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
+        </View>
+      </TouchableWithoutFeedback>
+    );
+  };
+
   const CarouselPagination = () => {
     return (
       <>
@@ -85,9 +87,7 @@ export default function MeetUpImageCarousel({
           <Carousel
             data={imageUrlList}
             renderItem={({ item }: { item: string }) => (
-              <TouchableWithoutFeedback onPress={handleClickImage}>
-                <MeetUpImage item={item} />
-              </TouchableWithoutFeedback>
+              <MeetUpImage item={item} />
             )}
             onSnapToItem={(index) => onHorizontalSelectedIndexChange(index)}
             sliderWidth={SCREEN_WIDTH}
