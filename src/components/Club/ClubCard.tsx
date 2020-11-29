@@ -15,7 +15,6 @@ export default function ClubCard({ clubId }: { clubId: number }) {
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();
   const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
-  const [additionalSubscribeNum, setAdditionalSubscribeNum] = React.useState(0);
 
   const handleMoveToClubClicked = React.useCallback(() => {
     navigation.navigate("Club", { club_id: clubId });
@@ -34,7 +33,6 @@ export default function ClubCard({ clubId }: { clubId: number }) {
     }).then(() => {
       setIsSubscribed(true);
     });
-    setAdditionalSubscribeNum(1);
   }, []);
 
   const handleClickUnsubscribeButton = React.useCallback(() => {
@@ -50,7 +48,6 @@ export default function ClubCard({ clubId }: { clubId: number }) {
     }).then(() => {
       setIsSubscribed(false);
     });
-    setAdditionalSubscribeNum(-1);
   }, []);
 
   React.useEffect(() => {
@@ -75,7 +72,7 @@ export default function ClubCard({ clubId }: { clubId: number }) {
       }
     };
     getClubInfoAsync();
-  }, [clubId]);
+  }, [clubId, isSubscribed]);
 
   return (
     <>
@@ -92,9 +89,7 @@ export default function ClubCard({ clubId }: { clubId: number }) {
                         <Text style={clubStyles.clubNameText}>
                           {clubItem.club_name}
                         </Text>
-                        <Text>{`구독자 ${
-                          clubItem.NumSubscribe + additionalSubscribeNum
-                        }명`}</Text>
+                        <Text>{`구독자 ${clubItem.NumSubscribe}명`}</Text>
                       </>
                     )}
                   </View>
