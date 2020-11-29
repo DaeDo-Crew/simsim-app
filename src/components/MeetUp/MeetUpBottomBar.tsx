@@ -24,8 +24,27 @@ export default function MeetUpBottomBar({
   const [isRegistered, setIsRegistered] = React.useState<boolean>(
     userRegistered
   );
+  const [
+    currentMeetingParticipants,
+    setCurrentMeetingParticipants,
+  ] = React.useState(currentParticipants);
 
-  const [additionalParticipant, setAdditionalParticipant] = React.useState(0);
+  // TODO: 불필요한 api call?
+  // 조금 더 효율적이게 바꿔야함
+  React.useEffect(() => {
+    axiosInstance({
+      method: "GET",
+      url: "/meeting/read",
+      headers: {
+        Authorization: token.accessToken,
+      },
+      params: {
+        meetingId: meetingId,
+      },
+    }).then((response) => {
+      setCurrentMeetingParticipants(response.data.curParticipant);
+    });
+  }, [isRegistered]);
 
   const handleMeetingRegister = React.useCallback(() => {
     axiosInstance({
@@ -45,9 +64,9 @@ export default function MeetUpBottomBar({
           },
         ]);
         setIsRegistered(true);
-        setAdditionalParticipant(1);
       })
       .catch((error) => {
+        console.log(error);
         Alert.alert("오류가 발생했습니다.", `${error.response.data}`, [
           {
             text: "확인",
@@ -55,6 +74,7 @@ export default function MeetUpBottomBar({
         ]);
       });
   }, []);
+
   const handleMeetingUnregister = React.useCallback(() => {
     axiosInstance({
       method: "DELETE",
@@ -67,7 +87,6 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
-        setAdditionalParticipant(-1);
         Alert.alert("모임을 참여취소했습니다.", `${meetingName}`, [
           {
             text: "확인",
@@ -89,9 +108,7 @@ export default function MeetUpBottomBar({
       <Divider />
       <View style={MeetUpBottomBarStyle.container}>
         <View>
-          <Text>{`현재 ${
-            currentParticipants + additionalParticipant
-          }명이 참가중입니다.`}</Text>
+          <Text>{`현재 ${currentMeetingParticipants}명이 참가중입니다.`}</Text>
           <Text
             style={MeetUpBottomBarStyle.deadlineTextStyle}
           >{`${deadline}까지 신청가능`}</Text>
