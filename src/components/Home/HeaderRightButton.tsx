@@ -7,11 +7,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUserLogout } from "components/Login/redux/actions";
 import { getUserToken } from "components/Login/redux/selectors";
 import { axiosInstance } from "utils/axiosInstance";
+import { Alert } from "react-native";
 
 export default function HeaderRightButton() {
   const dispatch = useDispatch();
 
   const userToken = useSelector(getUserToken);
+
+  const handleLogoutButonClick = () => {
+    Alert.alert("정말 로그아웃 하시겠습니까?", "", [
+      {
+        text: "네",
+        onPress: handleLogout,
+        style: "destructive",
+      },
+      {
+        text: "아니오",
+        style: "cancel",
+      },
+    ]);
+  };
 
   const handleLogout = () => {
     if (userToken.accessToken !== null) {
@@ -38,7 +53,7 @@ export default function HeaderRightButton() {
     <MaterialCommunityIcons
       name="logout"
       size={theme.size.headerIconSize}
-      onPress={handleLogout}
+      onPress={handleLogoutButonClick}
       color={theme.colors.black}
       style={HeaderRightStyles.icon}
     />
