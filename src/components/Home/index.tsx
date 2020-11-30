@@ -26,9 +26,9 @@ export default function Home() {
     <AppLayout>
       <ScrollView>
         <MyMeetUpList />
-        <MySubscribeClubListMeetUpList />
         <CurrentMeetUpList />
         <ClubList />
+        <MySubscribeClubListMeetUpList />
         <View style={{ marginBottom: 32 }} />
       </ScrollView>
     </AppLayout>

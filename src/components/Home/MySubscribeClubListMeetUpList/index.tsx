@@ -23,7 +23,6 @@ export default function MySubscribeClubListMeetUpList() {
       })
         .then((response) => {
           setMyClubSubscribeList(response.data);
-          console.log(response.data);
         })
         .catch(() => {
           Alert.alert("내가 구독한 동아리 정보를 불러올 수 없습니다.", "", [
@@ -32,7 +31,6 @@ export default function MySubscribeClubListMeetUpList() {
             },
           ]);
         });
-      axiosInstance;
     }
   }, []);
 

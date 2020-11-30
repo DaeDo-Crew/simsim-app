@@ -56,7 +56,12 @@ export default function MeetUpImageCarousel({
     return (
       <TouchableWithoutFeedback onPress={handleClickImage}>
         <View style={MeetUpImageStyle.itemContainer}>
-          <Image source={{ uri: item }} style={MeetUpImageStyle.image} />
+          <Image
+            source={{ uri: item }}
+            style={MeetUpImageStyle.image}
+            resizeMode="cover"
+            defaultSource={require("../../../assets/loading_image.png")}
+          />
         </View>
       </TouchableWithoutFeedback>
     );
@@ -135,6 +140,5 @@ const MeetUpImageStyle = StyleSheet.create({
   },
   image: {
     ...StyleSheet.absoluteFillObject,
-    resizeMode: "cover",
   },
 });

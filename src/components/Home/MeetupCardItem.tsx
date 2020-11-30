@@ -34,7 +34,7 @@ export default function MeetupCardItem({
             { width: imageWidth, height: imageHeight },
             MeetUpCardItemStyles.cardImage,
           ]}
-          defaultSource={require("../../../assets/no_image.png")}
+          defaultSource={require("../../../assets/loading_image.png")}
         />
 
         <View style={MeetUpCardItemStyles.itemInfoContainer}>
