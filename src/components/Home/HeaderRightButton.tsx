@@ -1,5 +1,4 @@
 import * as React from "react";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { HeaderRightStyles } from "modules/headerRightButton/base";
 import theme from "theme";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
@@ -8,6 +7,7 @@ import { setUserLogout } from "components/Login/redux/actions";
 import { getUserToken } from "components/Login/redux/selectors";
 import { axiosInstance } from "utils/axiosInstance";
 import { Alert } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 
 export default function HeaderRightButton() {
   const dispatch = useDispatch();
@@ -50,8 +50,8 @@ export default function HeaderRightButton() {
   };
 
   return (
-    <MaterialCommunityIcons
-      name="logout"
+    <Ionicons
+      name="md-log-out"
       size={theme.size.headerIconSize}
       onPress={handleLogoutButonClick}
       color={theme.colors.black}
