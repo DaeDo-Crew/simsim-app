@@ -2,10 +2,11 @@ import * as React from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import Divider from "modules/Divider";
 import { Button } from "react-native-paper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import theme from "theme";
 import { axiosInstance } from "utils/axiosInstance";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function MeetUpBottomBar({
   currentParticipants,
@@ -20,6 +21,7 @@ export default function MeetUpBottomBar({
   userRegistered: boolean;
   deadline: string;
 }) {
+  const dispatch = useDispatch();
   const token = useSelector(getUserToken);
   const [isRegistered, setIsRegistered] = React.useState<boolean>(
     userRegistered
@@ -58,11 +60,12 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
-        Alert.alert("모임에 참여했습니다.", `${meetingName}`, [
-          {
-            text: "확인",
-          },
-        ]);
+        dispatch(
+          showSnackbar({
+            visible: true,
+            message: `${meetingName}에 참가 신청했습니다.`,
+          })
+        );
         setIsRegistered(true);
       })
       .catch((error) => {
@@ -87,11 +90,12 @@ export default function MeetUpBottomBar({
       },
     })
       .then(() => {
-        Alert.alert("모임을 참여취소했습니다.", `${meetingName}`, [
-          {
-            text: "확인",
-          },
-        ]);
+        dispatch(
+          showSnackbar({
+            visible: true,
+            message: `${meetingName}의 참가를 취소했습니다.`,
+          })
+        );
         setIsRegistered(false);
       })
       .catch((error) => {
@@ -131,7 +135,7 @@ export default function MeetUpBottomBar({
             labelStyle={MeetUpBottomBarStyle.meetingRegisterLabel}
             onPress={handleMeetingUnregister}
           >
-            참가신청 취소
+            참가취소
           </Button>
         )}
       </View>

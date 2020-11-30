@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, Text, StyleSheet, TouchableWithoutFeedback } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Divider from "modules/Divider";
 import Avatar from "modules/Avatar";
 import { getUserToken } from "components/Login/redux/selectors";
@@ -8,16 +8,21 @@ import { Button } from "react-native-paper";
 import { ClubItem } from "./redux/types";
 import { useNavigation } from "@react-navigation/native";
 import { axiosInstance } from "utils/axiosInstance";
+import { showSnackbar } from "modules/Snackbar/redux/actions";
 
 export default function ClubCard({ clubId }: { clubId: number }) {
   const token = useSelector(getUserToken);
+  const dispatch = useDispatch();
   const navigation = useNavigation();
 
   const [clubItem, setClubItem] = React.useState<ClubItem>();
   const [isSubscribed, setIsSubscribed] = React.useState<boolean>();
 
   const handleMoveToClubClicked = React.useCallback(() => {
-    navigation.navigate("Club", { club_id: clubId });
+    navigation.navigate("Club", {
+      club_id: clubId,
+      club_name: clubItem?.club_name,
+    });
   }, [clubId]);
 
   const handleClickSubscribeButton = React.useCallback(() => {
@@ -31,6 +36,7 @@ export default function ClubCard({ clubId }: { clubId: number }) {
         Authorization: token.accessToken,
       },
     }).then(() => {
+      dispatch(showSnackbar({ visible: true, message: "구독했습니다." }));
       setIsSubscribed(true);
     });
   }, []);
@@ -46,6 +52,7 @@ export default function ClubCard({ clubId }: { clubId: number }) {
         club_id: clubId,
       },
     }).then(() => {
+      dispatch(showSnackbar({ visible: true, message: "구독취소했습니다." }));
       setIsSubscribed(false);
     });
   }, []);
@@ -111,7 +118,7 @@ export default function ClubCard({ clubId }: { clubId: number }) {
                     onPress={handleClickUnsubscribeButton}
                     labelStyle={clubStyles.subScribeButtonLabel}
                   >
-                    구독해지
+                    구독취소
                   </Button>
                 )}
               </View>
