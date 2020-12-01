@@ -50,6 +50,7 @@ export default function Login() {
     handleSubmit,
     handleChange,
     isSubmitting,
+    touched,
   } = useFormik<LoginRequest>({
     initialValues: { email: savedEmail, password: "" },
     validationSchema: loginRequestSchema,
@@ -123,7 +124,8 @@ export default function Login() {
             value={values.email}
             placeholder="sshz@uos.ac.kr"
             textContentType="username"
-            error={typeof errors.email !== "undefined"}
+            errorMessage={errors.email}
+            touched={touched.email}
           />
         </View>
         <View style={AuthStyles.textInputContainer}>
@@ -134,7 +136,8 @@ export default function Login() {
             placeholder="9자리 이상 영문 + 숫자"
             textContentType="password"
             secureTextEntry={true}
-            error={typeof errors.password !== "undefined"}
+            errorMessage={errors.password}
+            touched={touched.password}
           />
         </View>
         <View style={LoginStyles.saveEmailContainer}>
