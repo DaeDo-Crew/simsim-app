@@ -1,8 +1,10 @@
 import { Banner as RnpBanner } from "react-native-paper";
-import * as React from "react-native";
+import * as React from "react";
+import { Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { getBannerState } from "./redux/selectors";
 import { showBanner } from "./redux/actions";
+import theme from "theme";
 
 export default function Banner() {
   const bannerState = useSelector(getBannerState);
@@ -13,7 +15,7 @@ export default function Banner() {
   };
   return (
     <>
-      {bannerState !== null && (
+      {bannerState !== null && bannerState.visible == true && (
         <RnpBanner
           visible={bannerState.visible}
           actions={[
@@ -26,6 +28,22 @@ export default function Banner() {
               onPress: handleDismissBanner,
             },
           ]}
+          icon={({ size }) => (
+            <Image
+              source={
+                typeof bannerState.iconUri !== "undefined"
+                  ? {
+                      uri: bannerState.iconUri,
+                    }
+                  : require("../../../assets/kakaoTalk.png")
+              }
+              style={{
+                borderRadius: theme.borderRadius,
+                width: size,
+                height: size,
+              }}
+            />
+          )}
         >
           {bannerState.descriptionText}
         </RnpBanner>

@@ -7,6 +7,8 @@ import { getUserToken } from "components/Login/redux/selectors";
 import theme from "theme";
 import { axiosInstance } from "utils/axiosInstance";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
+import { showBanner } from "modules/banner/redux/actions";
+import * as WebBrowser from "expo-web-browser";
 
 export default function MeetUpBottomBar({
   currentParticipants,
@@ -59,17 +61,48 @@ export default function MeetUpBottomBar({
         Authorization: token.accessToken,
       },
     })
-      .then(() => {
+      .then(async () => {
         dispatch(
           showSnackbar({
             visible: true,
             message: `${meetingName}에 참가 신청했습니다.`,
           })
         );
+
+        //TODO: 이후 이부분 모듈화 하던지 뭘하던지 리팩토링 해야함
+        const kakaoOpenChatLink = await axiosInstance({
+          method: "GET",
+          url: "/meeting/get/chaturl",
+          params: {
+            meetingId: meetingId,
+          },
+          headers: {
+            Authorization: token.accessToken,
+          },
+        }).then((response) => {
+          return response.data;
+        });
+        if (typeof kakaoOpenChatLink !== "undefined") {
+          dispatch(
+            showBanner({
+              visible: true,
+              onPressConfirm: async () =>
+                await WebBrowser.openBrowserAsync(kakaoOpenChatLink).catch(() =>
+                  dispatch(
+                    showSnackbar({
+                      visible: true,
+                      message: "카카오톡 오폰채팅방을 열 수 없습니다.",
+                    })
+                  )
+                ),
+              confirmLabel: "이동하기",
+              descriptionText: `해당 모임(${meetingName})에 대해 카카오톡 오픈채팅방이 만들어져 있습니다.`,
+            })
+          );
+        }
         setIsRegistered(true);
       })
       .catch((error) => {
-        console.log(error);
         Alert.alert("오류가 발생했습니다.", `${error.response.data}`, [
           {
             text: "확인",
@@ -96,6 +129,7 @@ export default function MeetUpBottomBar({
             message: `${meetingName}의 참가를 취소했습니다.`,
           })
         );
+        dispatch(showBanner(null));
         setIsRegistered(false);
       })
       .catch((error) => {

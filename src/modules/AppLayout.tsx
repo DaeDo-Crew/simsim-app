@@ -26,16 +26,17 @@ export default function AppLayout(props: AppLayoutProps) {
     <>
       {isSafeArea ? (
         <SafeAreaView style={style.MainSection} edges={["bottom"]}>
+          <Banner />
           {children}
           <Snackbar />
           <StatusBar style="dark" />
         </SafeAreaView>
       ) : (
         <View style={style.MainSection}>
+          <Banner />
           {children}
           <StatusBar style="dark" />
           <Snackbar />
-          <Banner />
           <ImageViewer />
         </View>
       )}
