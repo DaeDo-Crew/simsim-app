@@ -4,16 +4,18 @@ import { useSelector } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import { axiosInstance } from "utils/axiosInstance";
 import MySubscribeClubListMeetUpListItem from "./MySubscribeClubListMeetUpListItem";
+import { getMyClubMeetUpRefreshState } from "components/Home/redux/selectors";
 
 export default function MySubscribeClubListMeetUpList() {
   const token = useSelector(getUserToken);
+  const myClubMeetUpRefreshState = useSelector(getMyClubMeetUpRefreshState);
 
   const [myClubSubscribeList, setMyClubSubscribeList] = React.useState<
     number[]
   >();
 
   React.useEffect(() => {
-    if (token !== null) {
+    if (token !== null && myClubMeetUpRefreshState == true) {
       axiosInstance({
         url: "/club/SubClubList",
         method: "GET",
@@ -32,7 +34,7 @@ export default function MySubscribeClubListMeetUpList() {
           ]);
         });
     }
-  }, []);
+  }, [myClubMeetUpRefreshState]);
 
   return (
     <>

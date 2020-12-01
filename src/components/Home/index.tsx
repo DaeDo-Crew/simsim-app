@@ -8,13 +8,17 @@ import MySubscribeClubListMeetUpList from "./MySubscribeClubListMeetUpList";
 import ClubList from "./ClubList";
 import HeaderRightButton from "./HeaderRightButton";
 import { useDispatch, useSelector } from "react-redux";
-import { getRefreshState } from "./redux/selectors";
-import { setMeetUpRefresh } from "./redux/actions";
+import {
+  getMyMeetUpRefreshState,
+  getMyClubMeetUpRefreshState,
+} from "./redux/selectors";
+import { setMyClubMeetUpRefresh, setMyMeetUpRefresh } from "./redux/actions";
 
 export default function Home() {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const refreshState = useSelector(getRefreshState);
+  const myMeetUpRefreshState = useSelector(getMyMeetUpRefreshState);
+  const myClubMeetUpRefreshState = useSelector(getMyClubMeetUpRefreshState);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -27,13 +31,21 @@ export default function Home() {
     });
   });
 
+  React.useEffect(() => {
+    dispatch(setMyMeetUpRefresh(true));
+    dispatch(setMyClubMeetUpRefresh(true));
+  }, []);
+
   return (
     <AppLayout>
       <ScrollView
         refreshControl={
           <RefreshControl
-            refreshing={refreshState}
-            onRefresh={() => dispatch(setMeetUpRefresh(true))}
+            refreshing={myMeetUpRefreshState && myClubMeetUpRefreshState}
+            onRefresh={() => {
+              dispatch(setMyMeetUpRefresh(true));
+              dispatch(setMyClubMeetUpRefresh(true));
+            }}
           />
         }
       >

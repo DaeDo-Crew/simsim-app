@@ -1,17 +1,21 @@
 import * as React from "react";
 import { Alert } from "react-native";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { getUserToken } from "components/Login/redux/selectors";
 import { MeetUpItem } from "components/MeetUp/redux/types";
 import MeetupCardList from "./MeetupCardList";
 import { axiosInstance } from "utils/axiosInstance";
+import { getMyMeetUpRefreshState } from "./redux/selectors";
+import { setMyMeetUpRefresh } from "./redux/actions";
 
 export default function CurrentMeetUpList() {
   const token = useSelector(getUserToken);
+  const dispatch = useDispatch();
+  const myMeetUpRefreshState = useSelector(getMyMeetUpRefreshState);
   const [meetupList, setMeetupList] = React.useState<MeetUpItem[]>();
 
   React.useEffect(() => {
-    if (token !== null) {
+    if (token !== null && myMeetUpRefreshState == true) {
       axiosInstance({
         url: "/meeting/user/list",
         method: "GET",
@@ -21,6 +25,7 @@ export default function CurrentMeetUpList() {
       })
         .then((response) => {
           setMeetupList(response.data);
+          dispatch(setMyMeetUpRefresh(false));
         })
         .catch(() => {
           Alert.alert("내가 참여한 모임을 불러올 수 없습니다.", "", [
@@ -30,7 +35,7 @@ export default function CurrentMeetUpList() {
           ]);
         });
     }
-  }, []);
+  }, [myMeetUpRefreshState]);
 
   return (
     <>
