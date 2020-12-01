@@ -4,6 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import CurrentMeetUpList from "./CurrentMeetUpList";
 import MyMeetUpList from "./MyMeetUpList";
+import AllMeetUpList from "./AllMeetUpList";
 import MySubscribeClubListMeetUpList from "./MySubscribeClubListMeetUpList";
 import ClubList from "./ClubList";
 import HeaderRightButton from "./HeaderRightButton";
@@ -53,6 +54,7 @@ export default function Home() {
         <CurrentMeetUpList />
         <ClubList />
         <MySubscribeClubListMeetUpList />
+        <AllMeetUpList />
         <View style={{ marginBottom: 32 }} />
       </ScrollView>
     </AppLayout>

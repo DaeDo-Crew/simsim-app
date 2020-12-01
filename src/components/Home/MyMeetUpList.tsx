@@ -17,14 +17,19 @@ export default function CurrentMeetUpList() {
   React.useEffect(() => {
     if (token !== null && myMeetUpRefreshState == true) {
       axiosInstance({
-        url: "/meeting/user/list",
+        url: "/meeting/read/list",
         method: "GET",
         headers: {
           Authorization: token.accessToken,
         },
+        params: {
+          isApplied: "Y",
+          pageScale: 10,
+          offset: 0,
+        },
       })
         .then((response) => {
-          setMeetupList(response.data);
+          setMeetupList(response.data.reverse());
           dispatch(setMyMeetUpRefresh(false));
         })
         .catch(() => {

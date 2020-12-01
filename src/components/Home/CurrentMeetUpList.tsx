@@ -10,7 +10,6 @@ import { axiosInstance } from "utils/axiosInstance";
 
 export default function CurrentMeetUpList() {
   const token = useSelector(getUserToken);
-  const [allMeetupList, setAllMeetupList] = React.useState<MeetUpItem[]>();
   const [
     currentAvailableMeetUpList,
     setCurrentAvailableMeetUpList,
@@ -20,14 +19,17 @@ export default function CurrentMeetUpList() {
   React.useEffect(() => {
     if (token !== null) {
       axiosInstance({
-        url: "/meeting/readAll",
+        url: "/meeting/read/list",
         method: "GET",
         headers: {
           Authorization: token.accessToken,
         },
+        params: {
+          pageScale: 100,
+          offset: 0,
+        },
       })
         .then((response) => {
-          setAllMeetupList(response.data);
           setPastMeetUpList(
             _.filter(response.data, (data: MeetUpItem) => {
               return differenceInHours(parseISO(data.deadline), new Date()) < 0;
@@ -40,7 +42,7 @@ export default function CurrentMeetUpList() {
           );
         })
         .catch(() => {
-          Alert.alert("모집중인 모임을 불러올 수 없습니다.", "", [
+          Alert.alert("모임을 불러올 수 없습니다.", "", [
             {
               text: "확인",
             },
@@ -55,7 +57,6 @@ export default function CurrentMeetUpList() {
         title="현재 신청 가능한 모임"
         meetupList={currentAvailableMeetUpList}
       />
-      <MeetupCardList title="전체 모임" meetupList={allMeetupList} />
       <MeetupCardList title="아쉽게 놓친 모임" meetupList={pastMeetUpList} />
     </>
   );
