@@ -124,7 +124,9 @@ export default function SignUp() {
     });
   });
 
-  const handleAgreementDetailClick = React.useCallback(() => {}, []);
+  const handleAgreementDetailClick = React.useCallback(() => {
+    navigation.navigate("Privacy");
+  }, []);
 
   return (
     <AppLayout>

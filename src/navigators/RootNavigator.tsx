@@ -5,6 +5,7 @@ import Home from "components/Home";
 import MeetUp from "components/MeetUp";
 import Login from "components/Login";
 import SignUp from "components/SignUp";
+import Privacy from "components/SignUp/Privacy";
 import FindPassword from "components/FindPassword";
 import Club from "components/Club";
 import MeetUpListAll from "components/Home/MeetUpListAll";
@@ -94,6 +95,7 @@ export default function RootNavigator() {
           <>
             <RootStack.Screen name="Login" component={Login} />
             <RootStack.Screen name="SignUp" component={SignUp} />
+            <RootStack.Screen name="Privacy" component={Privacy} />
             <RootStack.Screen name="FindPassword" component={FindPassword} />
           </>
         )}
