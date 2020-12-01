@@ -28,6 +28,9 @@ export default function Banner() {
               onPress: handleDismissBanner,
             },
           ]}
+          contentStyle={{
+            backgroundColor: theme.colors.ligthGrey,
+          }}
           icon={({ size }) => (
             <Image
               source={
