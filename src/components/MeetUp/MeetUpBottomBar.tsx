@@ -96,7 +96,7 @@ export default function MeetUpBottomBar({
                   )
                 ),
               confirmLabel: "이동하기",
-              descriptionText: `해당 모임(${meetingName})에 대해 카카오톡 오픈채팅방이 만들어져 있습니다.`,
+              descriptionText: `모임 "${meetingName}"에 대해 카카오톡 오픈채팅방이 개설되었습니다.`,
             })
           );
         }
