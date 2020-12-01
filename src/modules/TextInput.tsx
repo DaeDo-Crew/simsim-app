@@ -47,9 +47,11 @@ export default function TextInput(props: TextInputProps) {
         error={!!errorMessage && value !== ""}
         style={[TextInputStyles.textInput, style]}
       />
-      <RnpHelpText type="error" visible={!!errorMessage && value !== ""}>
-        {errorMessage}
-      </RnpHelpText>
+      {!!errorMessage && value !== "" && (
+        <RnpHelpText type="error" visible={!!errorMessage && value !== ""}>
+          {errorMessage}
+        </RnpHelpText>
+      )}
     </>
   );
 }

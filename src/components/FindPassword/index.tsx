@@ -81,6 +81,7 @@ export default function FindPassword() {
           placeholder="sshz@uos.ac.kr"
           textContentType="emailAddress"
           errorMessage={errors.email}
+          style={FindPasswordStyles.textInput}
         />
         <TextInput
           label="새로운 비밀번호"
@@ -90,6 +91,7 @@ export default function FindPassword() {
           textContentType="newPassword"
           secureTextEntry={true}
           errorMessage={errors.newqw}
+          style={FindPasswordStyles.textInput}
         />
         <TextInput
           label="새로운 비밀번호를 한번 더 입력해주세요."
@@ -99,14 +101,12 @@ export default function FindPassword() {
           textContentType="none"
           secureTextEntry={true}
           errorMessage={passwordConfirmError}
+          style={FindPasswordStyles.textInput}
         />
         <View style={AuthStyles.mainButtonContainer}>
           <Button
             type="contained"
             onPress={handleSubmit}
-            disabled={
-              typeof errors !== "undefined" && passwordConfirmError !== ""
-            }
             isSubmitting={isSubmitting}
             label="비밀번호 변경"
           />
@@ -120,5 +120,8 @@ const FindPasswordStyles = StyleSheet.create({
   container: {
     marginVertical: 32,
     marginHorizontal: 32,
+  },
+  textInput: {
+    marginBottom: 16,
   },
 });
