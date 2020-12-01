@@ -4,6 +4,7 @@ import loginReducer from "components/Login/redux/reducers";
 import snackbarReducer from "modules/Snackbar/redux/reducers";
 import imageViewerReducer from "modules/ImageViewer/redux/reducers";
 import authReducer from "modules/auth/redux/reducers";
+import bannerReducer from "modules/banner/redux/reducers";
 
 export default combineReducers({
   home: homeReducer,
@@ -11,4 +12,5 @@ export default combineReducers({
   snackbar: snackbarReducer,
   imageViewer: imageViewerReducer,
   auth: authReducer,
+  banner: bannerReducer,
 });
