@@ -1,6 +1,10 @@
 import { combineReducers } from "redux";
 import { createReducer } from "typesafe-actions";
-import { setMeetUpId, setMeetUpRefresh } from "./actions";
+import {
+  setMeetUpId,
+  setMyMeetUpRefresh,
+  setMyClubMeetUpRefresh,
+} from "./actions";
 
 const reducer = combineReducers({
   meetUpId: createReducer<string | null>(null).handleAction(
@@ -9,8 +13,14 @@ const reducer = combineReducers({
       return action.payload;
     }
   ),
-  refresh: createReducer(false).handleAction(
-    setMeetUpRefresh,
+  myMeetUpRefresh: createReducer(false).handleAction(
+    setMyMeetUpRefresh,
+    (_state, action) => {
+      return action.payload;
+    }
+  ),
+  myClubMeetUpRefresh: createReducer(false).handleAction(
+    setMyClubMeetUpRefresh,
     (_state, action) => {
       return action.payload;
     }
