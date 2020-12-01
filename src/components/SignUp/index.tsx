@@ -14,7 +14,7 @@ import { AuthStyles } from "modules/auth/base";
 import TextInput from "modules/TextInput";
 import { SignUpRequest } from "./redux/types";
 import { useFormik } from "formik";
-// import { signUpRequestSchema } from "./schemas";
+import { signUpRequestSchema } from "./schemas";
 import Button from "modules/Button";
 import { Button as RnpButton, Checkbox } from "react-native-paper";
 import * as WebBrowser from "expo-web-browser";
@@ -34,40 +34,44 @@ export default function SignUp() {
     handleSubmit,
     handleChange,
     isSubmitting,
+    isValid,
   } = useFormik<SignUpRequest>({
     initialValues: {
-      // TODO: loginId는 나중에 아이디 삭제할떄 제거
       password: "",
       email: "",
       nickname: "",
       code: "",
     },
-    // TODO: 나중에 아이디 삭제할떄 제거
-    // validationSchema: signUpRequestSchema,
+    validationSchema: signUpRequestSchema,
     onSubmit: async (value: SignUpRequest) => {
-      axiosInstance({
-        method: "POST",
-        url: "/member/signup",
-        params: {
-          password: value.password,
-          email: value.email,
-          nickname: value.nickname,
-          code: value.code,
-        },
-      })
-        .then(() => {
-          dispatch(
-            showSnackbar({ visible: true, message: "회원가입에 성공했습니다." })
-          );
-          navigation.navigate("Login");
+      if (isValid) {
+        axiosInstance({
+          method: "POST",
+          url: "/member/signup",
+          params: {
+            password: value.password,
+            email: value.email,
+            nickname: value.nickname,
+            code: value.code,
+          },
         })
-        .catch((error) => {
-          Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
-            {
-              text: "확인",
-            },
-          ]);
-        });
+          .then(() => {
+            dispatch(
+              showSnackbar({
+                visible: true,
+                message: "회원가입에 성공했습니다.",
+              })
+            );
+            navigation.navigate("Login");
+          })
+          .catch((error) => {
+            Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
+              {
+                text: "확인",
+              },
+            ]);
+          });
+      }
     },
   });
 
@@ -139,12 +143,12 @@ export default function SignUp() {
             <View style={SignUpStyles.emailFormContainer}>
               <View style={SignUpStyles.emailFormTextInput}>
                 <TextInput
-                  label="학교 이메일"
+                  label="서울시립대학교 포털이메일"
                   onChangeText={handleChange("email")}
                   value={values.email}
                   placeholder="sshz@uos.ac.kr"
                   textContentType="emailAddress"
-                  error={typeof errors.email !== "undefined"}
+                  errorMessage={errors.email}
                 />
               </View>
               <View style={SignUpStyles.emailFormButton}>
@@ -167,7 +171,7 @@ export default function SignUp() {
                 value={values.code}
                 placeholder="FWSZ"
                 textContentType="none"
-                error={typeof errors.code !== "undefined"}
+                errorMessage={errors.code}
               />
             </View>
             <View style={SignUpStyles.formItem}>
@@ -178,7 +182,7 @@ export default function SignUp() {
                 placeholder="9자리 이상 영문 + 숫자"
                 textContentType="newPassword"
                 secureTextEntry={true}
-                error={typeof errors.password !== "undefined"}
+                errorMessage={errors.password}
               />
             </View>
             <View style={SignUpStyles.formItem}>
@@ -188,7 +192,7 @@ export default function SignUp() {
                 value={values.nickname}
                 placeholder="전농동 불주먹"
                 textContentType="nickname"
-                error={typeof errors.nickname !== "undefined"}
+                errorMessage={errors.nickname}
               />
             </View>
             <View style={SignUpStyles.agreementContainer}>
@@ -222,6 +226,7 @@ const SignUpStyles = StyleSheet.create({
   container: {
     flexDirection: "column",
     justifyContent: "center",
+    marginBottom: 32,
   },
   formContainer: {
     marginTop: 32,
@@ -232,13 +237,14 @@ const SignUpStyles = StyleSheet.create({
   },
   emailFormContainer: {
     flexDirection: "row",
-    alignItems: "flex-end",
+    alignItems: "flex-start",
   },
   emailFormTextInput: {
     flexGrow: 1,
     flexShrink: 0,
   },
   emailFormButton: {
+    marginTop: 6,
     marginLeft: 8,
   },
   emailFormButtonText: {

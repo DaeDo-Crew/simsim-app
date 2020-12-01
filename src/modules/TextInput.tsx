@@ -21,7 +21,6 @@ type TextInputProps = {
   secureTextEntry?: boolean;
   style?: object;
   errorMessage?: string;
-  touched?: boolean;
 };
 
 export default function TextInput(props: TextInputProps) {
@@ -34,7 +33,6 @@ export default function TextInput(props: TextInputProps) {
     secureTextEntry,
     errorMessage,
     style,
-    touched,
   } = props;
   return (
     <>
@@ -46,13 +44,10 @@ export default function TextInput(props: TextInputProps) {
         placeholder={placeholder}
         secureTextEntry={secureTextEntry}
         textContentType={textContentType}
-        error={typeof errorMessage !== "undefined" && !touched}
+        error={!!errorMessage && value !== ""}
         style={[TextInputStyles.textInput, style]}
       />
-      <RnpHelpText
-        type="error"
-        visible={typeof errorMessage !== "undefined" && touched}
-      >
+      <RnpHelpText type="error" visible={!!errorMessage && value !== ""}>
         {errorMessage}
       </RnpHelpText>
     </>

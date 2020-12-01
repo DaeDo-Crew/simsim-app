@@ -50,52 +50,54 @@ export default function Login() {
     handleSubmit,
     handleChange,
     isSubmitting,
-    touched,
+    isValid,
   } = useFormik<LoginRequest>({
     initialValues: { email: savedEmail, password: "" },
     validationSchema: loginRequestSchema,
     enableReinitialize: true,
     onSubmit: async (value) => {
-      axiosInstance
-        .post<LoginResponse>(
-          "/member/signin",
-          qs.stringify({
-            email: value.email,
-            password: value.password,
-          })
-        )
-        .then(async (response) => {
-          dispatch(
-            setUserToken({
-              accessToken: response.data.accessToken,
-              // refreshToken: response.data.refreshToken,
+      if (isValid) {
+        axiosInstance
+          .post<LoginResponse>(
+            "/member/signin",
+            qs.stringify({
+              email: value.email,
+              password: value.password,
             })
-          );
-          const expoPushToken = await registerForPushNotificationsAsync();
-          await axiosInstance.post(
-            "/push/getExpoPushToken",
-            qs.stringify({ expoPushToken: expoPushToken }),
-            {
-              headers: {
-                Authorization: response.data.accessToken,
-              },
+          )
+          .then(async (response) => {
+            dispatch(
+              setUserToken({
+                accessToken: response.data.accessToken,
+                // refreshToken: response.data.refreshToken,
+              })
+            );
+            const expoPushToken = await registerForPushNotificationsAsync();
+            await axiosInstance.post(
+              "/push/getExpoPushToken",
+              qs.stringify({ expoPushToken: expoPushToken }),
+              {
+                headers: {
+                  Authorization: response.data.accessToken,
+                },
+              }
+            );
+            if (isSaved == true) {
+              storeData({ key: "EMAIL", data: values.email });
+              storeData({ key: "IS_EMAIL_SAVED", data: "saved" });
+            } else {
+              storeData({ key: "EMAIL", data: "" });
+              storeData({ key: "IS_EMAIL_SAVED", data: "" });
             }
-          );
-          if (isSaved == true) {
-            storeData({ key: "EMAIL", data: values.email });
-            storeData({ key: "IS_EMAIL_SAVED", data: "saved" });
-          } else {
-            storeData({ key: "EMAIL", data: "" });
-            storeData({ key: "IS_EMAIL_SAVED", data: "" });
-          }
-        })
-        .catch((error) => {
-          Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
-            {
-              text: "확인",
-            },
-          ]);
-        });
+          })
+          .catch((error) => {
+            Alert.alert("다시 시도해주세요.", `${error.response.data}`, [
+              {
+                text: "확인",
+              },
+            ]);
+          });
+      }
     },
   });
 
@@ -119,13 +121,12 @@ export default function Login() {
         </View>
         <View style={AuthStyles.textInputContainer}>
           <TextInput
-            label="학교 이메일"
+            label="서울시립대학교 포털이메일"
             onChangeText={handleChange("email")}
             value={values.email}
             placeholder="sshz@uos.ac.kr"
             textContentType="username"
             errorMessage={errors.email}
-            touched={touched.email}
           />
         </View>
         <View style={AuthStyles.textInputContainer}>
@@ -137,7 +138,6 @@ export default function Login() {
             textContentType="password"
             secureTextEntry={true}
             errorMessage={errors.password}
-            touched={touched.password}
           />
         </View>
         <View style={LoginStyles.saveEmailContainer}>
@@ -161,6 +161,7 @@ export default function Login() {
             type="text"
             onPress={handleSignupButtonClicked}
             label="회원가입"
+            isSubmitting={isSubmitting}
             compact={true}
           />
           <Button

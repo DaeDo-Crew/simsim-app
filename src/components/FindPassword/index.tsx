@@ -8,7 +8,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useFormik } from "formik";
 import { AuthStyles } from "modules/auth/base";
 import { FindPwRequest } from "./redux/types";
-// import { findPwRequestSchema } from "./schemas";
+import { findPwRequestSchema } from "./schemas";
 import { usePasswordConfirm } from "modules/auth/hooks";
 import { showSnackbar } from "modules/Snackbar/redux/actions";
 import { axiosInstance } from "utils/axiosInstance";
@@ -19,7 +19,7 @@ export default function FindPassword() {
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: "비밀번호 재설정",
+      headerTitle: "비밀번호 변경",
     });
   });
 
@@ -29,19 +29,18 @@ export default function FindPassword() {
     handleSubmit,
     handleChange,
     isSubmitting,
+    isValid,
   } = useFormik<FindPwRequest>({
-    initialValues: { email: "", loginId: "", newqw: "" },
-    // TODO: 로그인에 아이디 없어지면 주석 해제
-    // validationSchema: findPwRequestSchema,
+    initialValues: { email: "", newqw: "" },
+    validationSchema: findPwRequestSchema,
     onSubmit: async (value) => {
-      if (!validatePasswordConfirm()) {
+      if (!validatePasswordConfirm() && isValid) {
       } else {
         await axiosInstance({
           method: "PATCH",
           url: "/member/searchPw",
           params: {
             email: value.email,
-            loginId: value.loginId,
             newqw: value.newqw,
           },
         })
@@ -74,39 +73,33 @@ export default function FindPassword() {
 
   return (
     <AppLayout>
-      <View>
-        <View style={FindPasswordStyles.container}>
-          <TextInput
-            label="학교 이메일"
-            onChangeText={handleChange("email")}
-            value={values.email}
-            placeholder="sshz@uos.ac.kr"
-            textContentType="emailAddress"
-            error={typeof errors.email !== "undefined"}
-          />
-        </View>
-        <View style={FindPasswordStyles.container}>
-          <TextInput
-            label="새로운 비밀번호"
-            onChangeText={handleChange("newqw")}
-            value={values.newqw}
-            placeholder="9자리 이상 영문 + 숫자"
-            textContentType="newPassword"
-            secureTextEntry={true}
-            error={typeof errors.newqw !== "undefined"}
-          />
-        </View>
-        <View style={FindPasswordStyles.container}>
-          <TextInput
-            label="새로운 비밀번호를 한번 더 입력해주세요."
-            onChangeText={handlePasswordConfirmChange}
-            value={passwordConfirm}
-            placeholder="9자리 이상 영문 + 숫자"
-            textContentType="none"
-            secureTextEntry={true}
-            error={passwordConfirmError !== ""}
-          />
-        </View>
+      <View style={FindPasswordStyles.container}>
+        <TextInput
+          label="서울시립대학교 포털이메일"
+          onChangeText={handleChange("email")}
+          value={values.email}
+          placeholder="sshz@uos.ac.kr"
+          textContentType="emailAddress"
+          errorMessage={errors.email}
+        />
+        <TextInput
+          label="새로운 비밀번호"
+          onChangeText={handleChange("newqw")}
+          value={values.newqw}
+          placeholder="9자리 이상 영문 + 숫자"
+          textContentType="newPassword"
+          secureTextEntry={true}
+          errorMessage={errors.newqw}
+        />
+        <TextInput
+          label="새로운 비밀번호를 한번 더 입력해주세요."
+          onChangeText={handlePasswordConfirmChange}
+          value={passwordConfirm}
+          placeholder="9자리 이상 영문 + 숫자"
+          textContentType="none"
+          secureTextEntry={true}
+          errorMessage={passwordConfirmError}
+        />
         <View style={AuthStyles.mainButtonContainer}>
           <Button
             type="contained"
@@ -115,7 +108,7 @@ export default function FindPassword() {
               typeof errors !== "undefined" && passwordConfirmError !== ""
             }
             isSubmitting={isSubmitting}
-            label="비밀번호 재설정"
+            label="비밀번호 변경"
           />
         </View>
       </View>
@@ -125,7 +118,7 @@ export default function FindPassword() {
 
 const FindPasswordStyles = StyleSheet.create({
   container: {
-    marginTop: 32,
+    marginVertical: 32,
     marginHorizontal: 32,
   },
 });
