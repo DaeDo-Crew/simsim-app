@@ -17,7 +17,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.koreanhole.simsimapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"

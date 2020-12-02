@@ -9,6 +9,7 @@ import ClubNotice from "./ClubNotice";
 import { MeetUpItem } from "components/MeetUp/redux/types";
 import { axiosInstance } from "utils/axiosInstance";
 import MeetupCardList from "components/Home/MeetupCardList";
+import Divider from "modules/Divider";
 
 type ClubProps = {
   key: string;
@@ -65,10 +66,13 @@ export default function Club({ route }: { route: ClubProps }) {
           <ClubCard clubId={club_id} />
         </View>
         {typeof meetupList !== "undefined" && (
-          <MeetupCardList
-            title={`${club_name}이 주최한 모임`}
-            meetupList={meetupList}
-          />
+          <>
+            <MeetupCardList
+              title={`${club_name}이 주최한 모임`}
+              meetupList={meetupList}
+            />
+            <Divider />
+          </>
         )}
         <ClubNotice club_id={club_id} />
       </ScrollView>

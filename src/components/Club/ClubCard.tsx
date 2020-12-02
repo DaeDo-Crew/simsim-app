@@ -21,9 +21,9 @@ export default function ClubCard({ clubId }: { clubId: number }) {
   const handleMoveToClubClicked = React.useCallback(() => {
     navigation.navigate("Club", {
       club_id: clubId,
-      club_name: clubItem?.club_name,
+      club_name: typeof clubItem !== "undefined" ? clubItem.club_name : "",
     });
-  }, [clubId]);
+  }, [clubId, clubItem?.club_name]);
 
   const handleClickSubscribeButton = React.useCallback(() => {
     axiosInstance({
@@ -61,19 +61,20 @@ export default function ClubCard({ clubId }: { clubId: number }) {
     const getClubInfoAsync = async () => {
       // 동아리 상세정보 가져오기
       try {
-        const fetchedClubItem = await axiosInstance.get<ClubItem>(
-          "/club/ClubPackage",
-          {
+        const fetchedClubItem = await axiosInstance
+          .get<ClubItem>("/club/ClubPackage", {
             headers: {
               Authorization: token.accessToken,
             },
             params: {
               club_id: clubId,
             },
-          }
-        );
-        setClubItem(fetchedClubItem.data);
-        setIsSubscribed(fetchedClubItem.data.Is_user_subscribing_club);
+          })
+          .then((response) => {
+            return response.data;
+          });
+        setClubItem(fetchedClubItem);
+        setIsSubscribed(fetchedClubItem.Is_user_subscribing_club);
       } catch (error) {
         console.log(error);
       }
