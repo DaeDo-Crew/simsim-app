@@ -145,7 +145,7 @@ export default function SignUp() {
             <View style={SignUpStyles.emailFormContainer}>
               <View style={SignUpStyles.emailFormTextInput}>
                 <TextInput
-                  label="서울시립대학교 포털이메일"
+                  label="학교이메일"
                   onChangeText={handleChange("email")}
                   value={values.email}
                   placeholder="sshz@uos.ac.kr"
