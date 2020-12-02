@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import AppLayout from "modules/AppLayout";
 import { MeetUpItem } from "components/MeetUp/redux/types";
@@ -25,7 +25,7 @@ export default function MeetUpListAll({
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
-      headerTitle: null,
+      headerTitle: route.params.listTitle,
       headerTitleStyle: {
         fontSize: 20,
         fontWeight: "bold",
@@ -35,9 +35,6 @@ export default function MeetUpListAll({
 
   return (
     <AppLayout>
-      <Text style={MeetUpListAllStyles.listTitleText}>
-        {route.params.listTitle}
-      </Text>
       <View style={MeetUpListAllStyles.container}>
         <FlatGrid
           data={route.params.meetUpList}
@@ -51,7 +48,6 @@ export default function MeetUpListAll({
 const MeetUpListAllStyles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 16,
   },
   listTitleText: {
     marginTop: 32,
