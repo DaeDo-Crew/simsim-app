@@ -48,7 +48,7 @@ export default function MySubscribeClubListMeetUpListItem({
 
   return (
     <>
-      {typeof meetupList !== "undefined" && (
+      {typeof meetupList !== "undefined" && meetupList.length !== 0 && (
         <MeetupCardList
           title={`내가 구독한 "${meetupList[0].clubName}"의 모임`}
           meetupList={meetupList}

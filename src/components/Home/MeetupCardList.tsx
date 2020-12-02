@@ -9,29 +9,35 @@ export default function MeetupCardList({
   meetupList,
 }: {
   title: string;
-  meetupList?: MeetUpItem[];
+  meetupList?: MeetUpItem[] | null;
 }) {
   return (
     <>
-      {typeof meetupList !== "undefined" && meetupList.length !== 0 && (
-        <>
-          <CardListHeader
-            listTitle={title}
-            isViewAll={true}
-            type="MEETUP"
-            meetupList={meetupList}
-          />
-          <FlatList
-            data={meetupList}
-            renderItem={({ item }) => (
-              <MeetupCardItem item={item} imageHeight={200} imageWidth={200} />
-            )}
-            horizontal={true}
-            showsHorizontalScrollIndicator={false}
-            keyExtractor={(item) => String(item.meetingId)}
-          />
-        </>
-      )}
+      {typeof meetupList !== "undefined" &&
+        meetupList !== null &&
+        meetupList.length !== 0 && (
+          <>
+            <CardListHeader
+              listTitle={title}
+              isViewAll={true}
+              type="MEETUP"
+              meetupList={meetupList}
+            />
+            <FlatList
+              data={meetupList}
+              renderItem={({ item }) => (
+                <MeetupCardItem
+                  item={item}
+                  imageHeight={200}
+                  imageWidth={200}
+                />
+              )}
+              horizontal={true}
+              showsHorizontalScrollIndicator={false}
+              keyExtractor={(item) => String(item.meetingId)}
+            />
+          </>
+        )}
     </>
   );
 }
