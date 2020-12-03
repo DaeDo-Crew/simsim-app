@@ -1,8 +1,8 @@
 {
   "expo": {
-    "name": "simsim-app",
+    "name": "심심했지?",
     "slug": "simsim-app",
-    "version": "1.0.0",
+    "version": "0.9.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "splash": {
@@ -13,18 +13,18 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.koreanhole.simsimapp"
+      "bundleIdentifier": "com.koreanhole.simsimapp",
+      "buildNumber": "1"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "com.koreanhole.simsimapp"
+      "package": "com.koreanhole.simsimapp",
+      "versionCode": 3,
+      "useNextNotificationsApi": true
     }
   }
 }
