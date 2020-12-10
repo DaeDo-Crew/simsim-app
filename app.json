@@ -16,7 +16,7 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "bundleIdentifier": "com.koreanhole.simsimapp",
-      "buildNumber": "1"
+      "buildNumber": "2"
     },
     "web": {
       "favicon": "./assets/favicon.png"
