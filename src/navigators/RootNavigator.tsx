@@ -51,7 +51,6 @@ export default function RootNavigator() {
         .catch((error) => {
           console.log(error);
         });
-      setUserValid(true);
     }
   }, [userToken.accessToken]);
   return (
