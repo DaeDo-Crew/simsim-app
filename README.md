@@ -6,6 +6,8 @@
 - 교내 동아리의 모임, 번개, 교육을 소개하고 편리한 참여를 돕는 서비스
 - iOS, Android, Web등 3가지 플랫폼을 통해 출시
 
+![sshz](https://user-images.githubusercontent.com/54267479/118362983-25adc380-b5cd-11eb-8a17-0eb037ae025a.jpg)
+
 ## 작동 영상
 - https://youtu.be/wC8ZnXtSJPo?t=111
 
